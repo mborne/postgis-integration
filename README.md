@@ -4,7 +4,7 @@
 
 > This repository contains helpers to integrate data in postgis and dataset integration scripts mainly focused on open datasets about France.
 
-## Description
+## Description
 
 Ce dépôt contient :
 
@@ -24,16 +24,16 @@ Ce dépôt contient :
 * [naturalearth](http://www.naturalearthdata.com/downloads/) : Pays, ports, lacs, batymétrie, etc. (domaine public)
 * [service-public](https://www.data.gouv.fr/fr/datasets/service-public-fr-annuaire-de-l-administration-base-de-donnees-locales/) : Annuaire de l'administration (DILA)
 
-## Usage
+## Usage
 
-### Installation
+### Installation
 
 ```bash
 cd postgis-integration
 npm install
 ```
 
-### Configuration de la connexion à la base de données
+### Configuration de la connexion à la base de données
 
 Les scripts s'appuient sur les variables d'environnements standards PostgreSQL :
 
@@ -43,14 +43,14 @@ Les scripts s'appuient sur les variables d'environnements standards PostgreSQL :
 * PGPASSWORD : Mot de passe utilisateur
 
 
-### Création de la base de données
+### Création de la base de données
 
 ```bash
 createdb gis
 psql -d gis -c "CREATE EXTENSION postgis"
 ```
 
-### Import de jeux de données
+### Import de jeux de données
 
 ```bash
 PGDATABASE=gis npm run postgis-import adminexpress
@@ -60,7 +60,7 @@ PGDATABASE=gis npm run postgis-import ban
 
 ## Conventions
 
-### Organisation des fichiers
+### Organisation des fichiers
 
 Pour chaque jeu de données, on a :
 
@@ -85,11 +85,11 @@ Remarque :
 [MIT](LICENSE)
 
 
-## TODO
+## TODO
 
-* [ ] Utilitaire de décompression `helper/extract.js`
-* [ ] Générer la documentation des jeux de données à partir des configurations pour gh-pages
-* [ ] Faire en sorte d'être en mesure de connaître la version importées pour les URL latest
+* [ ] Utilitaire de décompression `helper/extract.js`
+* [ ] Générer la documentation des jeux de données à partir des configurations pour gh-pages
+* [ ] Faire en sorte d'être en mesure de connaître la version importées pour les URL latest
 
 
 
