@@ -13,7 +13,7 @@ Ce dépôt contient :
 
 ## Jeux de données
 
-**ATTENTION** : Reportez-vous aux descriptions des jeux de données pour connaître les conditions d'utilisation et licenses exactes (voir `homepage` dans les fichiers `config.json` pour obtenir plus d'information)
+**ATTENTION** : Reportez-vous aux descriptions des jeux de données pour connaître les conditions d'utilisation et licences exactes (voir `homepage` dans les fichiers `config.json` pour obtenir plus d'information)
 
 * [adminexpress](http://professionnels.ign.fr/adminexpress) : Région, département, commune, etc. (IGN) 
 * [ban](https://www.data.gouv.fr/fr/datasets/ban-base-adresse-nationale/) : Base Adresse Nationale (DGFIP, IGN, OSM, laposte)
@@ -63,11 +63,13 @@ PGDATABASE=gis postgis-import ban
 
 ### Organisation des fichiers
 
-Pour chaque jeu de données, on a :
+Pour chaque jeu de données, on retrouve les fichiers suivant :
 
-* Un dossier : `datasets/{datasetName}`
-* Un fichier de configuration : `datasets/{datasetName}/config.json`
-* Un script d'import : `datasets/{datasetName}/import.js`
+| Fichier                            | Description                                   |
+|------------------------------------|-----------------------------------------------|
+| datasets/{datasetName}             | Dossier du jeu de données                     |
+| datasets/{datasetName}/import.js   | Script d'import du jeu de données             |
+| datasets/{datasetName}/config.json | Configuration du jeu de données (métadonnées) |
 
 Le fichier `config.json` fournit les informations suivantes :
 
@@ -88,12 +90,11 @@ Remarque :
 
 [MIT](LICENSE)
 
-
 ## TODO
 
 * [ ] Utilitaire de décompression `helper/extract.js`
-* [ ] Générer la documentation des jeux de données à partir des configurations pour gh-pages
-* [ ] Faire en sorte d'être en mesure de connaître la version importées pour les URL latest
+* [ ] Générer la documentation des jeux de données à partir des configurations (`datasets/{datasetName}/README.md`)
+* [ ] Sauvegarder la version importée en particulier pour les URL latest
 
 
 
