@@ -21,7 +21,7 @@ Ce dépôt contient :
 * [codes-postaux](https://datanova.laposte.fr/explore/dataset/laposte_hexasmal/) : Correspondance entre codes INSEE et codes postaux avec noms des communes (laposte)
 * [cog-commune](https://www.insee.fr/fr/information/2666684#titre-bloc-3) : Communes existantes et ayant existés (INSEE)
 * [geosirene](http://data.cquest.org/geo_sirene/) : Base SIRENE géocodée de l'INSEE géocodée par cquest
-* [naturalearth](http://www.naturalearthdata.com/downloads/) : Pays, ports, lacs, batymétrie, etc. (domaine public)
+* [naturalearth](http://www.naturalearthdata.com/downloads/) : Jeux de données de couverture mondiale (Pays, ports, lacs, batymétrie, etc.)
 * [service-public](https://www.data.gouv.fr/fr/datasets/service-public-fr-annuaire-de-l-administration-base-de-donnees-locales/) : Annuaire de l'administration (DILA)
 
 ## Usage
