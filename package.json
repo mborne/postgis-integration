@@ -1,0 +1,25 @@
+{
+  "name": "@mborne/postgis-integration",
+  "version": "0.1.0",
+  "description": "Dataset integration scripts and helpers to integrate data in postgis",
+  "main": "index.js",
+  "bin": {
+    "postgis-import": "node bin/import.js"
+  },
+  "contributors": [
+    "Mickael Borne <mborne@users.noreply.github.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "JSONPath": "^0.11.2",
+    "JSONStream": "^1.3.3",
+    "bluebird": "^3.5.1",
+    "fast-csv": "^2.4.1",
+    "lodash": "^4.17.10",
+    "pg": "^7.4.3",
+    "pg-escape": "^0.2.0",
+    "request": "^2.87.0",
+    "shelljs": "^0.8.2",
+    "xml2js": "^0.4.19"
+  }
+}

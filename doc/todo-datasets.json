@@ -1,0 +1,36 @@
+{
+    "osm-fr": {
+        "name": "openstreetmap.fr",
+        "description": "Données OpenStreetMap intégrales de France Métropolitaine",
+        "homepage": "https://www.data.gouv.fr/fr/datasets/donnees-openstreetmap-integrales-de-france-metropolitaine/",
+        "url": "http://download.openstreetmap.fr/extracts/europe/france-latest.osm.pbf"
+    },
+    "route500": {
+        "homepage": "http://professionnel.ign.fr/route500",
+        "url": "https://wxs-telechargement.ign.fr/1yhlj2ehpqf3q6dt6a2y7b64/telechargement/inspire"
+    },
+    "iris": {
+        "homepage": "http://professionnel.ign.fr/contoursiris",
+        "url": "https://wxs-telechargement.ign.fr/1yhlj2ehpqf3q6dt6a2y7b64/telechargement/inspire"
+    },
+    "rpg": {
+        "homepage": "http://professionnel.ign.fr/rpg",
+        "url": "https://wxs-telechargement.ign.fr/0zf5kvnyfgyss0dk5dvvq9n7/telechargement/prepackage"
+    },
+    "bdpr": {
+        "homepage": "http://professionnels.ign.fr/bdpr",
+        "url": "https://wxs-telechargement.ign.fr/x4uowo03xttuntnwy6xe9cjm/telechargement/prepackage"
+    },
+    "bdortho-5m": {
+        "homepage": "http://professionnel.ign.fr/bdortho-5m",
+        "url": "https://wxs-telechargement.ign.fr/vmqhn9nk3nolzlhytv1nfx63/telechargement/prepackage"
+    },
+    "bdtopo-hydrographie": {
+        "homepage": "http://professionnel.ign.fr/bdtopo-hydrographie",
+        "url": "https://wxs-telechargement.ign.fr/cty7e9rigf3x9e9hxpgx073e/telechargement/inspire"
+    },
+    "bdalti": {
+        "homepage": "http://professionnel.ign.fr/bdalti",
+        "url": "https://wxs-telechargement.ign.fr/jvam1hsjm11u8voorw81v2xb/telechargement/prepackage"
+    }
+}

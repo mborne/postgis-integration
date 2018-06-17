@@ -1,0 +1,7 @@
+{
+    "name": "cog-commune",
+    "description": "Liste des communes de la métropole et Dom (toutes les communes ayant existé depuis 1943)",
+    "homepage": "https://www.insee.fr/fr/information/3363419#titre-bloc-3",
+    "url": "https://www.insee.fr/fr/statistiques/fichier/3363419/France2018-dbf.zip",
+    "version": "2018"
+}

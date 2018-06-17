@@ -1,0 +1,8 @@
+{
+    "name": "ban",
+    "description": "Base Adresse Nationale",
+    "homepage": "https://www.data.gouv.fr/fr/datasets/ban-base-adresse-nationale/",
+    "url": "https://adresse.data.gouv.fr/data/BAN_licence_gratuite_repartage_{CODE_DEP}.zip",
+    "version": "latest"
+}
+

@@ -1,0 +1,7 @@
+{
+    "name": "geosirene",
+    "description": "Base SIRENE de l'INSEE géocodée par cquest",
+    "homepage": "http://data.cquest.org/geo_sirene/LISEZMOI.txt",
+    "url": "http://data.cquest.org/geo_sirene/last/geo-sirene_{CODE_DEP}.csv.7z",
+    "version": "latest"
+}
