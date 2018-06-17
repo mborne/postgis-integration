@@ -29,8 +29,9 @@ Ce dépôt contient :
 ### Installation
 
 ```bash
+git clone https://github.com/mborne/postgis-integration
 cd postgis-integration
-npm install
+sudo npm install -g
 ```
 
 ### Configuration de la connexion à la base de données
@@ -53,8 +54,8 @@ psql -d gis -c "CREATE EXTENSION postgis"
 ### Import de jeux de données
 
 ```bash
-PGDATABASE=gis npm run postgis-import adminexpress
-PGDATABASE=gis npm run postgis-import ban
+PGDATABASE=gis postgis-import adminexpress
+PGDATABASE=gis postgis-import ban
 #...
 ```
 
