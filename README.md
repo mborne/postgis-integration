@@ -66,15 +66,18 @@ PGDATABASE=gis postgis-import ban
 Pour chaque jeu de données, on a :
 
 * Un dossier : `datasets/{datasetName}`
-* Un fichier de configuration : `datasets/{datasetName}/config.js`
+* Un fichier de configuration : `datasets/{datasetName}/config.json`
 * Un script d'import : `datasets/{datasetName}/import.js`
 
-Le fichier `config.js` fournit :
+Le fichier `config.json` fournit les informations suivantes :
 
-* Le lien vers la page décrivant le jeu de données (`homepage`)
-* L'URL du service de téléchargement (`url`)
-* La version intégrée (`version`)
-
+| Nom         | Description                                 | Exemple                                                                         |
+|-------------|---------------------------------------------|---------------------------------------------------------------------------------|
+| name        | Identifiant du jeu de données               | ban                                                                             |
+| description | Description du jeu de données en une phrase | Base Adresse Nationale                                                          |
+| homepage    | Page de présentation du jeu de données      | https://www.data.gouv.fr/fr/datasets/ban-base-adresse-nationale/                |
+| url         | URL de téléchargement du jeu de données     | https://adresse.data.gouv.fr/data/BAN_licence_gratuite_repartage_{CODE_DEP}.zip |
+| version     | Version du jeu de données                   | latest                                                                          |
 
 Remarque : 
 
