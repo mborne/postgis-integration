@@ -6,6 +6,9 @@
   "bin": {
     "postgis-import": "./bin/import.js"
   },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha tests"
+  },
   "contributors": [
     "Mickael Borne <mborne@users.noreply.github.com>"
   ],
@@ -21,5 +24,9 @@
     "request": "^2.87.0",
     "shelljs": "^0.8.2",
     "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
   }
 }
