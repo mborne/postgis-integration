@@ -9,7 +9,7 @@ const GeoportalDownloadClient = require('../../helper/GeoportalDownloadClient');
 const Promise = require('bluebird');
 
 if (!shell.which('7z')) {
-	shell.echo('Sorry, this script requires unzip');
+	shell.echo('Sorry, this script requires 7z');
 	shell.exit(1);
 }
 
