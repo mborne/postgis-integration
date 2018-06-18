@@ -3,7 +3,7 @@ const shell = require('shelljs');
 const createDataDir = require('../../helper/createDataDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
-const config = require('./config.js');
+const config = require('./config.json');
 
 if (!shell.which('unzip')) {
 	shell.echo('Sorry, this script requires unzip');

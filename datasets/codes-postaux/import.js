@@ -24,7 +24,8 @@ download({
 		inputPath: file,
 		schemaName: 'laposte',
 		tableName: 'codes_postaux',
-		createTable: true
+		createTable: true,
+        createSchema: true
 	});
 }).catch(function(err){
 	console.log(err);
