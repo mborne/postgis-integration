@@ -48,7 +48,9 @@ download({
 		return ogr2pg({
 			inputPath: dbfFile,
 			schemaName: 'naturalearth',
-			tableName: path.basename(dbfFile,'.dbf')
+			tableName: path.basename(dbfFile,'.dbf'),
+			createSchema: true,
+			createTable: true
 		});
 	});
 	return Promise.all(tasks);
