@@ -3,8 +3,8 @@ const shell = require('shelljs');
 const DatasetDir = require('../../helper/DatasetDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
-const config = require('./config.json');
 
+const config = require('./config.json');
 
 /* Create data directory */
 var datasetDir = new DatasetDir('codes-postaux');

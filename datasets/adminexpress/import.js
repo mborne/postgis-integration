@@ -1,17 +1,15 @@
 const shell = require('shelljs');
+const Promise = require('bluebird');
 
 const DatasetDir = require('../../helper/DatasetDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 const psql = require('../../helper/psql');
+
+const extract = require('../../helper/extract');
+
 const config = require('./config.json');
 const GeoportalDownloadClient = require('../../helper/GeoportalDownloadClient');
-const Promise = require('bluebird');
-
-if (!shell.which('7z')) {
-	shell.echo('Sorry, this script requires 7z');
-	shell.exit(1);
-}
 
 var client = new GeoportalDownloadClient({
     url: config.url
@@ -36,11 +34,7 @@ client.getLatestResource().then(function(resource){
         targetPath: datasetDir.getPath()+'/ADMIN-EXPRESS.7z'
     });
 }).then(function(){
-    /* Extract zip file */
-    if (shell.exec('7z x -y ADMIN-EXPRESS.7z').code !== 0) {
-        shell.echo('Error: archive extraction failed');
-        shell.exit(1);
-    }
+    extract('ADMIN-EXPRESS.7z');
 }).then(function(){
     /* Create schema */
     return psql({

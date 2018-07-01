@@ -3,12 +3,9 @@ const shell = require('shelljs');
 const DatasetDir = require('../../helper/DatasetDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
-const config = require('./config.json');
+const extract = require('../../helper/extract');
 
-if (!shell.which('unzip')) {
-	shell.echo('Sorry, this script requires unzip');
-	shell.exit(1);
-}
+const config = require('./config.json');
 
 /* Init schema */
 if (shell.exec('psql -f '+__dirname+'/sql/schema.sql').code !== 0) {
@@ -28,10 +25,7 @@ download({
 	targetPath: datasetDir.getPath()+'/commune.zip'
 }).then(function(archive){
 	/* Extract archive */
-	if (shell.exec('unzip -o '+archive).code !== 0) {
-		shell.echo('Error: archive extraction failed');
-		shell.exit(1);
-	}
+	extract(archive);
 
 	/* Find dbf file */
 	var dbfFile = shell.find('.').filter(function(file){

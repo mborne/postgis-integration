@@ -1,16 +1,12 @@
 const shell = require('shelljs');
+const path = require('path');
 
 const DatasetDir = require('../../helper/DatasetDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
+const extract = require('../../helper/extract');
+
 const config = require('./config.json');
-
-const path = require('path');
-
-if (!shell.which('unzip')) {
-	shell.echo('Sorry, this script requires unzip');
-	shell.exit(1);
-}
 
 /* Create data directory */
 var datasetDir = new DatasetDir('naturalearth');
@@ -27,10 +23,7 @@ download({
 	targetPath: datasetDir.getPath()+'/natural_earth_vector.zip'
 }).then(function(archive){
 	/* Extract archive */
-	if (shell.exec('unzip -o '+archive).code !== 0) {
-		shell.echo('Error: unzip failed');
-		shell.exit(1);
-	}
+	extract(archive);
 
 	/* filter dbf files */
 	var dbfFiles = shell.find('.').filter(function(file){

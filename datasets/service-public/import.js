@@ -1,17 +1,14 @@
 const shell = require('shelljs');
+const fs = require('fs');
 
 const DatasetDir = require('../../helper/DatasetDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
+const extract = require('../../helper/extract');
+
 const config = require('./config.json');
 
-var fs = require('fs');
 const parseOrganisme = require('./helper/parseOrganisme');
-
-if (!shell.which('tar')) {
-	shell.echo('Sorry, this script requires tar');
-	shell.exit(1);
-}
 
 /* Create data directory */
 var datasetDir = new DatasetDir('annuaire-administration');
@@ -26,13 +23,10 @@ config.version = new Date().toISOString().slice(0,10);
 download({
     sourceUrl: config.url,
     targetPath: datasetDir.getPath()+'/all_latest.tar.bz2'
-}).then(function(){
+}).then(function(archive){
     /* Extract archive */
-    if (shell.exec('tar xf all_latest.tar.bz2').code !== 0) {
-        shell.echo('Error: archive extraction failed');
-        shell.exit(1);
-    }
-}).then(function(){
+    extract(archive);
+
     /* List organismes */
     var organismes = shell.find('.').filter(function(file) { 
         if ( ! file.match(/\.xml$/) ){

@@ -28,8 +28,14 @@ Ce dépôt contient :
 
 ### Installation des composants systèmes
 
+Pour l'extraction des archives :
+
 * unzip
 * 7z (p7zip-full sur debian/ubuntu)
+* tar
+
+Pour la manipulation des données :
+
 * ogr2ogr (gdal-bin sur debian/ubuntu, version testée : GDAL 2.1.3, released 2017/20/01 de ppa:ubuntugis/ppa)
 * psql (postgresql-client-* sur debian/ubuntu)
 
