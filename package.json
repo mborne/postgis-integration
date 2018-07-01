@@ -7,7 +7,7 @@
     "postgis-import": "./bin/import.js"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha tests"
+    "test": "./node_modules/mocha/bin/mocha --recursive"
   },
   "contributors": [
     "Mickael Borne <mborne@users.noreply.github.com>"

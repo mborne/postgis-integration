@@ -1,6 +1,6 @@
 const shell = require('shelljs');
 
-const createDataDir = require('../../helper/createDataDir');
+const DatasetDir = require('../../helper/DatasetDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 const config = require('./config.json');
@@ -14,17 +14,18 @@ if (!shell.which('tar')) {
 }
 
 /* Create data directory */
-var dataDir = createDataDir({
-    datasetName: 'annuaire-administration'
-});
+var datasetDir = new DatasetDir('annuaire-administration');
 
 /* Change directory to data directory */
-shell.cd(dataDir);
+shell.cd(datasetDir.getPath());
+
+/* Adapt config */
+config.version = new Date().toISOString().slice(0,10);
 
 /* Download archive */
 download({
     sourceUrl: config.url,
-    targetPath: dataDir+'/all_latest.tar.bz2'
+    targetPath: datasetDir.getPath()+'/all_latest.tar.bz2'
 }).then(function(){
     /* Extract archive */
     if (shell.exec('tar xf all_latest.tar.bz2').code !== 0) {
@@ -63,6 +64,9 @@ download({
         createSchema: true,
         createTable: true
     });
+}).then(function(){
+    datasetDir.cleanup();
+    datasetDir.saveMetadata(config);
 }).catch(function(err){
     console.log(err);
     shell.exit(1);

@@ -1,9 +1,8 @@
 const shell = require('shelljs');
 
-const createDataDir = require('../../helper/createDataDir');
+const DatasetDir = require('../../helper/DatasetDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
-const psql = require('../../helper/psql');
 
 const config = require('./config.json');
 
@@ -21,22 +20,25 @@ if ( typeof CODE_DEP === 'undefined' ){
 const layerNames = ["commune","section","feuille","parcelle","batiment"];
 
 /* Create data directory */
-var dataDir = createDataDir({
-    datasetName: 'cadastre-etalab/'+CODE_DEP
-});
+var datasetDir = new DatasetDir('cadastre-etalab/'+CODE_DEP);
+
+/* adapt config for partition */
+config.name    = 'cadastre-etalab/'+CODE_DEP;
+config.url     = config.url.replace(/{CODE_DEP}/g,CODE_DEP);
+config.version = new Date().toISOString().slice(0,10);
 
 /* Change directory to data directory */
-shell.cd(dataDir);
+shell.cd(datasetDir.getPath());
 
 /* Download files */
 var downloads = layerNames.map(function(layerName){
     var url = config.url
-        .replace(/{CODE_DEP}/g, CODE_DEP)
         .replace(/{LAYER}/g,layerName)
     ;
+    console.log(url);
     return download({
         sourceUrl: url,
-        targetPath: dataDir+'/'+layerName+'.zip'
+        targetPath: datasetDir.getPath()+'/'+layerName+'.zip'
     }).then(function(archiveFile){
         console.log("Extract "+archiveFile+"...");
         if (shell.exec('unzip -o '+archiveFile).code !== 0) {
@@ -55,6 +57,9 @@ Promise.all(downloads).then(function(){
         });
     });
     return Promise.all(imports);
+}).then(function(){
+    datasetDir.cleanup();
+    datasetDir.saveMetadata(config);
 }).catch(function(err){
     console.log(err);
     shell.exit(1);

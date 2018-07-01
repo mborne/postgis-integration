@@ -98,17 +98,5 @@ Remarque :
 
 [MIT](LICENSE)
 
-## TODO
-
-* [ ] Utilitaire de décompression `helper/extract.js`
-* [ ] Générer la documentation des jeux de données à partir des configurations (`datasets/{datasetName}/README.md`)
-* [ ] Sauvegarder la version importée en particulier pour les URL latest
-
-
-
-
-
-
-
 
 

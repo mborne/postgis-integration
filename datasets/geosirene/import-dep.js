@@ -1,6 +1,6 @@
 const shell = require('shelljs');
 
-const createDataDir = require('../../helper/createDataDir');
+const DatasetDir = require('../../helper/DatasetDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 const config = require('./config.json');
@@ -17,17 +17,20 @@ if ( typeof CODE_DEP === 'undefined' ){
 }
 
 /* Create data directory */
-var dataDir = createDataDir({
-    datasetName: 'sirene-'+CODE_DEP
-});
+var datasetDir = new DatasetDir('geosirene/'+CODE_DEP);
+
+/* Adapt config */
+config.name    = 'geosirene/'+CODE_DEP;
+config.url     = config.url.replace(/{CODE_DEP}/g,CODE_DEP);
+config.version = new Date().toISOString().slice(0,10);
 
 /* Change directory to data directory */
-shell.cd(dataDir);
+shell.cd(datasetDir.getPath());
 
 /* Download archive */
 download({
     sourceUrl: config.url.replace('{CODE_DEP}',CODE_DEP),
-    targetPath: dataDir+'/sirene.7z'
+    targetPath: datasetDir.getPath()+'/sirene.7z'
 }).then(function(){
     /* Extract archive */
     if (shell.exec('7z x -y sirene.7z').code !== 0) {
@@ -40,6 +43,9 @@ download({
         schemaName: 'sirene',
         tableName: 'etablissement'
     });
+}).then(function(){
+    datasetDir.cleanup();
+    datasetDir.saveMetadata(config);
 }).catch(function(err){
     console.log(err);
     shell.exit(1);

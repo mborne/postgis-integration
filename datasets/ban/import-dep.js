@@ -1,6 +1,6 @@
 const shell = require('shelljs');
 
-const createDataDir = require('../../helper/createDataDir');
+const DatasetDir = require('../../helper/DatasetDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 const config = require('./config.json');
@@ -17,17 +17,20 @@ if ( typeof CODE_DEP === 'undefined' ){
 }
 
 /* Create data directory */
-var dataDir = createDataDir({
-    datasetName: 'ban-'+CODE_DEP
-});
+var datasetDir = new DatasetDir('ban/'+CODE_DEP);
 
 /* Change directory to data directory */
-shell.cd(dataDir);
+shell.cd(datasetDir.getPath());
+
+/* adapt config for partition */
+config.name    = 'ban/'+CODE_DEP;
+config.url     = config.url.replace(/{CODE_DEP}/g,CODE_DEP);
+config.version = new Date().toISOString().slice(0,10);
 
 /* Download archive */
 download({
-    sourceUrl: config.url.replace('{CODE_DEP}',CODE_DEP),
-    targetPath: dataDir+'/ban.zip'
+    sourceUrl: config.url,
+    targetPath: datasetDir.getPath()+'/ban.zip'
 }).then(function(){
     /* Extract archive */
     if (shell.exec('unzip -o ban.zip').code !== 0) {
@@ -40,6 +43,9 @@ download({
         schemaName: 'ban',
         tableName: 'adresse'
     });
+}).then(function(){
+    datasetDir.cleanup();
+    datasetDir.saveMetadata(config);
 }).catch(function(err){
     console.log(err);
     shell.exit(1);

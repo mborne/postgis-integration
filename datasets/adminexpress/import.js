@@ -1,6 +1,6 @@
 const shell = require('shelljs');
 
-const createDataDir = require('../../helper/createDataDir');
+const DatasetDir = require('../../helper/DatasetDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 const psql = require('../../helper/psql');
@@ -13,24 +13,27 @@ if (!shell.which('7z')) {
 	shell.exit(1);
 }
 
-var client = new GeoportalDownloadClient(config);
+var client = new GeoportalDownloadClient({
+    url: config.url
+});
 
 /* Create data directory */
-var dataDir = createDataDir({
-    datasetName: 'adminexpress'  
-});
+var datasetDir = new DatasetDir('adminexpress');
 
 /* Find last resources */
 client.getLatestResource().then(function(resource){
     /* Find files */
     return client.resolveFiles(resource);
 }).then(function(resource){
+    config.url     = resource.files[0].url;
+    config.version = resource.version;
+
     /* Change directory to data directory */
-    shell.cd(dataDir);
+    shell.cd(datasetDir.getPath());
     /* Download archive */
     return download({
         sourceUrl: resource.files[0].url,
-        targetPath: dataDir+'/ADMIN-EXPRESS.7z'
+        targetPath: datasetDir.getPath()+'/ADMIN-EXPRESS.7z'
     });
 }).then(function(){
     /* Extract zip file */
@@ -74,6 +77,10 @@ client.getLatestResource().then(function(resource){
         });
     }
     return Promise.all(tasks,{concurrency:1});
+}).then(function(){
+    /* cleanup directory and save metadata */
+    datasetDir.cleanup();
+    datasetDir.saveMetadata(config);
 }).catch(function(err){
     console.log(err);
     shell.exit(1);  
