@@ -20,8 +20,16 @@ function download(options){
             return;
         }
 
-        var dest = fs.createWriteStream(options.targetPath);
+        /* prepare temp file to avoid problems on script interruption */
+        var tempPath = options.targetPath+'.part';
+        if ( fs.existsSync(tempPath) ){
+            fs.unlink(tempPath);
+        }
+
+        /* download to tempPath, rename and resolve when complete */
+        var dest = fs.createWriteStream(tempPath);
         dest.on('finish', function () {
+            fs.renameSync(tempPath,options.targetPath);
             console.log('File '+options.targetPath+' downloaded');
             resolve(options.targetPath);
         });
