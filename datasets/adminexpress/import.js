@@ -11,36 +11,41 @@ const extract = require('../../helper/extract');
 const config = require('./config.json');
 const GeoportalDownloadClient = require('../../helper/GeoportalDownloadClient');
 
-var client = new GeoportalDownloadClient({
-    url: config.url
-});
+async function main(){
+    
+    /* Create data directory */
+    var datasetDir = new DatasetDir('adminexpress');
 
-/* Create data directory */
-var datasetDir = new DatasetDir('adminexpress');
+    var client = new GeoportalDownloadClient({
+        url: config.url
+    });
 
-/* Find last resources */
-client.getLatestResource().then(function(resource){
-    /* Find files */
-    return client.resolveFiles(resource);
-}).then(function(resource){
+    /* Find last resources */
+    let resource = await client.getLatestResource();
+    
+    await client.resolveFiles(resource);
+
+    /* Adapt configuration to latest version */
     config.url     = resource.files[0].url;
     config.version = resource.version;
 
     /* Change directory to data directory */
     shell.cd(datasetDir.getPath());
+    
     /* Download archive */
-    return download({
+    let archive = await download({
         sourceUrl: resource.files[0].url,
         targetPath: datasetDir.getPath()+'/ADMIN-EXPRESS.7z'
     });
-}).then(function(){
-    extract('ADMIN-EXPRESS.7z');
-}).then(function(){
-    /* Create schema */
-    return psql({
+    
+    /* Extract archive */
+    extract(archive);
+
+    /* Import schema */
+    await psql({
         inputPath: __dirname+'/sql/schema.sql'
     });
-}).then(function(){
+    
     /* group shapefiles by table */
     var shapefiles = {
         "REGION": [],
@@ -70,12 +75,11 @@ client.getLatestResource().then(function(resource){
             }));
         });
     }
-    return Promise.all(tasks,{concurrency:1});
-}).then(function(){
+    await Promise.all(tasks,{concurrency:1});
+    
     /* cleanup directory and save metadata */
     datasetDir.cleanup();
     datasetDir.saveMetadata(config);
-}).catch(function(err){
-    console.log(err);
-    shell.exit(1);  
-});
+}
+
+main();

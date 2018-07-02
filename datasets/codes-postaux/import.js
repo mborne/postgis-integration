@@ -6,34 +6,34 @@ const ogr2pg = require('../../helper/ogr2pg');
 
 const config = require('./config.json');
 
-/* Create data directory */
-var datasetDir = new DatasetDir('codes-postaux');
+async function main(){
+	/* Create data directory */
+	var datasetDir = new DatasetDir('codes-postaux');
 
-/* Adapt config */
-config.version = new Date().toISOString().slice(0,10);
+	/* Adapt config */
+	config.version = new Date().toISOString().slice(0,10);
 
+	/* Change directory to data directory */
+	shell.cd(datasetDir.getPath());
 
-/* Change directory to data directory */
-shell.cd(datasetDir.getPath());
-
-/* Download GeoJSON file */
-download({
-	sourceUrl: config.url,
-	targetPath: datasetDir.getPath()+'/codes-postaux.json'
-}).then(function(file){
+	/* Download GeoJSON file */
+	var file = await download({
+		sourceUrl: config.url,
+		targetPath: datasetDir.getPath()+'/codes-postaux.json'
+	});
+	
 	/* Import data */
-	return ogr2pg({
+	ogr2pg({
 		inputPath: file,
 		schemaName: 'laposte',
 		tableName: 'codes_postaux',
 		createTable: true,
-        createSchema: true
+		createSchema: true
 	});
-}).then(function(){
-    datasetDir.cleanup();
-    datasetDir.saveMetadata(config);
-}).catch(function(err){
-	console.log(err);
-	shell.exit(1);
-});
 
+	/* Cleanup and save metadata */
+	datasetDir.cleanup();
+	datasetDir.saveMetadata(config);
+}
+
+main();

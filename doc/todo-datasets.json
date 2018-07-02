@@ -1,6 +1,6 @@
 {
     "osm-fr": {
-        "name": "openstreetmap.fr",
+        "name": "osm-fr",
         "description": "Données OpenStreetMap intégrales de France Métropolitaine",
         "homepage": "https://www.data.gouv.fr/fr/datasets/donnees-openstreetmap-integrales-de-france-metropolitaine/",
         "url": "http://download.openstreetmap.fr/extracts/europe/france-latest.osm.pbf"

@@ -3,27 +3,30 @@ const shell = require('shelljs');
 const DatasetDir = require('../../helper/DatasetDir');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
+const psql = require('../../helper/psql');
 const extract = require('../../helper/extract');
 
 const config = require('./config.json');
 
-/* Init schema */
-if (shell.exec('psql -f '+__dirname+'/sql/schema.sql').code !== 0) {
-    shell.echo('Error: import schema failed');
-    shell.exit(1);
-}
+async function main(){
 
-/* Create data directory */
-var datasetDir = new DatasetDir('cog-commune');
+	/* Init schema */
+	psql({
+		inputPath: __dirname+'/sql/schema.sql'
+	});
 
-/* Change directory to data directory */
-shell.cd(datasetDir.getPath());
+	/* Create data directory */
+	var datasetDir = new DatasetDir('cog-commune');
 
-/* Download archive */
-download({
-	sourceUrl: config.url,
-	targetPath: datasetDir.getPath()+'/commune.zip'
-}).then(function(archive){
+	/* Change directory to data directory */
+	shell.cd(datasetDir.getPath());
+
+	/* Download archive */
+	var archive = await download({
+		sourceUrl: config.url,
+		targetPath: datasetDir.getPath()+'/commune.zip'
+	});
+	
 	/* Extract archive */
 	extract(archive);
 
@@ -32,16 +35,17 @@ download({
 		return file.endsWith('.dbf');
 	})[0];
 
-	return ogr2pg({
+	/* Import file */
+	ogr2pg({
 		inputPath: dbfFile,
 		schemaName: 'cog',
 		tableName: 'commune',
 		encoding: 'ISO-8859-1'
 	});
-}).then(function(){
-    datasetDir.cleanup();
-    datasetDir.saveMetadata(config);
-}).catch(function(err){
-	console.log(err);
-	shell.exit(1);
-});
+	
+	/* Cleanup and save metadata */
+	datasetDir.cleanup();
+	datasetDir.saveMetadata(config);
+}
+
+main();

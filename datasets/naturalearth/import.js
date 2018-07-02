@@ -8,20 +8,22 @@ const extract = require('../../helper/extract');
 
 const config = require('./config.json');
 
-/* Create data directory */
-var datasetDir = new DatasetDir('naturalearth');
+async function main(){
+	/* Create data directory */
+	var datasetDir = new DatasetDir('naturalearth');
 
-/* Change directory to data directory */
-shell.cd(datasetDir.getPath());
+	/* Change directory to data directory */
+	shell.cd(datasetDir.getPath());
 
-/* Adapt config */
-config.version = new Date().toISOString().slice(0,10);
+	/* Adapt config */
+	config.version = new Date().toISOString().slice(0,10);
 
-/* Download archive */
-download({
-	sourceUrl: config.url,
-	targetPath: datasetDir.getPath()+'/natural_earth_vector.zip'
-}).then(function(archive){
+	/* Download archive */
+	var archive = await download({
+		sourceUrl: config.url,
+		targetPath: datasetDir.getPath()+'/natural_earth_vector.zip'
+	});
+	
 	/* Extract archive */
 	extract(archive);
 
@@ -37,8 +39,8 @@ download({
 	});
 
 	/* import each dbf file */
-	var tasks = dbfFiles.map(function(dbfFile){
-		return ogr2pg({
+	dbfFiles.forEach(function(dbfFile){
+		ogr2pg({
 			inputPath: dbfFile,
 			schemaName: 'naturalearth',
 			tableName: path.basename(dbfFile,'.dbf'),
@@ -46,13 +48,11 @@ download({
 			createTable: true
 		});
 	});
-	return Promise.all(tasks);
-}).then(function(){
-    datasetDir.cleanup();
-    datasetDir.saveMetadata(config);
-}).catch(function(err){
-	console.log(err);
-	shell.exit(1);
-});
 
+	/* Cleanup directory and save metadata */
+	datasetDir.cleanup();
+	datasetDir.saveMetadata(config);
+}
+
+main();
 

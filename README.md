@@ -45,7 +45,7 @@ Pour la manipulation des données :
 ```bash
 git clone https://github.com/mborne/postgis-integration
 cd postgis-integration
-sudo npm install -g
+npm install
 ```
 
 ### Configuration de la connexion à la base de données
@@ -68,8 +68,8 @@ psql -d gis -c "CREATE EXTENSION postgis"
 ### Import de jeux de données
 
 ```bash
-PGDATABASE=gis postgis-import adminexpress
-PGDATABASE=gis postgis-import ban
+PGDATABASE=gis bin/import.js adminexpress
+PGDATABASE=gis bin/import.js ban
 #...
 ```
 

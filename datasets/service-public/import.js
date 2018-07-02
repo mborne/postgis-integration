@@ -10,29 +10,32 @@ const config = require('./config.json');
 
 const parseOrganisme = require('./helper/parseOrganisme');
 
-/* Create data directory */
-var datasetDir = new DatasetDir('annuaire-administration');
+async function main() {
 
-/* Change directory to data directory */
-shell.cd(datasetDir.getPath());
+    /* Create data directory */
+    var datasetDir = new DatasetDir('annuaire-administration');
 
-/* Adapt config */
-config.version = new Date().toISOString().slice(0,10);
+    /* Change directory to data directory */
+    shell.cd(datasetDir.getPath());
 
-/* Download archive */
-download({
-    sourceUrl: config.url,
-    targetPath: datasetDir.getPath()+'/all_latest.tar.bz2'
-}).then(function(archive){
+    /* Adapt config */
+    config.version = new Date().toISOString().slice(0, 10);
+
+    /* Download archive */
+    var archive = await download({
+        sourceUrl: config.url,
+        targetPath: datasetDir.getPath() + '/all_latest.tar.bz2'
+    });
+
     /* Extract archive */
     extract(archive);
 
     /* List organismes */
-    var organismes = shell.find('.').filter(function(file) { 
-        if ( ! file.match(/\.xml$/) ){
+    var organismes = shell.find('.').filter(function (file) {
+        if (!file.match(/\.xml$/)) {
             return false;
         }
-        if ( ! file.match(/organismes/) ){
+        if (!file.match(/organismes/)) {
             return false;
         }
         return true;
@@ -43,32 +46,25 @@ download({
         'type': 'FeatureCollection',
         'features': []
     }
-    organismes.forEach(function(file){
+    organismes.forEach(function (file) {
         var organisme = parseOrganisme(file);
         featureCollection.features.push(organisme);
     });
-    return featureCollection;
-}).then(function(featureCollection){
-    fs.writeFileSync('organisme.json',JSON.stringify(featureCollection,null,2));
 
-    return ogr2pg({
+    /* Load GeoJSON with ogr2pg */
+    fs.writeFileSync('organisme.json', JSON.stringify(featureCollection, null, 2));
+    ogr2pg({
         inputPath: 'organisme.json',
         schemaName: 'dila',
         tableName: 'organisme',
         createSchema: true,
         createTable: true
     });
-}).then(function(){
+
+    /* Cleanup directory and save metadata */
     datasetDir.cleanup();
     datasetDir.saveMetadata(config);
-}).catch(function(err){
-    console.log(err);
-    shell.exit(1);
-});
+}
 
-
-
-
-
-
+main();
 

@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "description": "Dataset integration scripts and helpers to integrate data in postgis",
   "main": "index.js",
-  "bin": {
-    "postgis-import": "./bin/import.js"
-  },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive"
   },

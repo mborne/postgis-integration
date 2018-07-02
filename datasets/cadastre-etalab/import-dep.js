@@ -14,51 +14,47 @@ if ( typeof CODE_DEP === 'undefined' ){
 	shell.exit(1);
 }
 
-/* Create data directory */
-var datasetDir = new DatasetDir('cadastre-etalab/'+CODE_DEP);
+async function main(){
+    /* Create data directory */
+    var datasetDir = new DatasetDir('cadastre-etalab/'+CODE_DEP);
 
-/* adapt config for partition */
-config.name    = 'cadastre-etalab/'+CODE_DEP;
-config.url     = config.url.replace(/{CODE_DEP}/g,CODE_DEP);
-config.version = new Date().toISOString().slice(0,10);
+    /* adapt config for partition */
+    config.name    = 'cadastre-etalab/'+CODE_DEP;
+    config.url     = config.url.replace(/{CODE_DEP}/g,CODE_DEP);
+    config.version = new Date().toISOString().slice(0,10);
 
-/* Change directory to data directory */
-shell.cd(datasetDir.getPath());
+    /* Change directory to data directory */
+    shell.cd(datasetDir.getPath());
 
-/* Download files */
-const layerNames = ["commune","section","feuille","parcelle","batiment"];
-var downloads = layerNames.map(function(layerName){
-    var url = config.url
-        .replace(/{LAYER}/g,layerName)
-    ;
-    return download({
-        sourceUrl: url,
-        targetPath: datasetDir.getPath()+'/'+layerName+'.zip'
-    }).then(function(archiveFile){
-        extract(archiveFile);
+    /* Download and extract files */
+    const layerNames = ["commune","section","feuille","parcelle","batiment"];
+    var downloads = layerNames.map(function(layerName){
+        var url = config.url
+            .replace(/{LAYER}/g,layerName)
+        ;
+        return download({
+            sourceUrl: url,
+            targetPath: datasetDir.getPath()+'/'+layerName+'.zip'
+        }).then(function(archiveFile){
+            extract(archiveFile);
+        })
     });
-});
+    await Promise.all(downloads);
 
- /* Import shapefiles... */
-Promise.all(downloads).then(function(){
-    var imports = layerNames.map(function(layerName){
-        return ogr2pg({
+    /* Import shapefiles... */
+    layerNames.forEach(function(layerName){
+        ogr2pg({
             inputPath: layerName+'s.shp',
             tableName: layerName,
             schemaName: 'cadastre'
         });
     });
-    return Promise.all(imports);
-}).then(function(){
+
     datasetDir.cleanup();
     datasetDir.saveMetadata(config);
-}).catch(function(err){
-    console.log(err);
-    shell.exit(1);
-});
+}
 
-
-
+main();
 
 
 

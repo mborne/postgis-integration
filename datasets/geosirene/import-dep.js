@@ -14,34 +14,37 @@ if ( typeof CODE_DEP === 'undefined' ){
 	shell.exit(1);
 }
 
-/* Create data directory */
-var datasetDir = new DatasetDir('geosirene/'+CODE_DEP);
+async function main(){ 
+    /* Create data directory */
+    var datasetDir = new DatasetDir('geosirene/'+CODE_DEP);
 
-/* Adapt config */
-config.name    = 'geosirene/'+CODE_DEP;
-config.url     = config.url.replace(/{CODE_DEP}/g,CODE_DEP);
-config.version = new Date().toISOString().slice(0,10);
+    /* Adapt config */
+    config.name    = 'geosirene/'+CODE_DEP;
+    config.url     = config.url.replace(/{CODE_DEP}/g,CODE_DEP);
+    config.version = new Date().toISOString().slice(0,10);
 
-/* Change directory to data directory */
-shell.cd(datasetDir.getPath());
+    /* Change directory to data directory */
+    shell.cd(datasetDir.getPath());
 
-/* Download archive */
-download({
-    sourceUrl: config.url.replace('{CODE_DEP}',CODE_DEP),
-    targetPath: datasetDir.getPath()+'/sirene.7z'
-}).then(function(){
+    /* Download archive */
+    var archive = await download({
+        sourceUrl: config.url.replace('{CODE_DEP}',CODE_DEP),
+        targetPath: datasetDir.getPath()+'/sirene.7z'
+    });
+    
     /* Extract archive */
-    extract('sirene.7z');
+    extract(archive);
+
     /* Import table */
-    return ogr2pg({
+    ogr2pg({
         inputPath: 'geo-sirene_'+CODE_DEP+'.csv',
         schemaName: 'sirene',
         tableName: 'etablissement'
     });
-}).then(function(){
+    
+    /* Cleanup and save metadata */
     datasetDir.cleanup();
     datasetDir.saveMetadata(config);
-}).catch(function(err){
-    console.log(err);
-    shell.exit(1);
-});
+}
+
+main();
