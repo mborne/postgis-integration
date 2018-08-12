@@ -46,7 +46,8 @@ async function main(){
         ogr2pg({
             inputPath: layerName+'s.shp',
             tableName: layerName,
-            schemaName: 'cadastre'
+            schemaName: 'cadastre',
+            encoding: 'LATIN1'
         });
     });
 
