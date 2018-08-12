@@ -53,6 +53,7 @@ CREATE TABLE cadastre.batiment (
     id serial primary key,
     type character varying,
     commune character varying,
+    nom character varying,
     created date,
     updated date,
     geom geometry(MultiPolygon,4326)
