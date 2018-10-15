@@ -6,6 +6,7 @@ const ogr2pg = require('../../helper/ogr2pg');
 const extract = require('../../helper/extract');
 
 const config = require('./config.json');
+const metadata = require('../../metadata');
 
 /* handle script parameters */
 var CODE_DEP = process.argv[2];
@@ -41,8 +42,8 @@ async function main(){
         tableName: 'adresse'
     });
 
-    datasetDir.cleanup();
-    datasetDir.saveMetadata(config);
+    datasetDir.remove();
+    await metadata.add(config);
 }
 
 main();

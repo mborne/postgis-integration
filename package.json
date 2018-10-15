@@ -4,7 +4,9 @@
   "description": "Dataset integration scripts and helpers to integrate data in postgis",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --recursive"
+    "test": "./node_modules/mocha/bin/mocha --recursive",
+    "postgis-init": "./bin/init.js",
+    "postgis-import": "./bin/import.js"
   },
   "contributors": [
     "Mickael Borne <mborne@users.noreply.github.com>"

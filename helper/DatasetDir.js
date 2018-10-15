@@ -18,10 +18,6 @@ class DatasetDir {
         return this.path;
     }
 
-    saveMetadata(metadata){
-        fs.writeFileSync(this.path+'/metadata.json', JSON.stringify(metadata,null,2));
-    }
-
     cleanup(){
         shell.rm('-rf',this.path+'/*');
     }

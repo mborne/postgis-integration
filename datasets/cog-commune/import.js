@@ -7,6 +7,7 @@ const psql = require('../../helper/psql');
 const extract = require('../../helper/extract');
 
 const config = require('./config.json');
+const metadata = require('../../metadata');
 
 async function main(){
 
@@ -14,6 +15,8 @@ async function main(){
 	psql({
 		inputPath: __dirname+'/sql/schema.sql'
 	});
+
+	await metadata.remove(config.name);
 
 	/* Create data directory */
 	var datasetDir = new DatasetDir('cog-commune');
@@ -44,8 +47,8 @@ async function main(){
 	});
 	
 	/* Cleanup and save metadata */
-	datasetDir.cleanup();
-	datasetDir.saveMetadata(config);
+	datasetDir.remove();
+	await metadata.add(config);
 }
 
 main();
