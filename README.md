@@ -73,6 +73,14 @@ PGDATABASE=gis bin/import.js ban
 #...
 ```
 
+## Utilisation sous docker
+
+```bash
+docker build -t postgis-integration .
+docker run -ti -e PGHOST=dbhost -e PGDATABASE=gis postgis-integration npm run postgis-import adminexpress
+...
+```
+
 ## Conventions
 
 ### Organisation des fichiers

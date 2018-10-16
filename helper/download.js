@@ -4,8 +4,6 @@ const fs = require('fs');
 /**
  * Download file
  * 
- * TODO download to '.part' file, then move it
- * 
  * @param {Object} options
  * @param {String} options.sourceUrl
  * @param {String} options.targetPath

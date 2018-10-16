@@ -3,10 +3,16 @@ const shell = require('shelljs');
 const psql = require('../../helper/psql');
 const departements = require('../../resources/departements');
 
-/* import schema.sql */
-psql({
-    inputPath: __dirname+'/sql/schema.sql'
-}).then(function(){
+const metadata = require('../../metadata');
+
+async function main(){
+    /* import schema.sql */
+    await psql({
+        inputPath: __dirname+'/sql/schema.sql'
+    });
+    
+    metadata.remove('cadastre-etalab%');
+
     /* import each departement */
     departements.forEach(function(departement){
         var scriptPath = __dirname+"/import-dep.js";
@@ -15,9 +21,11 @@ psql({
             console.log('Error: fail to import departement '+departement);
         }
     });
-}).catch(function(err){
-    console.log(err);
-    shell.exit(1);
-});
+}
+
+main();
+
+
+
 
 

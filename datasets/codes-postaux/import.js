@@ -5,10 +5,13 @@ const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 
 const config = require('./config.json');
+const metadata = require('../../metadata');
 
 async function main(){
 	/* Create data directory */
 	var datasetDir = new DatasetDir('codes-postaux');
+
+	await metadata.remove(config.name);
 
 	/* Adapt config */
 	config.version = new Date().toISOString().slice(0,10);
@@ -32,8 +35,8 @@ async function main(){
 	});
 
 	/* Cleanup and save metadata */
-	datasetDir.cleanup();
-	datasetDir.saveMetadata(config);
+	datasetDir.remove();
+	await metadata.add(config);
 }
 
 main();

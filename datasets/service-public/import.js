@@ -7,6 +7,7 @@ const ogr2pg = require('../../helper/ogr2pg');
 const extract = require('../../helper/extract');
 
 const config = require('./config.json');
+const metadata = require('../../metadata');
 
 const parseOrganisme = require('./helper/parseOrganisme');
 
@@ -62,8 +63,8 @@ async function main() {
     });
 
     /* Cleanup directory and save metadata */
-    datasetDir.cleanup();
-    datasetDir.saveMetadata(config);
+    datasetDir.remove();
+    await metadata.add(config);
 }
 
 main();

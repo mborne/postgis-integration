@@ -11,10 +11,15 @@ const extract = require('../../helper/extract');
 const config = require('./config.json');
 const GeoportalDownloadClient = require('../../helper/GeoportalDownloadClient');
 
+const metadata = require('../../metadata');
+
 async function main(){
     
     /* Create data directory */
     var datasetDir = new DatasetDir('adminexpress');
+
+    /* Remove existing metadata */
+    await metadata.remove(config.name);
 
     var client = new GeoportalDownloadClient({
         url: config.url
@@ -78,8 +83,8 @@ async function main(){
     await Promise.all(tasks,{concurrency:1});
     
     /* cleanup directory and save metadata */
-    datasetDir.cleanup();
-    datasetDir.saveMetadata(config);
+    datasetDir.remove();
+    await metadata.add(config);
 }
 
 main();
