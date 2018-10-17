@@ -1,4 +1,5 @@
 const shell = require('shelljs');
+const path = require('path');
 
 /**
  * Extract .zip archives
@@ -10,7 +11,10 @@ function unzip(archivePath){
     if (!shell.which('unzip')) {
         throw 'unzip is missing to extract '+archivePath;
     }
-    if (shell.exec('unzip -o '+archivePath).code !== 0) {
+    var targetPath  = path.dirname(archivePath);
+    var command = 'unzip -o -d '+targetPath+' '+archivePath;
+    console.log(command);
+    if (shell.exec(command).code !== 0) {
         throw 'Fail to extract '+archivePath;
     }
 }

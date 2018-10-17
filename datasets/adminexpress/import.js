@@ -1,7 +1,6 @@
-const shell = require('shelljs');
 const Promise = require('bluebird');
 
-const DatasetDir = require('../../helper/DatasetDir');
+const Context = require('../../helper/Context');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 const psql = require('../../helper/psql');
@@ -11,35 +10,29 @@ const extract = require('../../helper/extract');
 const config = require('./config.json');
 const GeoportalDownloadClient = require('../../helper/GeoportalDownloadClient');
 
-const metadata = require('../../metadata');
-
 async function main(){
+    var ctx = new Context();
     
     /* Create data directory */
-    var datasetDir = new DatasetDir('adminexpress');
+    var datasetDir = ctx.getDatasetDir('adminexpress');
 
     /* Remove existing metadata */
-    await metadata.remove(config.name);
+    await ctx.metadata.remove(config.name);
 
+    /* Find last version URL */
     var client = new GeoportalDownloadClient({
         url: config.url
     });
-
-    /* Find last resources */
     let resource = await client.getLatestResource();
-    
     await client.resolveFiles(resource);
 
     /* Adapt configuration to latest version */
     config.url     = resource.files[0].url;
     config.version = resource.version;
 
-    /* Change directory to data directory */
-    shell.cd(datasetDir.getPath());
-    
     /* Download archive */
     let archive = await download({
-        sourceUrl: resource.files[0].url,
+        sourceUrl: config.url,
         targetPath: datasetDir.getPath()+'/ADMIN-EXPRESS.7z'
     });
     
@@ -60,7 +53,7 @@ async function main(){
         "COMMUNE": [],
         "CHEF_LIEU": []
     };
-    shell.find('.').filter(function(file) {
+    datasetDir.getFiles().filter(function(file) {
         for ( var tableName in shapefiles ){
             if ( file.endsWith(tableName+'.shp') ){
                 shapefiles[tableName].push(file);
@@ -84,7 +77,7 @@ async function main(){
     
     /* cleanup directory and save metadata */
     datasetDir.remove();
-    await metadata.add(config);
+    await ctx.metadata.add(config);
 }
 
 main();

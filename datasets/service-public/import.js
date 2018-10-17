@@ -1,25 +1,21 @@
-const shell = require('shelljs');
-const fs = require('fs');
-
-const DatasetDir = require('../../helper/DatasetDir');
+const Context = require('../../helper/Context');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 const extract = require('../../helper/extract');
 
 const config = require('./config.json');
-const metadata = require('../../metadata');
 
+const fs = require('fs');
 const parseOrganisme = require('./helper/parseOrganisme');
 
 async function main() {
+    var ctx = new Context();
 
     /* Create data directory */
-    var datasetDir = new DatasetDir('annuaire-administration');
-
-    /* Change directory to data directory */
-    shell.cd(datasetDir.getPath());
+    var datasetDir = ctx.getDatasetDir('annuaire-administration');
 
     /* Adapt config */
+    // TODO retrieve from folder name (ex : all_20181016)
     config.version = new Date().toISOString().slice(0, 10);
 
     /* Download archive */
@@ -32,7 +28,7 @@ async function main() {
     extract(archive);
 
     /* List organismes */
-    var organismes = shell.find('.').filter(function (file) {
+    var organismes = datasetDir.getFiles().filter(function (file) {
         if (!file.match(/\.xml$/)) {
             return false;
         }
@@ -53,9 +49,10 @@ async function main() {
     });
 
     /* Load GeoJSON with ogr2pg */
-    fs.writeFileSync('organisme.json', JSON.stringify(featureCollection, null, 2));
+    var jsonPath = datasetDir.getPath()+'/organisme.json';
+    fs.writeFileSync(jsonPath, JSON.stringify(featureCollection, null, 2));
     ogr2pg({
-        inputPath: 'organisme.json',
+        inputPath: jsonPath,
         schemaName: 'dila',
         tableName: 'organisme',
         createSchema: true,
@@ -64,7 +61,8 @@ async function main() {
 
     /* Cleanup directory and save metadata */
     datasetDir.remove();
-    await metadata.add(config);
+    await ctx.metadata.add(config);
+    await ctx.close();
 }
 
 main();

@@ -1,4 +1,5 @@
 const shell = require('shelljs');
+const path = require('path');
 
 /**
  * Extract .7z archives
@@ -11,8 +12,12 @@ function extractor7z(archivePath){
         throw '7z is missing to extract '+archivePath;
     }
 
+    var targetPath = path.dirname(archivePath);
+
     /* Extract zip file */
-    if (shell.exec('7z x -y '+archivePath).code !== 0) {
+    var command = '7z x -y '+archivePath+' -o'+targetPath;
+    console.log(command);
+    if (shell.exec(command).code !== 0) {
         throw 'Fail to extract '+archivePath;
     }
 }

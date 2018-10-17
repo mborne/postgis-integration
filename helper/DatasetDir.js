@@ -14,14 +14,32 @@ class DatasetDir {
         }
     }
 
+    /**
+     * Get absolute path
+     * @return {String}
+     */
     getPath(){
         return this.path;
     }
 
+    /**
+     * Get all files in directory
+     * @return {String[]}
+     */
+    getFiles(){
+        return shell.find(this.path+'/.');
+    }
+
+    /**
+     * Remove all files in directory
+     */
     cleanup(){
         shell.rm('-rf',this.path+'/*');
     }
 
+    /**
+     * Remove directory
+     */
     remove(){
         shell.rm('-rf',this.path);
     }

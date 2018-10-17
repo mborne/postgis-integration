@@ -1,9 +1,18 @@
 #!/usr/bin/env node
 
-const metadata = require('../metadata');
+const Context  = require('../helper/Context');
+const datasets = require('../datasets');
 
 async function main(){
-    await metadata.init();
+    var ctx = new Context();
+    await ctx.metadata.init();
+
+    for ( var datasetName in datasets ){
+        var dataset = datasets[datasetName];
+        await ctx.metadata.add(dataset);
+    }
+
+    await ctx.close();
 }
 
 main();

@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 
 const mapping = {
     '.7z': require('./extractor/7z'),
@@ -11,6 +12,10 @@ const mapping = {
  * @param {string} archivePath 
  */
 function extract(archivePath){
+    if ( ! fs.existsSync(archivePath) ){
+        throw new Error("file not found : "+archivePath);
+    }
+
     var ext = path.extname(archivePath);
 
     if ( ! mapping[ext] ){

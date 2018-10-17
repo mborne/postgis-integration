@@ -1,20 +1,17 @@
-const shell = require('shelljs');
 const path = require('path');
 
-const DatasetDir = require('../../helper/DatasetDir');
+const Context = require('../../helper/Context');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 const extract = require('../../helper/extract');
 
 const config = require('./config.json');
-const metadata = require('../../metadata');
 
 async function main(){
-	/* Create data directory */
-	var datasetDir = new DatasetDir('naturalearth');
+	var ctx = new Context();
 
-	/* Change directory to data directory */
-	shell.cd(datasetDir.getPath());
+	/* Create data directory */
+	var datasetDir = ctx.getDatasetDir('naturalearth');
 
 	/* Adapt config */
 	config.version = new Date().toISOString().slice(0,10);
@@ -29,7 +26,7 @@ async function main(){
 	extract(archive);
 
 	/* filter dbf files */
-	var dbfFiles = shell.find('.').filter(function(file){
+	var dbfFiles = datasetDir.getFiles().filter(function(file){
 		if ( ! file.endsWith('.dbf') ){
 			return false;
 		}
@@ -52,7 +49,8 @@ async function main(){
 
 	/* Cleanup directory and save metadata */
 	datasetDir.remove();
-	await metadata.add(config);
+	await ctx.metadata.add(config);
+	await ctx.close();
 }
 
 main();

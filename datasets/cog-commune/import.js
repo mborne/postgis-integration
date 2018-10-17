@@ -1,28 +1,21 @@
-const shell = require('shelljs');
-
-const DatasetDir = require('../../helper/DatasetDir');
+const Context = require('../../helper/Context');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 const psql = require('../../helper/psql');
 const extract = require('../../helper/extract');
 
 const config = require('./config.json');
-const metadata = require('../../metadata');
 
 async function main(){
+	var ctx = new Context();
 
 	/* Init schema */
 	psql({
 		inputPath: __dirname+'/sql/schema.sql'
 	});
 
-	await metadata.remove(config.name);
-
 	/* Create data directory */
-	var datasetDir = new DatasetDir('cog-commune');
-
-	/* Change directory to data directory */
-	shell.cd(datasetDir.getPath());
+	var datasetDir = ctx.getDatasetDir('cog-commune');
 
 	/* Download archive */
 	var archive = await download({
@@ -34,7 +27,7 @@ async function main(){
 	extract(archive);
 
 	/* Find dbf file */
-	var dbfFile = shell.find('.').filter(function(file){
+	var dbfFile = datasetDir.getFiles().filter(function(file){
 		return file.endsWith('.dbf');
 	})[0];
 
@@ -45,10 +38,11 @@ async function main(){
 		tableName: 'commune',
 		encoding: 'ISO-8859-1'
 	});
-	
+
 	/* Cleanup and save metadata */
 	datasetDir.remove();
-	await metadata.add(config);
+	await ctx.metadata.add(config);
+	await ctx.close();
 }
 
 main();

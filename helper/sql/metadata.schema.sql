@@ -1,9 +1,12 @@
 CREATE SCHEMA IF NOT EXISTS metadata ;
 
-CREATE TABLE IF NOT EXISTS metadata.dataset
+DROP TABLE IF EXISTS metadata.dataset;
+CREATE TABLE metadata.dataset
 (
-    -- "name": "adminexpress",
+    -- "adminexpress", "ban/01"
     name text primary key,
+    -- "ban" for "ban/01"
+    parent_name text references metadata.dataset(name),
     -- "description": "Régions, départements, EPCI, communes,...",
     description text,
     -- "homepage": "http://professionnels.ign.fr/adminexpress",
