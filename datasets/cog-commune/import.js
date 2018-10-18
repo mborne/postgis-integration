@@ -9,7 +9,7 @@ async function main(){
 	var ctx = new Context();
 
 	/* Init schema */
-	ctx.database.batch({
+	await ctx.database.batch({
 		inputPath: __dirname+'/sql/schema.sql'
 	});
 
