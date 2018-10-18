@@ -22,7 +22,7 @@ async function importDep(ctx,CODE_DEP){
     /* Adapt config */
     config.name    = 'geosirene/'+CODE_DEP;
     config.url     = config.url.replace(/{CODE_DEP}/g,CODE_DEP);
-    config.version = new Date().toISOString().slice(0,10);
+    config.version = ctx.today();
 
     /* Download archive */
     var archive = await download({

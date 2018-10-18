@@ -23,7 +23,7 @@ async function importDep(ctx,CODE_DEP){
     config.name        = 'cadastre-etalab/'+CODE_DEP;
     config.parent_name = originalConfig.name;
     config.url         = originalConfig.url.replace(/{CODE_DEP}/g,CODE_DEP);
-    config.version     = new Date().toISOString().slice(0,10);
+    config.version     = ctx.today();
 
     /* Download and extract files */
     const layerNames = ["commune","section","feuille","parcelle","batiment"];

@@ -1,7 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS metadata ;
 
-DROP TABLE IF EXISTS metadata.dataset;
-CREATE TABLE metadata.dataset
+CREATE TABLE IF NOT EXISTS metadata.dataset
 (
     -- "adminexpress", "ban/01"
     name text primary key,

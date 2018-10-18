@@ -14,7 +14,7 @@ async function main(){
 	var datasetDir = ctx.getDatasetDir('naturalearth');
 
 	/* Adapt config */
-	config.version = new Date().toISOString().slice(0,10);
+	config.version = ctx.today();
 
 	/* Download archive */
 	var archive = await download({
