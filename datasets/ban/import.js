@@ -4,7 +4,6 @@ const download = require('../../helper/download');
 const extract = require('../../helper/extract');
 const ogr2pg = require('../../helper/ogr2pg');
 
-const psql = require('../../helper/psql');
 const departements = require('../../resources/departements');
 
 /**
@@ -49,10 +48,10 @@ async function main(){
     var ctx = new Context();
 
     /* import schema.sql */
-    await psql({
+    await ctx.database.batch({
         inputPath: __dirname+'/sql/schema.sql'
     })
-    
+
     /* remove children datasets */    
     ctx.metadata.remove('ban%');
 

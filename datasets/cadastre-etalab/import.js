@@ -5,7 +5,6 @@ const Context = require('../../helper/Context');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 const extract = require('../../helper/extract');
-const psql = require('../../helper/psql');
 
 /**
  * Import a given departement
@@ -59,12 +58,10 @@ async function main(){
     var ctx = new Context();
 
     /* import schema.sql */
-    await psql({
-        inputPath: __dirname+'/sql/schema.sql'
-    });
+    await ctx.database.batch(__dirname+'/sql/schema.sql');
 
     /* remove children datasets */    
-    ctx.metadata.remove('cadastre-etalab%');
+    await ctx.metadata.remove('cadastre-etalab%');
 
     /* add parent dataset */
     let config = Object.assign({}, originalConfig);

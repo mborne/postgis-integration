@@ -1,7 +1,6 @@
 const Context = require('../../helper/Context');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
-const psql = require('../../helper/psql');
 const extract = require('../../helper/extract');
 
 const config = require('./config.json');
@@ -10,7 +9,7 @@ async function main(){
 	var ctx = new Context();
 
 	/* Init schema */
-	psql({
+	ctx.database.batch({
 		inputPath: __dirname+'/sql/schema.sql'
 	});
 

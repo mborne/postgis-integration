@@ -5,7 +5,6 @@ const Context = require('../../helper/Context');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
 const extract = require('../../helper/extract');
-const psql = require('../../helper/psql');
 
 /**
  * Import a given departement
@@ -50,7 +49,7 @@ async function main(){
     var ctx = new Context();
 
     /* import schema.sql */
-    await psql({
+    await ctx.database.batch({
         inputPath: __dirname+'/sql/schema.sql'
     });
 

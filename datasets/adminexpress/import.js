@@ -3,7 +3,6 @@ const Promise = require('bluebird');
 const Context = require('../../helper/Context');
 const download = require('../../helper/download');
 const ogr2pg = require('../../helper/ogr2pg');
-const psql = require('../../helper/psql');
 
 const extract = require('../../helper/extract');
 
@@ -40,10 +39,10 @@ async function main(){
     extract(archive);
 
     /* Import schema */
-    await psql({
+    await ctx.database.batch({
         inputPath: __dirname+'/sql/schema.sql'
     });
-    
+
     /* group shapefiles by table */
     var shapefiles = {
         "REGION": [],

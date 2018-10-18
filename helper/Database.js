@@ -1,6 +1,8 @@
 const { Pool } = require('pg');
 const fs = require('fs');
 
+const psql = require('./psql');
+
 /**
  * Helper to manipulate database
  */
@@ -41,6 +43,17 @@ class Database {
             client.release();
         }
     }
+
+    /**
+     * Execute SQL file with psql
+     * @param {String} sqlPath 
+     */
+    async batch(sqlPath){
+        return psql({
+            inputPath: sqlPath
+        });
+    }
+
 
     /**
      * List schemas
