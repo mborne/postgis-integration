@@ -1,10 +1,10 @@
 # postgis-integration
 
-**!!! Warning : Personal and experimental project, not ready for production !!!**
-
-> This repository contains helpers to integrate data in postgis and dataset integration scripts mainly focused on open datasets about France.
+**!!! Warning : Personal and experimental project to explore opendata resources, not ready for production !!!**
 
 ## Description
+
+> This repository contains helpers to integrate data in postgis and dataset integration scripts mainly focused on open datasets about France.
 
 Ce dépôt contient :
 

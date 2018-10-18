@@ -3,6 +3,8 @@ const parseString = require('xml2js').parseString;
 const JSONPath = require('JSONPath');
 const _ = require('lodash');
 
+const debug = require('debug')('geoportal-download-client');
+
 /**
  * Client to simplify access to http://wxs-telechargement.ign.fr/
  * 
@@ -19,48 +21,24 @@ class GeoportalDownloadClient {
         this.options = options;
     }
 
-
-    /**
-     * Get URL
-     * 
-     * @private
-     * 
-     * @param {String} url 
-     * @return Promise
-     */
-    getUrlContent(url){
-        var options = {
-            url: url,
-            headers: {
-                // missing User-Agent leads to error 500...
-                'User-Agent': 'geoportal-download-client'
-            }
-        };
-        return new Promise(function(resolve,reject){
-            request(options, function (error, response, body) {
-                if ( error ){
-                    return reject(error);
-                }
-                resolve(body);
-            });
-        });
-    };
-
-
     /**
      * List resources
-     * @return Promise
+     * @return {Promise}
      */
     getResources(){
         var urlCapabilities = this.options.url+"?request=GetCapabilities";
 
         const self = this;
         return new Promise(function(resolve,reject){
+            debug('GET %s',urlCapabilities);
             self.getUrlContent(urlCapabilities)
                 .then(function (xmlString) {
                     var resources = [];
                     parseString(xmlString, function (err, xml) {
-
+                        if ( err ){
+                            reject("Fail to parse : "+xmlString);
+                        }
+                        debug('PARSE %s',xmlString);
                         /* parse resource name */
                         JSONPath({
                             json: xml,
@@ -86,6 +64,7 @@ class GeoportalDownloadClient {
     /**
      * Get latest ressource
      * TODO manage version pattern (currently YYYY-MM-DD)
+     * @return {Promise}
      */
     getLatestResource(){
         /* Extract version from name */
@@ -118,6 +97,7 @@ class GeoportalDownloadClient {
     /**
      * Appends files to the given resource
      * @param {Object} resource 
+     * @return {Promise}
      */
     resolveFiles(resource){
         var urlFiles = this.options.url+"/"+resource.name;
@@ -147,6 +127,32 @@ class GeoportalDownloadClient {
             });
         });
     }
+
+    /**
+     * Get URL
+     * 
+     * @private
+     * 
+     * @param {String} url 
+     * @return Promise
+     */
+    getUrlContent(url){
+        var options = {
+            url: url,
+            headers: {
+                // missing User-Agent leads to error 500...
+                'User-Agent': 'geoportal-download-client'
+            }
+        };
+        return new Promise(function(resolve,reject){
+            request(options, function (error, response, body) {
+                if ( error ){
+                    return reject(error);
+                }
+                resolve(body);
+            });
+        });
+    };
 
 }
 

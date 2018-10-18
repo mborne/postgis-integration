@@ -1,8 +1,15 @@
 const request = require('request');
 const fs = require('fs');
 
+const debug = require('debug')('download');
+
 /**
- * Download file
+ * Download file from a given sourceUrl to a targetPath
+ * 
+ * Note that a {targetPath}.part is created while downloading and is renamed to {targetPath}
+ * when download is complete.
+ * 
+ * TODO : @mborne/download in a node-download repository
  * 
  * @param {Object} options
  * @param {String} options.sourceUrl
@@ -10,29 +17,30 @@ const fs = require('fs');
  * @returns {Promise}
  */
 function download(options){
-    console.log('Downloading '+options.sourceUrl+' to '+options.targetPath+' ...');
+    debug('Downloading '+options.sourceUrl+' to '+options.targetPath+' ...');
     return new Promise(function(resolve,reject){
         if ( fs.existsSync(options.targetPath) ){
-            console.log('File '+options.targetPath+' already exists');
+            debug('File '+options.targetPath+' already exists');
             resolve(options.targetPath);
             return;
         }
 
-        /* prepare temp file to avoid problems on script interruption */
+        /* Prepare temp file to avoid problems on script interruption */
         var tempPath = options.targetPath+'.part';
         if ( fs.existsSync(tempPath) ){
             fs.unlink(tempPath);
         }
 
-        /* download to tempPath, rename and resolve when complete */
+        /* Download to tempPath, rename and resolve when download is complete */
         var dest = fs.createWriteStream(tempPath);
         dest.on('finish', function () {
             fs.renameSync(tempPath,options.targetPath);
-            console.log('File '+options.targetPath+' downloaded');
+            debug('File '+options.targetPath+' downloaded');
             resolve(options.targetPath);
         });
 
-        var req = request({
+        /* Create request */
+        request({
             url: options.sourceUrl,
             headers: {
                 'User-Agent': 'nodejs'

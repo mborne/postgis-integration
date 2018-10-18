@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * Allows to store loaded dataset sources to meet some license requirement
+ */
 class Metadata {
 
     /**

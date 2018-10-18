@@ -13,7 +13,7 @@ async function main(){
     var ctx = new Context();
     
     /* Create data directory */
-    var datasetDir = ctx.getDatasetDir('adminexpress');
+    var datasetDir = ctx.createDirectory('adminexpress');
 
     /* Remove existing metadata */
     await ctx.metadata.remove(config.name);
@@ -39,9 +39,7 @@ async function main(){
     extract(archive);
 
     /* Import schema */
-    await ctx.database.batch({
-        inputPath: __dirname+'/sql/schema.sql'
-    });
+    await ctx.database.batch(__dirname+'/sql/schema.sql');
 
     /* group shapefiles by table */
     var shapefiles = {

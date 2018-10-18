@@ -8,7 +8,7 @@ async function main(){
 	var ctx = new Context();
 
 	/* Create data directory */
-	var datasetDir = ctx.getDatasetDir('codes-postaux');
+	var datasetDir = ctx.createDirectory('codes-postaux');
 	await ctx.metadata.remove(config.name);
 
 	/* Adapt config */

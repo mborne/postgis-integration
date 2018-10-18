@@ -16,7 +16,7 @@ async function importDep(ctx,CODE_DEP){
     let config = Object.assign({}, originalConfig);
     
     /* Create data directory */
-    var datasetDir = ctx.getDatasetDir('ban-'+CODE_DEP);
+    var datasetDir = ctx.createDirectory('ban-'+CODE_DEP);
 
     /* adapt config for partition */
     config.name        = 'ban/'+CODE_DEP;
@@ -48,9 +48,7 @@ async function main(){
     var ctx = new Context();
 
     /* import schema.sql */
-    await ctx.database.batch({
-        inputPath: __dirname+'/sql/schema.sql'
-    })
+    await ctx.database.batch( __dirname+'/sql/schema.sql');
 
     /* remove children datasets */    
     ctx.metadata.remove('ban%');

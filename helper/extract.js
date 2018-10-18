@@ -8,7 +8,10 @@ const mapping = {
 };
 
 /**
- * Extracts archive in it's directory
+ * Extracts archive (7z, zip and bz2) in parent directory
+ * 
+ * Note that it relies on system CLI tools
+ * 
  * @param {string} archivePath 
  */
 function extract(archivePath){
@@ -17,11 +20,9 @@ function extract(archivePath){
     }
 
     var ext = path.extname(archivePath);
-
     if ( ! mapping[ext] ){
         throw 'No extractor found for '+ext;
     }
-
     mapping[ext](archivePath);
 }
 

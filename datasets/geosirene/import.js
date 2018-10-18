@@ -16,7 +16,7 @@ async function importDep(ctx,CODE_DEP){
     let config = Object.assign({}, originalConfig);
 
     /* Create data directory */
-    var datasetDir = ctx.getDatasetDir('geosirene-'+CODE_DEP);
+    var datasetDir = ctx.createDirectory('geosirene-'+CODE_DEP);
 
     /* Adapt config */
     config.name    = 'geosirene/'+CODE_DEP;
@@ -49,9 +49,7 @@ async function main(){
     var ctx = new Context();
 
     /* import schema.sql */
-    await ctx.database.batch({
-        inputPath: __dirname+'/sql/schema.sql'
-    });
+    await ctx.database.batch(__dirname+'/sql/schema.sql');
 
     /* remove children datasets */    
     ctx.metadata.remove('geosirene%');

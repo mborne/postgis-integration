@@ -9,12 +9,10 @@ async function main(){
 	var ctx = new Context();
 
 	/* Init schema */
-	await ctx.database.batch({
-		inputPath: __dirname+'/sql/schema.sql'
-	});
+	await ctx.database.batch(__dirname+'/sql/schema.sql');
 
 	/* Create data directory */
-	var datasetDir = ctx.getDatasetDir('cog-commune');
+	var datasetDir = ctx.createDirectory('cog-commune');
 
 	/* Download archive */
 	var archive = await download({

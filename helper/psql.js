@@ -2,6 +2,8 @@ const shell = require('shelljs');
 
 const _ = require('lodash');
 
+const debug = require('debug')('psql');
+
 /**
  * Run psql on a given file
  * @param {Object} options
@@ -34,7 +36,7 @@ var psql = function(options){
         commandParts.push('-f '+options.inputPath);
 
         var command = commandParts.join(' ');
-        console.log(command);
+        debug(command);
         if (shell.exec(command).code !== 0) {
             reject({
                 'status': 'error',

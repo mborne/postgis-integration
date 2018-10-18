@@ -12,7 +12,7 @@ async function main() {
     var ctx = new Context();
 
     /* Create data directory */
-    var datasetDir = ctx.getDatasetDir('annuaire-administration');
+    var datasetDir = ctx.createDirectory('annuaire-administration');
 
     /* Adapt config */
     // TODO retrieve from folder name (ex : all_20181016)

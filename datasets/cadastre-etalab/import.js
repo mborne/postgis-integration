@@ -16,7 +16,7 @@ async function importDep(ctx,CODE_DEP){
     let config = Object.assign({}, originalConfig);
 
     /* Create data directory */
-    var datasetDir = ctx.getDatasetDir('cadastre-etalab-'+CODE_DEP);
+    var datasetDir = ctx.createDirectory('cadastre-etalab-'+CODE_DEP);
 
     /* adapt config for partition */
     config.name        = 'cadastre-etalab/'+CODE_DEP;

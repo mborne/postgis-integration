@@ -11,7 +11,7 @@ async function main(){
 	var ctx = new Context();
 
 	/* Create data directory */
-	var datasetDir = ctx.getDatasetDir('naturalearth');
+	var datasetDir = ctx.createDirectory('naturalearth');
 
 	/* Adapt config */
 	config.version = ctx.today();

@@ -2,16 +2,22 @@ const shell = require('shelljs');
 
 const _ = require('lodash');
 
+const debug = require('debug')('ogr2pg');
+
 /**
- * Import file to postgis
+ * 
+ * Helper to import spatial files (dbf, shp, geojson, etc.) in PostGIS with 
+ * ogr2ogr and psql.
+ * 
  * @param {Object} options parameters
  * @param {String} options.inputPath input file to import
- * @param {String} options.schemaName target schema
+ * @param {String} [options.encoding="UTF-8"] input encoding (UTF-8, LATIN1,...)
  * @param {String} options.tableName target table
- * @param {String} [options.encoding="UTF-8"] input encoding
- * @param {Boolean} [options.createTable=false] create table from file
- * @param {Boolean} [options.createSchema=false] create schema
- * @param {Boolean} [options.promoteToMulti=true] promote to multi
+ * @param {Boolean} [options.createTable=false] Drop and create table according to file structure
+ * @param {String} options.schemaName target schema
+ * @param {Boolean} [options.createSchema=false] Create schema
+ * @param {Boolean} [options.promoteToMulti=true] Promote geometry to multi-geometry (ex : MultiPolygon)
+ * @return {Promise}
  */
 function ogr2pg(options){
     options = _.defaults(options,{
@@ -74,7 +80,7 @@ function ogr2pg(options){
         
         var command = commandParts.join(' ')+' | psql --quiet';
 
-        console.log(command);
+        debug(command);
         if (shell.exec(command).code !== 0) {
             reject({
                 'status': 'error',
