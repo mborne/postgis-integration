@@ -9,10 +9,11 @@
     "postgis-import": "./bin/import.js"
   },
   "contributors": [
-    "Mickael Borne <mborne@users.noreply.github.com>"
+    "Mickael Borne <mick25390@gmail.com>"
   ],
   "license": "MIT",
   "dependencies": {
+    "@mborne/ogr2pg": "^0.1.0",
     "JSONPath": "^0.11.2",
     "JSONStream": "^1.3.3",
     "bluebird": "^3.5.1",

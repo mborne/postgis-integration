@@ -2,7 +2,7 @@ const Promise = require('bluebird');
 
 const Context = require('../../helper/Context');
 const download = require('../../helper/download');
-const ogr2pg = require('../../helper/ogr2pg');
+const ogr2pg = require('@mborne/ogr2pg');
 
 const extract = require('../../helper/extract');
 
@@ -66,7 +66,8 @@ async function main(){
             tasks.push(ogr2pg({
                 inputPath: tableShapefile,
                 schemaName: 'adminexpress',
-                tableName: tableName
+                tableName: tableName,
+                promoteToMulti: true
             }));
         });
     }
