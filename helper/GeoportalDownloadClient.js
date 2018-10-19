@@ -69,12 +69,13 @@ class GeoportalDownloadClient {
     getLatestResource(){
         /* Extract version from name */
         return this.getResources().then(function(resources){
+            /* split resource name according to _ and consider last part as version*/
             resources = resources.map(function(resource){
                 var parts = resource.name.split('_');
                 resource.version = parts[parts.length - 1];
                 return resource;
             });
-            /* Filter data versions */
+            /* Filter resources according to version pattern */
             resources = resources.filter(function(resource){
                 return resource.version.match(/.*\-.*\-.*/)
             });
@@ -129,12 +130,12 @@ class GeoportalDownloadClient {
     }
 
     /**
-     * Get URL
+     * Get URL content
      * 
      * @private
      * 
      * @param {String} url 
-     * @return Promise
+     * @return {Promise}
      */
     getUrlContent(url){
         var options = {

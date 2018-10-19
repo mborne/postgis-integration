@@ -108,7 +108,7 @@ Remarque :
 * `version=latest` traduit la possibilité pour le script de récupérer la dernière version du jeu de données
 * l'URL peut contenir des paramètres évalués au niveau du script d'intégration (ex : `{CODE_DEP}`)
 
-## Licence
+## License
 
 [MIT](LICENSE)
 
