@@ -5,17 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive",
+    "coverage": "nyc --all --reporter=html npm test",
     "postgis-init": "./bin/init.js",
     "postgis-import": "./bin/import.js"
   },
   "contributors": [
     "Mickael Borne <mick25390@gmail.com>"
   ],
+  "nyc": {
+    "include": ["helper/**/*.js","resources/**/*.js"]
+  },
   "license": "MIT",
   "dependencies": {
     "@mborne/ogr2pg": "^0.1.0",
     "JSONPath": "^0.11.2",
     "JSONStream": "^1.3.3",
+    "axios": "^0.18.0",
     "bluebird": "^3.5.1",
     "fast-csv": "^2.4.1",
     "lodash": "^4.17.10",
@@ -27,6 +32,8 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "mocha": "^5.2.0"
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0"
   }
 }

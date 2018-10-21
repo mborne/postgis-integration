@@ -23,7 +23,7 @@ async function main(){
         url: config.url
     });
     let resource = await client.getLatestResource();
-    await client.resolveFiles(resource);
+    resource = await client.resolveFiles(resource);
 
     /* Adapt configuration to latest version */
     config.url     = resource.files[0].url;

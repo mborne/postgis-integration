@@ -1,9 +1,9 @@
-const request = require('request');
+const debug = require('debug')('geoportal-download-client');
+
+const axios = require('axios');
 const parseString = require('xml2js').parseString;
 const JSONPath = require('JSONPath');
-const _ = require('lodash');
 
-const debug = require('debug')('geoportal-download-client');
 
 /**
  * Client to simplify access to http://wxs-telechargement.ign.fr/
@@ -27,37 +27,41 @@ class GeoportalDownloadClient {
      */
     getResources(){
         var urlCapabilities = this.options.url+"?request=GetCapabilities";
+        return this.getUrlContent(urlCapabilities).then(function(xmlString){
+            return this.parseResources(xmlString);
+        }.bind(this));
+    }
 
-        const self = this;
+    /**
+     * Parse XML resources
+     * 
+     * @private
+     * 
+     * @param {Promise} xmlString 
+     */
+    parseResources(xmlString){
+        var self = this;
         return new Promise(function(resolve,reject){
-            debug('GET %s',urlCapabilities);
-            self.getUrlContent(urlCapabilities)
-                .then(function (xmlString) {
-                    var resources = [];
-                    parseString(xmlString, function (err, xml) {
-                        if ( err ){
-                            reject("Fail to parse : "+xmlString);
-                        }
-                        debug('PARSE %s',xmlString);
-                        /* parse resource name */
-                        JSONPath({
-                            json: xml,
-                            path: '$.Download_Capabilities.Capability.*.Resources.*.Resource.*.Name.*', 
-                            callback: function(resourceName){
-                                resources.push({
-                                    'type': 'Resource',
-                                    'url': self.options.url+'/'+resourceName,
-                                    'name': resourceName
-                                })
-                            }
-                        });
-                        resolve(resources);
-                    });
-                })
-                .catch(function (err) {
-                    reject(err);
-                })
-            ;
+            var resources = [];
+            parseString(xmlString, function (err, data) {
+                if ( err ){
+                    reject("Fail to parse : "+xmlString);
+                }
+                debug(data);
+                /* parse resource name */
+                JSONPath({
+                    json: data,
+                    path: '$.Download_Capabilities.Capability.*.Resources.*.Resource.*.Name.*', 
+                    callback: function(resourceName){
+                        resources.push({
+                            'type': 'Resource',
+                            'url': self.options.url+'/'+resourceName,
+                            'name': resourceName
+                        })
+                    }
+                });
+                resolve(resources);
+            });
         });
     }
 
@@ -102,29 +106,46 @@ class GeoportalDownloadClient {
      */
     resolveFiles(resource){
         var urlFiles = this.options.url+"/"+resource.name;
-        
-        const self = this;
+        var self = this;
+        return this.getUrlContent(urlFiles).then(function(xml){
+            return self.parseFiles(resource,xml);
+        });
+    }
+
+    /**
+     * Parse XML files for a given resource
+     * 
+     * @private
+     * 
+     * @param {Object} resource 
+     * @param {String} items 
+     * @return {Promise}
+     */
+    parseFiles(resource,xmlString){
+        let self = this;
         return new Promise(function(resolve,reject){
-            self.getUrlContent(urlFiles).then(function(xmlString){
-                parseString(xmlString, function (err, xml) {
-                    resource.files = [];
-                    JSONPath({
-                        json: xml,
-                        path: '$.downloadFiles.files.*.file.*', 
-                        callback: function(file){
-                            resource.files.push({
-                                'type': 'File',
-                                'name': file.fileName[0],
-                                'md5': file.fileMd5[0],
-                                'size': file.fileSize[0],
-                                'url': self.options.url+"/"+resource.name+"/file/"+file.fileName[0]
-                            });
-                        }
-                    });
-                    resolve(resource);
+            parseString(xmlString,function(err,data){
+                if ( err ){
+                    reject("Fail to parse : "+xmlString);
+                }
+                debug(data);
+                /* parse resource name */
+                resource.files = [];
+                JSONPath({
+                    json: data,
+                    path: '$.downloadFiles.files.*.file.*', 
+                    callback: function(file){
+                        debug(JSON.stringify(file,null,2));
+                        resource.files.push({
+                            'type': 'File',
+                            'name': file.fileName[0],
+                            'md5': file.fileMd5[0],
+                            'size': file.fileSize[0],
+                            'url': self.options.url+"/"+resource.name+"/file/"+file.fileName[0]
+                        });
+                    }
                 });
-            }).catch(function(err){
-                reject(error)
+                resolve(resource);
             });
         });
     }
@@ -138,23 +159,20 @@ class GeoportalDownloadClient {
      * @return {Promise}
      */
     getUrlContent(url){
-        var options = {
+        debug("GET "+url);
+        return axios({
             url: url,
+            method: 'get',
             headers: {
                 // missing User-Agent leads to error 500...
-                'User-Agent': 'geoportal-download-client'
+                'User-Agent': 'geoportal-download-client',
+                'Accept': 'application/xml'
             }
-        };
-        return new Promise(function(resolve,reject){
-            request(options, function (error, response, body) {
-                if ( error ){
-                    return reject(error);
-                }
-                resolve(body);
-            });
+        }).then(function(response){
+            debug(response.data);
+            return response.data;
         });
     };
-
 }
 
 
