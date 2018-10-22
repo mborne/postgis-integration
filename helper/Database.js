@@ -4,7 +4,7 @@ const fs = require('fs');
 const psql = require('./psql');
 
 /**
- * Helper to manipulate database
+ * Helper to query database
  */
 class Database {
 
