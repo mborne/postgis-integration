@@ -28,7 +28,7 @@ function download(options){
         /* Prepare temp file to avoid problems on script interruption */
         var tempPath = options.targetPath+'.part';
         if ( fs.existsSync(tempPath) ){
-            fs.unlink(tempPath);
+            fs.unlinkSync(tempPath);
         }
 
         /* Download to tempPath, rename and resolve when download is complete */
