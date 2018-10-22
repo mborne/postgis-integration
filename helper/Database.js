@@ -1,5 +1,4 @@
 const { Pool } = require('pg');
-const fs = require('fs');
 
 const psql = require('./psql');
 
@@ -17,13 +16,8 @@ class Database {
     }
 
     /**
-     * Init database schema
+     * Close pool
      */
-    async init(){
-        const sql = fs.readFileSync( path.resolve(__dirname,'sql/schema.sql'), 'utf-8');
-        await client.query(sql);
-    }
-
     async close(){
         await this.pool.end();    
     }
