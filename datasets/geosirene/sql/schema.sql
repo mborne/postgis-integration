@@ -104,20 +104,30 @@ CREATE TABLE sirene.etablissement
     vmaj2 character varying,
     vmaj3 character varying,
     datemaj character varying,
-    longitude real,
-    latitude real,
+    longitude character varying,
+    latitude character varying,
     geo_score character varying,
     geo_type character varying,
     geo_adresse character varying,
     geo_id character varying,
     geo_ligne character varying,
+    geo_l4 character varying,
+    geo_l5 character varying,
     geom geometry(Point,4326)
 );
 CREATE INDEX ON sirene.etablissement USING gist (geom);
+CREATE INDEX ON sirene.etablissement (siren);
+CREATE INDEX ON sirene.etablissement (apen700);
+CREATE INDEX ON sirene.etablissement (apet700);
+CREATE INDEX ON sirene.etablissement (tefen);
 
 CREATE OR REPLACE FUNCTION sirene.etablissement_trigger() RETURNS trigger AS $$
 BEGIN
-    NEW.geom := ST_SetSRID(ST_MakePoint(NEW.longitude,NEW.latitude),4326);
+    NEW.longitude := NULLIF(NEW.longitude,'');
+    NEW.latitude := NULLIF(NEW.latitude,'');
+    IF NEW.longitude IS NOT NULL AND NEW.latitude IS NOT NULL THEN
+        NEW.geom := ST_SetSRID(ST_MakePoint(NEW.longitude::real,NEW.latitude::real),4326);
+    END IF;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

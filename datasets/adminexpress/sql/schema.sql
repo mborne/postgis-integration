@@ -16,7 +16,7 @@ CREATE INDEX ON adminexpress.region USING gist (geom);
 DROP TABLE IF EXISTS adminexpress.departement ;
 CREATE TABLE adminexpress.departement
 (
-    gid serial primary key,    
+    gid serial primary key,
     id character varying(24),
     nom_dep character varying(30),
     insee_dep character varying(3),
@@ -29,7 +29,7 @@ CREATE INDEX ON adminexpress.departement USING gist (geom);
 DROP TABLE IF EXISTS adminexpress.arrondissement_departemental ;
 CREATE TABLE adminexpress.arrondissement_departemental
 (
-    gid serial primary key,    
+    gid serial primary key,
     id character varying(24),
     insee_arr character varying(1),
     insee_dep character varying(3),
@@ -42,7 +42,7 @@ CREATE INDEX ON adminexpress.arrondissement_departemental USING gist (geom);
 DROP TABLE IF EXISTS adminexpress.epci ;
 CREATE TABLE adminexpress.epci
 (
-    gid serial primary key,    
+    gid serial primary key,
     id character varying(24),
     code_epci character varying(9),
     nom_epci character varying(230),
@@ -55,7 +55,7 @@ CREATE INDEX ON adminexpress.epci USING gist (geom);
 DROP TABLE IF EXISTS adminexpress.commune ;
 CREATE TABLE adminexpress.commune
 (
-    gid serial primary key,    
+    gid serial primary key,
     id character varying(24),
     nom_com character varying(50),
     nom_com_m character varying(50),
@@ -76,7 +76,7 @@ CREATE INDEX ON adminexpress.commune USING gist (geom);
 DROP TABLE IF EXISTS adminexpress.chef_lieu ;
 CREATE TABLE adminexpress.chef_lieu
 (
-    gid serial primary key,    
+    gid serial primary key,
     id character varying(24),
     nom_chf character varying(60),
     statut character varying(24),

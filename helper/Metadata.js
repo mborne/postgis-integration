@@ -30,9 +30,9 @@ class Metadata {
                 name,parent_name,description,homepage,url,version
             ) VALUES (
                 $1,$2,$3,$4,$5,$6
-            ) 
+            )
         `;
-        
+
         await this.database.query(sql, [
             dataset.name,
             ( dataset.parent_name ) ? dataset.parent_name : null,

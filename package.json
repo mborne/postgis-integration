@@ -2,6 +2,11 @@
   "name": "@mborne/postgis-integration",
   "version": "0.1.0",
   "description": "Dataset integration scripts and helpers to integrate data in postgis",
+  "homepage": "https://github.com/mborne/postgis-integration#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mborne/postgis-integration.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive",
@@ -13,11 +18,14 @@
     "Mickael Borne <mick25390@gmail.com>"
   ],
   "nyc": {
-    "include": ["helper/**/*.js","resources/**/*.js"]
+    "include": [
+      "helper/**/*.js",
+      "resources/**/*.js"
+    ]
   },
   "license": "MIT",
   "dependencies": {
-    "@mborne/ogr2pg": "^0.1.0",
+    "@mborne/ogr2pg": "^0.2.0",
     "JSONPath": "^0.11.2",
     "JSONStream": "^1.3.3",
     "axios": "^0.18.0",

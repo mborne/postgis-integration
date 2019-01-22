@@ -43,12 +43,13 @@ async function main(){
 			schemaName: 'naturalearth',
 			tableName: path.basename(dbfFile,'.dbf'),
 			createSchema: true,
-			createTable: true
+			createTable: true,
+			skipFailures: true
 		});
 	});
 
 	/* Cleanup directory and save metadata */
-	datasetDir.remove();
+	//datasetDir.remove();
 	await ctx.metadata.add(config);
 	await ctx.close();
 }

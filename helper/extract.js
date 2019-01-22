@@ -4,15 +4,16 @@ const fs = require('fs');
 const mapping = {
     '.7z': require('./extractor/7z'),
     '.zip': require('./extractor/unzip'),
-    '.bz2': require('./extractor/bz2')
+    '.bz2': require('./extractor/bz2'),
+    '.gz': require('./extractor/gz')
 };
 
 /**
  * Extracts archive (7z, zip and bz2) in parent directory
- * 
+ *
  * Note that it relies on system CLI tools
- * 
- * @param {string} archivePath 
+ *
+ * @param {string} archivePath
  */
 function extract(archivePath){
     if ( ! fs.existsSync(archivePath) ){
