@@ -6,7 +6,7 @@ const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('../../helper/extract');
 
 async function main(){
-    var ctx = new Context();
+    var ctx = await Context.createContext();
 
     /* import schema.sql */
     await ctx.database.batch(__dirname+'/sql/schema.sql');
@@ -23,14 +23,14 @@ async function main(){
     /* Adapt config */
     config.version = ctx.today();
 
-    // /* Download archive */
-    // var archive = await download({
-    //     sourceUrl: config.url,
-    //     targetPath: datasetDir.getPath()+'/geo_sirene.csv.gz'
-    // });
+    /* Download archive */
+    var archive = await download({
+        sourceUrl: config.url,
+        targetPath: datasetDir.getPath()+'/geo_sirene.csv.gz'
+    });
 
-    // /* Extract archive */
-    // extract(archive);
+    /* Extract archive */
+    extract(archive);
 
     /* Import table */
     ogr2pg({
@@ -40,9 +40,12 @@ async function main(){
     });
 
     /* Cleanup and save metadata */
-    // datasetDir.remove();
+    datasetDir.remove();
     await ctx.metadata.add(config);
     await ctx.close();
 }
 
-main();
+main().catch(function(err){
+    console.log(err);
+    process.exit(1);
+});

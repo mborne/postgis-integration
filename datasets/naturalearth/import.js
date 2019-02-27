@@ -8,7 +8,7 @@ const extract = require('../../helper/extract');
 const config = require('./config.json');
 
 async function main(){
-	var ctx = new Context();
+	var ctx = await Context.createContext();
 
 	/* Create data directory */
 	var datasetDir = ctx.createDirectory('naturalearth');
@@ -49,10 +49,13 @@ async function main(){
 	});
 
 	/* Cleanup directory and save metadata */
-	//datasetDir.remove();
+	datasetDir.remove();
 	await ctx.metadata.add(config);
 	await ctx.close();
 }
 
-main();
+main().catch(function(err){
+    console.log(err);
+    process.exit(1);
+});
 

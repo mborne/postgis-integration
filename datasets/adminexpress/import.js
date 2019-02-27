@@ -1,5 +1,3 @@
-const Promise = require('bluebird');
-
 const Context = require('../../helper/Context');
 const download = require('../../helper/download');
 const ogr2pg = require('@mborne/ogr2pg');
@@ -10,8 +8,8 @@ const config = require('./config.json');
 const GeoportalDownloadClient = require('../../helper/GeoportalDownloadClient');
 
 async function main(){
-    var ctx = new Context();
-    
+    var ctx = await Context.createContext();
+
     /* Create data directory */
     var datasetDir = ctx.createDirectory('adminexpress');
 
@@ -34,7 +32,7 @@ async function main(){
         sourceUrl: config.url,
         targetPath: datasetDir.getPath()+'/ADMIN-EXPRESS.7z'
     });
-    
+
     /* Extract archive */
     extract(archive);
 
@@ -71,11 +69,14 @@ async function main(){
             }));
         });
     }
-    await Promise.all(tasks,{concurrency:1});
-    
+    await Promise.all(tasks);
+
     /* cleanup directory and save metadata */
     datasetDir.remove();
     await ctx.metadata.add(config);
 }
 
-main();
+main().catch(function(err){
+    console.log(err);
+    process.exit(1);
+});

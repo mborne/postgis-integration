@@ -5,7 +5,10 @@ const ogr2pg = require('@mborne/ogr2pg');
 const config = require('./config.json');
 
 async function main(){
-	var ctx = new Context();
+	var ctx = await Context.createContext();
+
+    /* import schema.sql */
+    await ctx.database.batch(__dirname+'/sql/schema.sql');
 
 	/* Create data directory */
 	var datasetDir = ctx.createDirectory('codes-postaux');
@@ -25,8 +28,8 @@ async function main(){
 		inputPath: jsonPath,
 		schemaName: 'laposte',
 		tableName: 'codes_postaux',
-		createTable: true,
-		createSchema: true
+		createTable: false,
+		createSchema: false
 	});
 
 	/* Cleanup and save metadata */
@@ -35,4 +38,7 @@ async function main(){
 	await ctx.close();
 }
 
-main();
+main().catch(function(err){
+    console.log(err);
+    process.exit(1);
+});

@@ -8,8 +8,8 @@ const extract = require('../../helper/extract');
 
 /**
  * Import a given departement
- * @param {Context} ctx 
- * @param {String} CODE_DEP 
+ * @param {Context} ctx
+ * @param {String} CODE_DEP
  */
 async function importDep(ctx,CODE_DEP){
     /* clone configuration */
@@ -45,7 +45,8 @@ async function importDep(ctx,CODE_DEP){
             inputPath: datasetDir.getPath()+'/'+layerName+'s.shp',
             tableName: layerName,
             schemaName: 'cadastre',
-            encoding: 'LATIN1'
+            encoding: 'LATIN1',
+            promoteToMulti: true
         });
     });
 
@@ -55,12 +56,12 @@ async function importDep(ctx,CODE_DEP){
 
 
 async function main(){
-    var ctx = new Context();
+    var ctx = await Context.createContext();
 
     /* import schema.sql */
     await ctx.database.batch(__dirname+'/sql/schema.sql');
 
-    /* remove children datasets */    
+    /* remove children datasets */
     await ctx.metadata.remove('cadastre-etalab%');
 
     /* add parent dataset */
@@ -74,12 +75,11 @@ async function main(){
         await importDep(ctx,departement);
     }
 
+    await ctx.database.batch(__dirname+'/sql/index.sql');
     await ctx.close();
 }
 
-main();
-
-
-
-
-
+main().catch(function(err){
+    console.log(err);
+    process.exit(1);
+});

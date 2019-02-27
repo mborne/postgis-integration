@@ -14,7 +14,7 @@ const departements = require('../../resources/departements');
 async function importDep(ctx,CODE_DEP){
     /* clone configuration */
     let config = Object.assign({}, originalConfig);
-    
+
     /* Create data directory */
     var datasetDir = ctx.createDirectory('ban-'+CODE_DEP);
 
@@ -45,12 +45,12 @@ async function importDep(ctx,CODE_DEP){
 
 
 async function main(){
-    var ctx = new Context();
+    var ctx = await Context.createContext();
 
     /* import schema.sql */
     await ctx.database.batch( __dirname+'/sql/schema.sql');
 
-    /* remove children datasets */    
+    /* remove children datasets */
     ctx.metadata.remove('ban%');
 
     /* add parent dataset */
@@ -65,8 +65,10 @@ async function main(){
     }
 }
 
-main();
-
+main().catch(function(err){
+    console.log(err);
+    process.exit(1);
+});
 
 
 

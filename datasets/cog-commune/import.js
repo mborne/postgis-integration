@@ -6,7 +6,7 @@ const extract = require('../../helper/extract');
 const config = require('./config.json');
 
 async function main(){
-	var ctx = new Context();
+	var ctx = await Context.createContext();
 
 	/* Init schema */
 	await ctx.database.batch(__dirname+'/sql/schema.sql');
@@ -42,4 +42,7 @@ async function main(){
 	await ctx.close();
 }
 
-main();
+main().catch(function(err){
+    console.log(err);
+    process.exit(1);
+});

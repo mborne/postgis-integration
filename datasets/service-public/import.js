@@ -9,7 +9,10 @@ const fs = require('fs');
 const parseOrganisme = require('./helper/parseOrganisme');
 
 async function main() {
-    var ctx = new Context();
+    var ctx = await Context.createContext();
+
+    /* import schema.sql */
+    await ctx.database.batch(__dirname+'/sql/schema.sql');
 
     /* Create data directory */
     var datasetDir = ctx.createDirectory('annuaire-administration');
@@ -55,8 +58,8 @@ async function main() {
         inputPath: jsonPath,
         schemaName: 'dila',
         tableName: 'organisme',
-        createSchema: true,
-        createTable: true
+        createSchema: false,
+        createTable: false
     });
 
     /* Cleanup directory and save metadata */
@@ -65,5 +68,7 @@ async function main() {
     await ctx.close();
 }
 
-main();
-
+main().catch(function(err){
+    console.log(err);
+    process.exit(1);
+});

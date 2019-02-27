@@ -6,23 +6,23 @@ const DatasetDir = require('./DatasetDir');
  * Provides helper to simplify integration scripts
  */
 class Context {
-    constructor(){
-        this.database = new Database();
+
+    /**
+     * See Context.createContext()
+     * @private
+     * @param {Database} database
+     */
+    constructor(database){
+        this.database = database;
         this.metadata = new Metadata(this.database);
     }
 
     /**
-     * @param {DatasetDir} datasetName 
+     * @return {Context}
      */
-    createDirectory(datasetName){
-        return new DatasetDir(datasetName);
-    }
-
-    /**
-     * Return today date 
-     */
-    today(){
-        return new Date().toISOString().slice(0,10);
+    static async createContext(){
+        let database = await Database.createDatabase();
+        return new Context(database);
     }
 
     /**
@@ -31,6 +31,21 @@ class Context {
     async close(){
         await this.database.close();
     }
+
+    /**
+     * @param {DatasetDir} datasetName
+     */
+    createDirectory(datasetName){
+        return new DatasetDir(datasetName);
+    }
+
+    /**
+     * Return today date
+     */
+    today(){
+        return new Date().toISOString().slice(0,10);
+    }
+
 }
 
 module.exports = Context;

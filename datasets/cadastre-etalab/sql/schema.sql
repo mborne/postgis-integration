@@ -8,7 +8,7 @@ CREATE TABLE cadastre.commune (
     updated date,
     geom geometry(MultiPolygon,4326)
 );
-CREATE INDEX ON cadastre.commune USING gist (geom);
+
 
 CREATE TABLE cadastre.section (
     id text primary key,
@@ -19,7 +19,7 @@ CREATE TABLE cadastre.section (
     updated date,
     geom geometry(MultiPolygon,4326)
 );
-CREATE INDEX ON cadastre.section USING gist (geom);
+
 
 CREATE TABLE cadastre.feuille (
     id text primary key,
@@ -34,7 +34,7 @@ CREATE TABLE cadastre.feuille (
     updated date,
     geom geometry(MultiPolygon,4326)
 );
-CREATE INDEX ON cadastre.feuille USING gist (geom);
+
 
 CREATE TABLE cadastre.parcelle (
     id text primary key,
@@ -47,7 +47,7 @@ CREATE TABLE cadastre.parcelle (
     updated date,
     geom geometry(MultiPolygon,4326)
 );
-CREATE INDEX ON cadastre.parcelle USING gist (geom);
+
 
 CREATE TABLE cadastre.batiment (
     id serial primary key,
@@ -58,4 +58,4 @@ CREATE TABLE cadastre.batiment (
     updated date,
     geom geometry(MultiPolygon,4326)
 );
-CREATE INDEX ON cadastre.batiment USING gist (geom);
+

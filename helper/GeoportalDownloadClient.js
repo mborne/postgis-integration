@@ -8,7 +8,7 @@ const JSONPath = require('JSONPath');
 /**
  * Client to simplify access to http://wxs-telechargement.ign.fr/
  * 
- * TODO use axios and externalize as a node module
+ * TODO externalize as a node module
  * 
  */
 class GeoportalDownloadClient {

@@ -1,5 +1,6 @@
-const { Pool } = require('pg');
+const { Pool, Client } = require('pg');
 
+const pool = new Pool();
 const psql = require('./psql');
 
 /**
@@ -7,40 +8,53 @@ const psql = require('./psql');
  */
 class Database {
 
-    constructor() {
-        this.pool = new Pool();
-        this.pool.on('error', (err, client) => {
-            console.error('Unexpected error on idle client', err);
-            process.exit(-1);
-        })
+    /**
+     * See Database.createDatabase()
+     * @private
+     * @param {Client} client
+     */
+    constructor(client) {
+        this.client = client;
     }
 
     /**
-     * Close pool
+     * Create database instance
+     *
+     * @return {Database}
+     */
+    static async createDatabase(){
+        let client = await pool.connect();
+        return new Database(client);
+    }
+
+    /**
+     * @returns {Client}
+     */
+    getClient(){
+        return this.client;
+    }
+
+    /**
+     * Close database connexion
      */
     async close(){
-        await this.pool.end();    
+        await this.client.release();
     }
 
     /**
      * Execute query
-     * @param {string} sql 
+     * @param {string} sql
      * @param {any[]} values
-     * @return {Object[]} 
+     * @return {Object[]}
      */
     async query(sql, values) {
-        const client = await this.pool.connect();
-        try {
-            const res = await client.query(sql, values)
-            return res.rows;
-        } finally {
-            client.release();
-        }
+        const res = await this.client.query(sql, values)
+        return res.rows;
     }
 
     /**
      * Execute SQL file with psql
-     * @param {String} sqlPath 
+     * @param {String} sqlPath
      */
     async batch(sqlPath){
         return psql({
@@ -60,7 +74,7 @@ class Database {
 
     /**
      * List table in a given schema
-     * @param {String} schemaName 
+     * @param {String} schemaName
      */
     async listTables(schemaName) {
         const sql = `SELECT * FROM pg_catalog.pg_tables WHERE schemaname = $1`;

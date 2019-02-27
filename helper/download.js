@@ -1,16 +1,15 @@
+const debug = require('debug')('download');
 const request = require('request');
 const fs = require('fs');
 
-const debug = require('debug')('download');
-
 /**
  * Download file from a given sourceUrl to a targetPath
- * 
+ *
  * Note that a {targetPath}.part is created while downloading and is renamed to {targetPath}
  * when download is complete.
- * 
+ *
  * TODO : @mborne/download in a node-download repository
- * 
+ *
  * @param {Object} options
  * @param {String} options.sourceUrl
  * @param {String} options.targetPath
