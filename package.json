@@ -27,19 +27,19 @@
   "dependencies": {
     "@mborne/ogr2pg": "^0.2.0",
     "JSONPath": "^0.11.2",
-    "JSONStream": "^1.3.3",
+    "JSONStream": "^1.3.5",
     "axios": "^0.18.0",
-    "bluebird": "^3.5.1",
+    "bluebird": "^3.5.3",
     "fast-csv": "^2.4.1",
     "lodash": "^4.17.11",
-    "pg": "^7.4.3",
+    "pg": "^7.8.1",
     "pg-escape": "^0.2.0",
-    "request": "^2.87.0",
-    "shelljs": "^0.8.2",
+    "request": "^2.88.0",
+    "shelljs": "^0.8.3",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "nyc": "^13.3.0"

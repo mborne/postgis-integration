@@ -24,7 +24,7 @@ describe("Testing download", function () {
         });
         expect(fs.existsSync(targetPath)).to.equals(true);
         let content = fs.readFileSync(targetPath,'utf-8');
-        expect(content).to.contains("guzzlehttp/guzzle");
+        expect(content).to.contains("mborne/remote-git");
     });
 });
 

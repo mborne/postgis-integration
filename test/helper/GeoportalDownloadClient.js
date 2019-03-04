@@ -16,7 +16,7 @@ describe("Testing GeoportalDownloadClient with adminexpress", function () {
             resources.forEach(resource => {
                 expect(resource).to.have.property('name');
                 expect(resource.name.startsWith("ADMINEXPRESS")).equals(true);
-                expect(resource).to.have.property('url');                
+                expect(resource).to.have.property('url');
             });
         });
     });
