@@ -77,7 +77,7 @@ PGDATABASE=gis bin/import.js ban
 
 ```bash
 docker build -t postgis-integration .
-docker run -ti -e PGHOST=dbhost -e PGDATABASE=gis postgis-integration npm run postgis-import adminexpress
+docker run -ti -e PGHOST=dbhost -e PGDATABASE=gis postgis-integration pgi-import adminexpress
 ...
 ```
 
@@ -103,7 +103,7 @@ Le fichier `config.json` fournit les informations suivantes :
 | url         | URL de téléchargement du jeu de données     | https://adresse.data.gouv.fr/data/BAN_licence_gratuite_repartage_{CODE_DEP}.zip |
 | version     | Version du jeu de données                   | latest                                                                          |
 
-Remarque : 
+Remarque :
 
 * `version=latest` traduit la possibilité pour le script de récupérer la dernière version du jeu de données
 * l'URL peut contenir des paramètres évalués au niveau du script d'intégration (ex : `{CODE_DEP}`)

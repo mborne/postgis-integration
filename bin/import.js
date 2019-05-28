@@ -8,7 +8,7 @@ const datasetNames = Object.keys(datasets);
 /* Get and check datasetName to import */
 const datasetName = process.argv[2];
 if ( typeof datasetName === 'undefined' || datasetNames.indexOf(datasetName) === -1 ){
-    shell.echo('Usage : npm run postgis-import ('+datasetNames.join('|')+')');
+    shell.echo('Usage : pgi-import ('+datasetNames.join('|')+')');
     shell.exit(1);
 }
 
