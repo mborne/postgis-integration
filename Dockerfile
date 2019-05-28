@@ -22,9 +22,3 @@ WORKDIR /opt/postgis-integration
 USER node
 RUN npm install
 
-
-
-
-
-
-

@@ -10,9 +10,11 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive",
-    "coverage": "nyc --all --reporter=html npm test",
-    "postgis-init": "./bin/init.js",
-    "postgis-import": "./bin/import.js"
+    "coverage": "nyc --all --reporter=html npm test"
+  },
+  "bin": {
+    "pgi-init": "./bin/init.js",
+    "pgi-import": "./bin/import.js"
   },
   "contributors": [
     "Mickael Borne <mick25390@gmail.com>"
