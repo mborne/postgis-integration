@@ -1,0 +1,16 @@
+pipeline {
+    agent {
+        docker {
+            label 'docker'
+            image 'mborne/postgis-integration:latest'
+            args ' --network webgateway '
+        }
+    }
+    stages {
+        stage('Import codes-postaux') {
+            steps {
+                sh 'DEBUG=* /opt/postgis-integration/bin/import.js codes-postaux'
+            }
+        }
+    }
+}
