@@ -2,7 +2,7 @@ const originalConfig = require('./config.json');
 const departements = require('../../resources/departements');
 
 const Context = require('../../helper/Context');
-const download = require('../../helper/download');
+const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('../../helper/extract');
 

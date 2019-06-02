@@ -1,6 +1,6 @@
 const originalConfig = require('./config.json');
 const Context = require('../../helper/Context');
-const download = require('../../helper/download');
+const download = require('@mborne/dl');
 const extract = require('../../helper/extract');
 const ogr2pg = require('@mborne/ogr2pg');
 

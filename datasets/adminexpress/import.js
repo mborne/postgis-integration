@@ -1,11 +1,10 @@
 const Context = require('../../helper/Context');
-const download = require('../../helper/download');
+const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 
 const extract = require('../../helper/extract');
 
 const config = require('./config.json');
-const GeoportalDownloadClient = require('../../helper/GeoportalDownloadClient');
 
 async function main(){
     var ctx = await Context.createContext();
@@ -15,17 +14,6 @@ async function main(){
 
     /* Remove existing metadata */
     await ctx.metadata.remove(config.name);
-
-    /* Find last version URL */
-    var client = new GeoportalDownloadClient({
-        url: config.url
-    });
-    let resource = await client.getLatestResource();
-    resource = await client.resolveFiles(resource);
-
-    /* Adapt configuration to latest version */
-    config.url     = resource.files[0].url;
-    config.version = resource.version;
 
     /* Download archive */
     let archive = await download({
