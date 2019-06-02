@@ -11,10 +11,11 @@ class Context {
      * See Context.createContext()
      * @private
      * @param {Database} database
+     * @param {Metadata} metadata
      */
-    constructor(database){
+    constructor(database,metadata){
         this.database = database;
-        this.metadata = new Metadata(this.database);
+        this.metadata = metadata;
     }
 
     /**
@@ -22,7 +23,9 @@ class Context {
      */
     static async createContext(){
         let database = await Database.createDatabase();
-        return new Context(database);
+        let metadata = new Metadata(database);
+        await metadata.init();
+        return new Context(database,metadata);
     }
 
     /**

@@ -15,7 +15,7 @@ async function main() {
     await ctx.database.batch(__dirname+'/sql/schema.sql');
 
     /* Create data directory */
-    var datasetDir = ctx.createDirectory('annuaire-administration');
+    var datasetDir = ctx.createDirectory('dila');
 
     /* Adapt config */
     // TODO retrieve from folder name (ex : all_20181016)
@@ -24,7 +24,8 @@ async function main() {
     /* Download archive */
     var archive = await download({
         sourceUrl: config.url,
-        targetPath: datasetDir.getPath() + '/all_latest.tar.bz2'
+        targetPath: datasetDir.getPath() + '/all_latest.tar.bz2',
+        unsafeSsl: true
     });
 
     /* Extract archive */
@@ -57,13 +58,11 @@ async function main() {
     ogr2pg({
         inputPath: jsonPath,
         schemaName: 'dila',
-        tableName: 'organisme',
-        createSchema: false,
-        createTable: false
+        tableName: 'organisme'
     });
 
     /* Cleanup directory and save metadata */
-    datasetDir.remove();
+    //datasetDir.remove();
     await ctx.metadata.add(config);
     await ctx.close();
 }

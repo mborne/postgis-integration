@@ -1,5 +1,5 @@
 const originalConfig = require('./config.json');
-const departements = require('../../resources/departements');
+const departements = require('./departements.json');
 
 const Context = require('../../helper/Context');
 const download = require('@mborne/dl');

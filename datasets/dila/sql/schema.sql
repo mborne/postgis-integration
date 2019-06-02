@@ -1,4 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS dila ;
+DROP SCHEMA IF EXISTS dila CASCADE ;
+
+CREATE SCHEMA dila ;
 
 DROP TABLE IF EXISTS dila.organisme;
 CREATE TABLE dila.organisme (

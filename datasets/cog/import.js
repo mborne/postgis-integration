@@ -2,6 +2,7 @@ const Context = require('../../helper/Context');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('../../helper/extract');
+const path = require('path');
 
 const config = require('./config.json');
 
@@ -12,29 +13,34 @@ async function main(){
 	await ctx.database.batch(__dirname+'/sql/schema.sql');
 
 	/* Create data directory */
-	var datasetDir = ctx.createDirectory('cog-commune');
+	var datasetDir = ctx.createDirectory('cog');
 
 	/* Download archive */
 	var archive = await download({
 		sourceUrl: config.url,
-		targetPath: datasetDir.getPath()+'/commune.zip'
+		targetPath: datasetDir.getPath()+'/commune.zip',
+		unsafeSsl: true
 	});
-	
+
 	/* Extract archive */
 	extract(archive);
 
 	/* Find dbf file */
-	var dbfFile = datasetDir.getFiles().filter(function(file){
+	var dbfFiles = datasetDir.getFiles().filter(function(file){
 		return file.endsWith('.dbf');
-	})[0];
-
-	/* Import file */
-	ogr2pg({
-		inputPath: dbfFile,
-		schemaName: 'cog',
-		tableName: 'commune',
-		encoding: 'ISO-8859-1'
 	});
+
+	for ( var i in dbfFiles ){
+		let dbfFile = dbfFiles[i];
+		/* Import file */
+		await ogr2pg({
+			inputPath: dbfFile,
+			schemaName: 'cog',
+			// commune2019.dbf -> commune
+			tableName: path.basename(dbfFile,'.dbf').replace(config.version,''),
+			encoding: 'ISO-8859-1'
+		});
+	}
 
 	/* Cleanup and save metadata */
 	datasetDir.remove();

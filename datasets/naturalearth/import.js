@@ -21,7 +21,7 @@ async function main(){
 		sourceUrl: config.url,
 		targetPath: datasetDir.getPath()+'/natural_earth_vector.zip'
 	});
-	
+
 	/* Extract archive */
 	extract(archive);
 

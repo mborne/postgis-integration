@@ -13,7 +13,6 @@
     "coverage": "nyc --all --reporter=html npm test"
   },
   "bin": {
-    "pgi-init": "./bin/init.js",
     "pgi-import": "./bin/import.js"
   },
   "contributors": [
@@ -27,7 +26,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@mborne/dl": "^0.1.0",
+    "@mborne/dl": "^0.2.0",
     "@mborne/ogr2pg": "^0.2.0",
     "JSONPath": "^0.11.2",
     "JSONStream": "^1.3.5",
