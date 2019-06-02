@@ -44,6 +44,7 @@ async function main(){
 			tableName: path.basename(dbfFile,'.dbf'),
 			createSchema: true,
 			createTable: true,
+			promoteToMulti: true,
 			skipFailures: true
 		});
 	});
