@@ -1,5 +1,5 @@
 {
-    "name": "service-public",
+    "name": "dila",
     "description": "Service-public.fr - Annuaire de l’administration - Base de données locales (mairies, organismes sociaux, services de l'état, etc.)",
     "homepage": "https://www.data.gouv.fr/fr/datasets/service-public-fr-annuaire-de-l-administration-base-de-donnees-locales/",
     "url": "https://lecomarquage.service-public.fr/donnees_locales_v2/all_latest.tar.bz2",
