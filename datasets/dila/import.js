@@ -1,7 +1,7 @@
 const Context = require('../../helper/Context');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
-const extract = require('../../helper/extract');
+const extract = require('@mborne/extract');
 
 const config = require('./config.json');
 
@@ -22,14 +22,16 @@ async function main() {
     config.version = new Date().toISOString().slice(0, 10);
 
     /* Download archive */
-    var archive = await download({
+    var archivePath = await download({
         sourceUrl: config.url,
         targetPath: datasetDir.getPath() + '/all_latest.tar.bz2',
         unsafeSsl: true
     });
 
     /* Extract archive */
-    extract(archive);
+    await extract({
+        archivePath: archivePath
+    });
 
     /* List organismes */
     var organismes = datasetDir.getFiles().filter(function (file) {
@@ -62,7 +64,7 @@ async function main() {
     });
 
     /* Cleanup directory and save metadata */
-    //datasetDir.remove();
+    datasetDir.remove();
     await ctx.metadata.add(config);
     await ctx.close();
 }

@@ -1,7 +1,7 @@
 const Context = require('../../helper/Context');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
-const extract = require('../../helper/extract');
+const extract = require('@mborne/extract');
 const path = require('path');
 
 const config = require('./config.json');
@@ -16,14 +16,16 @@ async function main(){
 	var datasetDir = ctx.createDirectory('cog');
 
 	/* Download archive */
-	var archive = await download({
+	var archivePath = await download({
 		sourceUrl: config.url,
 		targetPath: datasetDir.getPath()+'/commune.zip',
 		unsafeSsl: true
 	});
 
 	/* Extract archive */
-	extract(archive);
+	await extract({
+		archivePath: archivePath
+	});
 
 	/* Find dbf file */
 	var dbfFiles = datasetDir.getFiles().filter(function(file){

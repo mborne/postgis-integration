@@ -4,7 +4,7 @@ const departements = require('./departements.json');
 const Context = require('../../helper/Context');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
-const extract = require('../../helper/extract');
+const extract = require('@mborne/extract');
 
 /**
  * Import a given departement
@@ -33,8 +33,10 @@ async function importDep(ctx,CODE_DEP){
         return download({
             sourceUrl: url,
             targetPath: datasetDir.getPath()+'/'+layerName+'.zip'
-        }).then(function(archiveFile){
-            extract(archiveFile);
+        }).then(function(archivePath){
+            return extract({
+                archivePath: archivePath
+            });
         })
     });
     await Promise.all(downloads);

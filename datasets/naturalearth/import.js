@@ -3,7 +3,7 @@ const path = require('path');
 const Context = require('../../helper/Context');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
-const extract = require('../../helper/extract');
+const extract = require('@mborne/extract');
 
 const config = require('./config.json');
 
@@ -17,13 +17,15 @@ async function main(){
 	config.version = ctx.today();
 
 	/* Download archive */
-	var archive = await download({
+	var archivePath = await download({
 		sourceUrl: config.url,
 		targetPath: datasetDir.getPath()+'/natural_earth_vector.zip'
 	});
 
 	/* Extract archive */
-	extract(archive);
+	await extract({
+		archivePath: archivePath
+	});
 
 	/* filter dbf files */
 	var dbfFiles = datasetDir.getFiles().filter(function(file){
