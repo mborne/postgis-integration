@@ -3,7 +3,7 @@ const debug = require('debug')('postgis-helper');
 const { Pool, Client } = require('pg');
 
 const pool = new Pool();
-const psql = require('./psql');
+const psql = require('./internal/psql');
 
 /**
  * Helper to query database

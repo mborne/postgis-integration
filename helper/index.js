@@ -1,5 +1,6 @@
 module.exports = {
     Context: require('./Context'),
+    Database: require('./Database'),
     DatasetDir: require('./DatasetDir'),
-    GeoportalDownloadClient: require('./GeoportalDownloadClient')
+    SourceManager: require('SourceManager')
 };
