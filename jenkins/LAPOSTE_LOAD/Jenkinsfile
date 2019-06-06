@@ -7,9 +7,9 @@ pipeline {
         }
     }
     stages {
-        stage('Import codes-postaux') {
+        stage('Import laposte (codes-postaux)') {
             steps {
-                sh 'DEBUG=* /opt/postgis-integration/bin/import.js codes-postaux'
+                sh 'DEBUG=* /opt/postgis-integration/bin/import.js laposte'
             }
         }
     }

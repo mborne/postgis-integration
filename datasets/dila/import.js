@@ -5,6 +5,7 @@ const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
 
 const config = require('./config.json');
+const SCHEMA_NAME = 'dila';
 
 const fs = require('fs');
 const parseOrganisme = require('./helper/parseOrganisme');
@@ -20,7 +21,7 @@ async function main() {
 
     /* Adapt config */
     // TODO retrieve from folder name (ex : all_20181016)
-    config.version = new Date().toISOString().slice(0, 10);
+    config.version = ctx.today();
 
     /* Download archive */
     var archivePath = await download({
@@ -60,13 +61,16 @@ async function main() {
     fs.writeFileSync(jsonPath, JSON.stringify(featureCollection, null, 2));
     ogr2pg({
         inputPath: jsonPath,
-        schemaName: 'dila',
+        schemaName: SCHEMA_NAME,
         tableName: 'organisme'
     });
 
-    /* Cleanup directory and save metadata */
+    /* Save source */
+	let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+	await sourceManager.add(config);
+
+    /* Cleanup */
     datasetDir.remove();
-    await ctx.metadata.add(config);
     await ctx.close();
 }
 

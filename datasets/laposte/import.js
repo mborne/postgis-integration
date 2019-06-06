@@ -4,6 +4,7 @@ const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 
 const config = require('./config.json');
+const SCHEMA_NAME = 'laposte';
 
 async function main(){
 	var ctx = await Context.createContext();
@@ -12,8 +13,7 @@ async function main(){
     await ctx.database.batch(__dirname+'/sql/schema.sql');
 
 	/* Create data directory */
-	var datasetDir = await DatasetDir.createDirectory('codes-postaux');
-	await ctx.metadata.remove(config.name);
+	var datasetDir = await DatasetDir.createDirectory(SCHEMA_NAME);
 
 	/* Adapt config */
 	config.version = ctx.today();
@@ -27,15 +27,18 @@ async function main(){
 	/* Import data */
 	ogr2pg({
 		inputPath: jsonPath,
-		schemaName: 'laposte',
+		schemaName: SCHEMA_NAME,
 		tableName: 'codes_postaux',
 		createTable: false,
 		createSchema: false
 	});
 
-	/* Cleanup and save metadata */
+	/* Save source */
+	let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+	await sourceManager.add(config);
+
+	/* Cleanup */
 	datasetDir.remove();
-	await ctx.metadata.add(config);
 	await ctx.close();
 }
 

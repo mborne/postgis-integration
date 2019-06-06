@@ -5,15 +5,15 @@ const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
 
 const config = require('./config.json');
+const SCHEMA_NAME = 'adminexpress';
 
 async function main(){
     var ctx = await Context.createContext();
+    /* Import schema */
+    await ctx.database.batch(__dirname+'/sql/schema.sql');
 
-    /* Create data directory */
-    var datasetDir = await DatasetDir.createDirectory('adminexpress');
-
-    /* Remove existing metadata */
-    await ctx.metadata.remove(config.name);
+    /* Prepare local directory */
+    var datasetDir = await DatasetDir.createDirectory(SCHEMA_NAME);
 
     /* Download archive */
     let archivePath = await download({
@@ -26,8 +26,6 @@ async function main(){
         archivePath: archivePath
     });
 
-    /* Import schema */
-    await ctx.database.batch(__dirname+'/sql/schema.sql');
 
     /* group shapefiles by table */
     var shapefiles = {
@@ -53,7 +51,7 @@ async function main(){
         tableShapefiles.forEach(function(tableShapefile){
             tasks.push(ogr2pg({
                 inputPath: tableShapefile,
-                schemaName: 'adminexpress',
+                schemaName: SCHEMA_NAME,
                 tableName: tableName,
                 promoteToMulti: true
             }));
@@ -61,9 +59,12 @@ async function main(){
     }
     await Promise.all(tasks);
 
-    /* cleanup directory and save metadata */
+    /* Save source */
+    let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+	await sourceManager.add(config);
+
+    /* cleanup directory */
     datasetDir.remove();
-    await ctx.metadata.add(config);
     await ctx.close();
 }
 

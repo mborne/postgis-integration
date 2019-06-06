@@ -1,5 +1,5 @@
 const Database = require('./Database');
-const Metadata = require('./Metadata');
+const SourceManager = require('./SourceManager');
 
 /**
  * Provides helper to simplify integration scripts
@@ -10,11 +10,9 @@ class Context {
      * See Context.createContext()
      * @private
      * @param {Database} database
-     * @param {Metadata} metadata
      */
-    constructor(database,metadata){
+    constructor(database){
         this.database = database;
-        this.metadata = metadata;
     }
 
     /**
@@ -22,9 +20,21 @@ class Context {
      */
     static async createContext(){
         let database = await Database.createDatabase();
-        let metadata = new Metadata(database);
-        await metadata.init();
-        return new Context(database,metadata);
+        return new Context(database);
+    }
+
+
+    /**
+     * Get SourceManager for a given schema
+     * @param {string} schemaName
+     * @return {SourceManager}
+     */
+    async getSourceManager(schemaName){
+        let sourceManager = await SourceManager.createSourceManager(
+            this.database,
+            schemaName
+        );
+        return sourceManager;
     }
 
     /**

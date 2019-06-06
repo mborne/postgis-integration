@@ -5,6 +5,7 @@ const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
 
 const originalConfig = require('./config.json');
+const SCHEMA_NAME = 'cadastre';
 const departements = require('./departements.json');
 
 /**
@@ -21,7 +22,6 @@ async function importDep(ctx,CODE_DEP){
 
     /* adapt config for partition */
     config.name        = 'cadastre-etalab/'+CODE_DEP;
-    config.parent_name = originalConfig.name;
     config.url         = originalConfig.url.replace(/{CODE_DEP}/g,CODE_DEP);
     config.version     = ctx.today();
 
@@ -47,14 +47,18 @@ async function importDep(ctx,CODE_DEP){
         ogr2pg({
             inputPath: datasetDir.getPath()+'/'+layerName+'s.shp',
             tableName: layerName,
-            schemaName: 'cadastre',
+            schemaName: SCHEMA_NAME,
             encoding: 'LATIN1',
             promoteToMulti: true
         });
     });
 
+    /* Save source */
+    let sourceManager = ctx.getSourceManager(SCHEMA_NAME);
+    await sourceManager.add(config);
+
+    /* Cleanup */
     datasetDir.remove();
-    await ctx.metadata.add(config);
 }
 
 
@@ -64,13 +68,10 @@ async function main(){
     /* import schema.sql */
     await ctx.database.batch(__dirname+'/sql/schema.sql');
 
-    /* remove children datasets */
-    await ctx.metadata.remove('cadastre-etalab%');
-
-    /* add parent dataset */
+    /* add parent source */
     let config = Object.assign({}, originalConfig);
     config.version = ctx.today();
-    await ctx.metadata.add(config);
+    await sourceManager.add(config);
 
     /* import each departement */
     for ( var i in departements ){

@@ -6,6 +6,7 @@ const extract = require('@mborne/extract');
 const path = require('path');
 
 const config = require('./config.json');
+const SCHEMA_NAME = 'laposte';
 
 async function main(){
 	var ctx = await Context.createContext();
@@ -14,7 +15,7 @@ async function main(){
 	await ctx.database.batch(__dirname+'/sql/schema.sql');
 
 	/* Create data directory */
-	var datasetDir = await DatasetDir.createDirectory('cog');
+	var datasetDir = await DatasetDir.createDirectory(SCHEMA_NAME);
 
 	/* Download archive */
 	var archivePath = await download({
@@ -38,16 +39,19 @@ async function main(){
 		/* Import file */
 		await ogr2pg({
 			inputPath: dbfFile,
-			schemaName: 'cog',
+			schemaName: SCHEMA_NAME,
 			// commune2019.dbf -> commune
 			tableName: path.basename(dbfFile,'.dbf').replace(config.version,''),
 			encoding: 'ISO-8859-1'
 		});
 	}
 
+	/* Save source */
+	let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+	await sourceManager.add(config);
+
 	/* Cleanup and save metadata */
 	datasetDir.remove();
-	await ctx.metadata.add(config);
 	await ctx.close();
 }
 

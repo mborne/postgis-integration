@@ -6,12 +6,13 @@ const extract = require('@mborne/extract');
 const path = require('path');
 
 const config = require('./config.json');
+const SCHEMA_NAME = 'naturalearth';
 
 async function main(){
 	var ctx = await Context.createContext();
 
 	/* Create data directory */
-	var datasetDir = await DatasetDir.createDirectory('naturalearth');
+	var datasetDir = await DatasetDir.createDirectory(SCHEMA_NAME);
 
 	/* Adapt config */
 	config.version = ctx.today();
@@ -42,7 +43,7 @@ async function main(){
 	dbfFiles.forEach(function(dbfFile){
 		ogr2pg({
 			inputPath: dbfFile,
-			schemaName: 'naturalearth',
+			schemaName: SCHEMA_NAME,
 			tableName: path.basename(dbfFile,'.dbf'),
 			createSchema: true,
 			createTable: true,
@@ -51,9 +52,12 @@ async function main(){
 		});
 	});
 
-	/* Cleanup directory and save metadata */
+	/* Save source */
+	let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+	await sourceManager.add(config);
+
+	/* Cleanup directory */
 	datasetDir.remove();
-	await ctx.metadata.add(config);
 	await ctx.close();
 }
 

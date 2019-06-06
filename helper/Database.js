@@ -1,3 +1,5 @@
+const debug = require('debug')('postgis-helper');
+
 const { Pool, Client } = require('pg');
 
 const pool = new Pool();
@@ -23,6 +25,7 @@ class Database {
      * @return {Database}
      */
     static async createDatabase(){
+        debug('Database - create pg connection...');
         let client = await pool.connect();
         return new Database(client);
     }
@@ -38,6 +41,7 @@ class Database {
      * Close database connexion
      */
     async close(){
+        debug('Database - release pg connection...');
         await this.client.release();
     }
 
