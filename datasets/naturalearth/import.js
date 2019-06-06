@@ -1,9 +1,9 @@
-const path = require('path');
-
 const Context = require('../../helper/Context');
+const DatasetDir = require('../../helper/DatasetDir');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
+const path = require('path');
 
 const config = require('./config.json');
 
@@ -11,7 +11,7 @@ async function main(){
 	var ctx = await Context.createContext();
 
 	/* Create data directory */
-	var datasetDir = ctx.createDirectory('naturalearth');
+	var datasetDir = await DatasetDir.createDirectory('naturalearth');
 
 	/* Adapt config */
 	config.version = ctx.today();

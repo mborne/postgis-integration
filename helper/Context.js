@@ -1,6 +1,5 @@
 const Database = require('./Database');
 const Metadata = require('./Metadata');
-const DatasetDir = require('./DatasetDir');
 
 /**
  * Provides helper to simplify integration scripts
@@ -33,13 +32,6 @@ class Context {
      */
     async close(){
         await this.database.close();
-    }
-
-    /**
-     * @param {DatasetDir} datasetName
-     */
-    createDirectory(datasetName){
-        return new DatasetDir(datasetName);
     }
 
     /**

@@ -1,9 +1,10 @@
-const originalConfig = require('./config.json');
-
 const Context = require('../../helper/Context');
+const DatasetDir = require('../../helper/DatasetDir');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
+
+const originalConfig = require('./config.json');
 
 async function main(){
     var ctx = await Context.createContext();
@@ -18,7 +19,7 @@ async function main(){
     let config = Object.assign({}, originalConfig);
 
     /* Create data directory */
-    var datasetDir = ctx.createDirectory('geosirene');
+    var datasetDir = await DatasetDir.createDirectory('geosirene');
 
     /* Adapt config */
     config.version = ctx.today();

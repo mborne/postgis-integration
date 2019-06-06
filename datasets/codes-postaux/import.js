@@ -1,4 +1,5 @@
 const Context = require('../../helper/Context');
+const DatasetDir = require('../../helper/DatasetDir');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 
@@ -11,7 +12,7 @@ async function main(){
     await ctx.database.batch(__dirname+'/sql/schema.sql');
 
 	/* Create data directory */
-	var datasetDir = ctx.createDirectory('codes-postaux');
+	var datasetDir = await DatasetDir.createDirectory('codes-postaux');
 	await ctx.metadata.remove(config.name);
 
 	/* Adapt config */

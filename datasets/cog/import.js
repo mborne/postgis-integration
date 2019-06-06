@@ -1,4 +1,5 @@
 const Context = require('../../helper/Context');
+const DatasetDir = require('../../helper/DatasetDir');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
@@ -13,7 +14,7 @@ async function main(){
 	await ctx.database.batch(__dirname+'/sql/schema.sql');
 
 	/* Create data directory */
-	var datasetDir = ctx.createDirectory('cog');
+	var datasetDir = await DatasetDir.createDirectory('cog');
 
 	/* Download archive */
 	var archivePath = await download({

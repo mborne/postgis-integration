@@ -1,4 +1,5 @@
 const Context = require('../../helper/Context');
+const DatasetDir = require('../../helper/DatasetDir');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
@@ -9,7 +10,7 @@ async function main(){
     var ctx = await Context.createContext();
 
     /* Create data directory */
-    var datasetDir = ctx.createDirectory('adminexpress');
+    var datasetDir = await DatasetDir.createDirectory('adminexpress');
 
     /* Remove existing metadata */
     await ctx.metadata.remove(config.name);

@@ -1,10 +1,11 @@
-const originalConfig = require('./config.json');
-const departements = require('./departements.json');
-
 const Context = require('../../helper/Context');
+const DatasetDir = require('../../helper/DatasetDir');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
+
+const originalConfig = require('./config.json');
+const departements = require('./departements.json');
 
 /**
  * Import a given departement
@@ -16,7 +17,7 @@ async function importDep(ctx,CODE_DEP){
     let config = Object.assign({}, originalConfig);
 
     /* Create data directory */
-    var datasetDir = ctx.createDirectory('cadastre-etalab-'+CODE_DEP);
+    var datasetDir = await DatasetDir.createDirectory('cadastre-etalab-'+CODE_DEP);
 
     /* adapt config for partition */
     config.name        = 'cadastre-etalab/'+CODE_DEP;
