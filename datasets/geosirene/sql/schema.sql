@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS postgis;
+
 CREATE SCHEMA IF NOT EXISTS sirene ;
 
 DROP TABLE IF EXISTS sirene.etablissement;

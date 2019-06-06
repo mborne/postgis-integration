@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS postgis;
+
 CREATE SCHEMA IF NOT EXISTS laposte ;
 
 DROP TABLE IF EXISTS laposte.codes_postaux;

@@ -11,6 +11,8 @@ const SCHEMA_NAME = 'naturalearth';
 async function main(){
 	var ctx = await Context.createContext();
 
+	await ctx.database.query('CREATE EXTENSION IF NOT EXISTS postgis');
+
 	/* Create data directory */
 	var datasetDir = await DatasetDir.createDirectory(SCHEMA_NAME);
 
