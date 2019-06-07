@@ -66,6 +66,15 @@ class Database {
         });
     }
 
+    /**
+     * Test if schema exists
+     * @param {string} schemaName
+     * @returns {boolean}
+     */
+    async hasSchema(schemaName){
+        let schemas = await this.listSchemas();
+        return schemas.indexOf(schemaName) >= 0;
+    }
 
     /**
      * List schemas

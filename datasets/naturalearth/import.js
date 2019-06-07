@@ -41,7 +41,7 @@ async function main(){
 		return true;
 	});
 
-	/* import each dbf file */
+	/* Import each dbf file */
 	dbfFiles.forEach(function(dbfFile){
 		ogr2pg({
 			inputPath: dbfFile,

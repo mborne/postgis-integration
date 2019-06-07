@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-
 const shell = require('shelljs');
+
+const getEnv = require('./internal/getEnv');
+const DATA_DIR = getEnv('DATA_DIR',path.resolve(__dirname+'/../data/'));
 
 /**
  * Helper to manipulate local dataset directory
@@ -9,10 +11,11 @@ const shell = require('shelljs');
 class DatasetDir {
 
     /**
+     * @private
      * @param {string} datasetName
      */
     constructor(datasetName){
-        this.path = path.resolve(__dirname+'/../data/'+datasetName);
+        this.path = path.resolve(DATA_DIR,datasetName);
         if ( ! fs.existsSync(this.path) ){
             shell.mkdir('-p',this.path);
         }

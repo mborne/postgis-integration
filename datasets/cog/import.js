@@ -6,7 +6,7 @@ const extract = require('@mborne/extract');
 const path = require('path');
 
 const config = require('./config.json');
-const SCHEMA_NAME = 'laposte';
+const SCHEMA_NAME = 'cog';
 
 async function main(){
 	var ctx = await Context.createContext();

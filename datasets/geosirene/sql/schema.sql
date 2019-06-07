@@ -62,7 +62,7 @@ CREATE TABLE sirene.etablissement
     geo_id character varying,
     geo_ligne character varying,
     geo_l4 character varying,
-    geo_l5 character varying
+    geo_l5 character varying,
     geom geometry(Point,4326)
 );
 CREATE INDEX ON sirene.etablissement USING gist (geom);

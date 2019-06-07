@@ -5,15 +5,13 @@ const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
 
 const originalConfig = require('./config.json');
+const SCHEMA_NAME = 'sirene';
 
 async function main(){
     var ctx = await Context.createContext();
 
     /* import schema.sql */
     await ctx.database.batch(__dirname+'/sql/schema.sql');
-
-    /* remove children datasets */
-    ctx.metadata.remove('geosirene');
 
     /* clone configuration */
     let config = Object.assign({}, originalConfig);
@@ -35,16 +33,21 @@ async function main(){
         archivePath: archivePath
     });
 
-    /* Import table */
-    ogr2pg({
+    /*
+     * Import table
+     */
+    await ogr2pg({
         inputPath: datasetDir.getPath()+'/geo_sirene.csv',
-        schemaName: 'sirene',
+        schemaName: SCHEMA_NAME,
         tableName: 'etablissement'
     });
 
-    /* Cleanup and save metadata */
-    datasetDir.remove();
-    await ctx.metadata.add(config);
+    /* Save source */
+	let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+	await sourceManager.add(config);
+
+    /* Cleanup */
+    //datasetDir.remove();
     await ctx.close();
 }
 

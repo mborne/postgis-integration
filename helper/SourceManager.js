@@ -54,9 +54,8 @@ CREATE TABLE IF NOT EXISTS ${this.schemaName}.source
      * @param {Object} source
      */
     async add(source){
-        debug(`${this.schemaName}.source - update ${source.name}...`);
         await this.remove(source.name);
-
+        debug(`${this.schemaName}.source - add ${source.name}...`);
         const sql = `
             INSERT INTO ${this.schemaName}.source (
                 name,description,homepage,url,version

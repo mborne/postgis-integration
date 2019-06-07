@@ -14,13 +14,18 @@ const departements = require('./departements.json');
  * @param {String} CODE_DEP
  */
 async function importDep(ctx,CODE_DEP){
+    /* check param */
+    if ( departements.indexOf(CODE_DEP) < 0 ){
+        throw new Error(`Departement "${CODE_DEP}" not found`);
+    }
+
     /* clone configuration */
     let config = Object.assign({}, originalConfig);
 
     /* Create data directory */
     var datasetDir = await DatasetDir.createDirectory('cadastre-etalab-'+CODE_DEP);
 
-    /* adapt config for partition */
+    /* Adapt config for partition */
     config.name        = 'cadastre-etalab/'+CODE_DEP;
     config.url         = originalConfig.url.replace(/{CODE_DEP}/g,CODE_DEP);
     config.version     = ctx.today();
@@ -54,7 +59,7 @@ async function importDep(ctx,CODE_DEP){
     });
 
     /* Save source */
-    let sourceManager = ctx.getSourceManager(SCHEMA_NAME);
+    let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
     await sourceManager.add(config);
 
     /* Cleanup */
@@ -63,23 +68,26 @@ async function importDep(ctx,CODE_DEP){
 
 
 async function main(){
+    let inputDepartements = process.argv.length < 3 ? null : process.argv[2] ;
+    if ( inputDepartements != null ){
+        inputDepartements = inputDepartements.split(",");
+    }else{
+        inputDepartements = departements;
+    }
+
     var ctx = await Context.createContext();
 
     /* import schema.sql */
     await ctx.database.batch(__dirname+'/sql/schema.sql');
 
-    /* add parent source */
-    let config = Object.assign({}, originalConfig);
-    config.version = ctx.today();
-    await sourceManager.add(config);
-
-    /* import each departement */
-    for ( var i in departements ){
-        const departement = departements[i];
+    for ( var i in inputDepartements ){
+        let departement = inputDepartements[i];
         await importDep(ctx,departement);
     }
 
+    /* create indexes */
     await ctx.database.batch(__dirname+'/sql/index.sql');
+
     await ctx.close();
 }
 

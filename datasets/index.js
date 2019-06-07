@@ -1,6 +1,6 @@
 module.exports = {
     'adminexpress': require('./adminexpress/config.json'),
-    'cadastre-etalab': require('./cadastre-etalab/config.json'),
+    'cadastre': require('./cadastre/config.json'),
     'laposte': require('./laposte/config.json'),
     'cog': require('./cog/config.json'),
     'geosirene': require('./geosirene/config.json'),
