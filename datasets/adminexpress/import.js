@@ -1,43 +1,31 @@
 const Context = require('../../helper/Context');
-const download = require('../../helper/download');
+const DatasetDir = require('../../helper/DatasetDir');
+const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
-
-const extract = require('../../helper/extract');
+const extract = require('@mborne/extract');
 
 const config = require('./config.json');
-const GeoportalDownloadClient = require('../../helper/GeoportalDownloadClient');
+const SCHEMA_NAME = 'adminexpress';
 
 async function main(){
     var ctx = await Context.createContext();
+    /* Import schema */
+    await ctx.database.batch(__dirname+'/sql/schema.sql');
 
-    /* Create data directory */
-    var datasetDir = ctx.createDirectory('adminexpress');
-
-    /* Remove existing metadata */
-    await ctx.metadata.remove(config.name);
-
-    /* Find last version URL */
-    var client = new GeoportalDownloadClient({
-        url: config.url
-    });
-    let resource = await client.getLatestResource();
-    resource = await client.resolveFiles(resource);
-
-    /* Adapt configuration to latest version */
-    config.url     = resource.files[0].url;
-    config.version = resource.version;
+    /* Prepare local directory */
+    var datasetDir = await DatasetDir.createDirectory(SCHEMA_NAME);
 
     /* Download archive */
-    let archive = await download({
+    let archivePath = await download({
         sourceUrl: config.url,
         targetPath: datasetDir.getPath()+'/ADMIN-EXPRESS.7z'
     });
 
     /* Extract archive */
-    extract(archive);
+    await extract({
+        archivePath: archivePath
+    });
 
-    /* Import schema */
-    await ctx.database.batch(__dirname+'/sql/schema.sql');
 
     /* group shapefiles by table */
     var shapefiles = {
@@ -63,7 +51,7 @@ async function main(){
         tableShapefiles.forEach(function(tableShapefile){
             tasks.push(ogr2pg({
                 inputPath: tableShapefile,
-                schemaName: 'adminexpress',
+                schemaName: SCHEMA_NAME,
                 tableName: tableName,
                 promoteToMulti: true
             }));
@@ -71,9 +59,13 @@ async function main(){
     }
     await Promise.all(tasks);
 
-    /* cleanup directory and save metadata */
+    /* Save source */
+    let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+	await sourceManager.add(config);
+
+    /* cleanup directory */
     datasetDir.remove();
-    await ctx.metadata.add(config);
+    await ctx.close();
 }
 
 main().catch(function(err){

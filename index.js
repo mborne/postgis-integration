@@ -1,5 +1,4 @@
 module.exports = {
     datasets: require('./datasets'),
-    helper: require('./helper'),
-    metadata: require('./metadata')
+    helper: require('./helper')
 };

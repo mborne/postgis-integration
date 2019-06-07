@@ -6,23 +6,22 @@ const extract = require('@mborne/extract');
 const path = require('path');
 
 const config = require('./config.json');
-const SCHEMA_NAME = 'naturalearth';
+const SCHEMA_NAME = 'cog';
 
 async function main(){
 	var ctx = await Context.createContext();
 
-	await ctx.database.query('CREATE EXTENSION IF NOT EXISTS postgis');
+	/* Init schema */
+	await ctx.database.batch(__dirname+'/sql/schema.sql');
 
 	/* Create data directory */
 	var datasetDir = await DatasetDir.createDirectory(SCHEMA_NAME);
 
-	/* Adapt config */
-	config.version = ctx.today();
-
 	/* Download archive */
 	var archivePath = await download({
 		sourceUrl: config.url,
-		targetPath: datasetDir.getPath()+'/natural_earth_vector.zip'
+		targetPath: datasetDir.getPath()+'/commune.zip',
+		unsafeSsl: true
 	});
 
 	/* Extract archive */
@@ -30,35 +29,28 @@ async function main(){
 		archivePath: archivePath
 	});
 
-	/* filter dbf files */
+	/* Find dbf file */
 	var dbfFiles = datasetDir.getFiles().filter(function(file){
-		if ( ! file.endsWith('.dbf') ){
-			return false;
-		}
-		if ( file.match(/tools/g) ){
-			return false;
-		}
-		return true;
+		return file.endsWith('.dbf');
 	});
 
-	/* Import each dbf file */
-	dbfFiles.forEach(function(dbfFile){
-		ogr2pg({
+	for ( var i in dbfFiles ){
+		let dbfFile = dbfFiles[i];
+		/* Import file */
+		await ogr2pg({
 			inputPath: dbfFile,
 			schemaName: SCHEMA_NAME,
-			tableName: path.basename(dbfFile,'.dbf'),
-			createSchema: true,
-			createTable: true,
-			promoteToMulti: true,
-			skipFailures: true
+			// commune2019.dbf -> commune
+			tableName: path.basename(dbfFile,'.dbf').replace(config.version,''),
+			encoding: 'ISO-8859-1'
 		});
-	});
+	}
 
 	/* Save source */
 	let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
 	await sourceManager.add(config);
 
-	/* Cleanup directory */
+	/* Cleanup and save metadata */
 	datasetDir.remove();
 	await ctx.close();
 }
@@ -67,4 +59,3 @@ main().catch(function(err){
     console.log(err);
     process.exit(1);
 });
-

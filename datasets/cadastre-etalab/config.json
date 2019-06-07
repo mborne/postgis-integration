@@ -1,7 +1,0 @@
-{
-    "name": "cadastre-etalab",
-    "description": "Cadastre DGFIP retravaillé par ETALAB",
-    "homepage": "https://cadastre.data.gouv.fr/datasets/cadastre-etalab",
-    "url": "https://cadastre.data.gouv.fr/data/etalab-cadastre/latest/shp/departements/{CODE_DEP}/cadastre-{CODE_DEP}-{LAYER}s-shp.zip",
-    "version": "latest"
-}

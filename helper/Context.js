@@ -1,6 +1,5 @@
 const Database = require('./Database');
-const Metadata = require('./Metadata');
-const DatasetDir = require('./DatasetDir');
+const SourceManager = require('./SourceManager');
 
 /**
  * Provides helper to simplify integration scripts
@@ -14,7 +13,6 @@ class Context {
      */
     constructor(database){
         this.database = database;
-        this.metadata = new Metadata(this.database);
     }
 
     /**
@@ -25,18 +23,25 @@ class Context {
         return new Context(database);
     }
 
+
+    /**
+     * Get SourceManager for a given schema
+     * @param {string} schemaName
+     * @return {SourceManager}
+     */
+    async getSourceManager(schemaName){
+        let sourceManager = await SourceManager.createSourceManager(
+            this.database,
+            schemaName
+        );
+        return sourceManager;
+    }
+
     /**
      * Release resources (database connection)
      */
     async close(){
         await this.database.close();
-    }
-
-    /**
-     * @param {DatasetDir} datasetName
-     */
-    createDirectory(datasetName){
-        return new DatasetDir(datasetName);
     }
 
     /**

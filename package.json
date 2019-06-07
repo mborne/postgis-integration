@@ -10,8 +10,9 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --recursive",
-    "coverage": "nyc --all --reporter=html npm test",
-    "postgis-init": "./bin/init.js",
+    "coverage": "nyc --all --reporter=html npm test"
+  },
+  "bin": {
     "postgis-import": "./bin/import.js"
   },
   "contributors": [
@@ -25,16 +26,13 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@mborne/dl": "^0.2.0",
+    "@mborne/extract": "^0.1.0",
     "@mborne/ogr2pg": "^0.2.0",
     "JSONPath": "^0.11.2",
     "JSONStream": "^1.3.5",
-    "axios": "^0.18.0",
-    "bluebird": "^3.5.3",
-    "fast-csv": "^2.4.1",
     "lodash": "^4.17.11",
     "pg": "^7.8.1",
-    "pg-escape": "^0.2.0",
-    "request": "^2.88.0",
     "shelljs": "^0.8.3",
     "xml2js": "^0.4.19"
   },
@@ -42,6 +40,6 @@
     "chai": "^4.2.0",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
-    "nyc": "^13.3.0"
+    "nyc": "^14.1.1"
   }
 }

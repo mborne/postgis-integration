@@ -1,7 +1,9 @@
+const debug = require('debug')('postgis-helper');
+
 const { Pool, Client } = require('pg');
 
 const pool = new Pool();
-const psql = require('./psql');
+const psql = require('./internal/psql');
 
 /**
  * Helper to query database
@@ -23,6 +25,7 @@ class Database {
      * @return {Database}
      */
     static async createDatabase(){
+        debug('Database - create pg connection...');
         let client = await pool.connect();
         return new Database(client);
     }
@@ -38,6 +41,7 @@ class Database {
      * Close database connexion
      */
     async close(){
+        debug('Database - release pg connection...');
         await this.client.release();
     }
 
@@ -62,6 +66,15 @@ class Database {
         });
     }
 
+    /**
+     * Test if schema exists
+     * @param {string} schemaName
+     * @returns {boolean}
+     */
+    async hasSchema(schemaName){
+        let schemas = await this.listSchemas();
+        return schemas.indexOf(schemaName) >= 0;
+    }
 
     /**
      * List schemas

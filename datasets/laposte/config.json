@@ -1,0 +1,7 @@
+{
+    "name": "laposte",
+    "description": "Base officielle des codes postaux (correspondance code INSEE et code postal)",
+    "homepage": "https://datanova.laposte.fr/explore/dataset/laposte_hexasmal/",
+    "url": "https://datanova.laposte.fr/explore/dataset/laposte_hexasmal/download/?format=geojson&timezone=Europe/Berlin",
+    "version": "latest"
+}
