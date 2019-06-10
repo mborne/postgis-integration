@@ -5,6 +5,7 @@ ENV PGHOST=postgis
 ENV PGUSER=postgis
 ENV PGPASSWORD=postgis
 ENV PGDATABASE=gis
+ENV DATA_DIR=/tmp/postgis-integration
 
 RUN apk add --no-cache --virtual .fetch-deps \
 	postgresql-client \
