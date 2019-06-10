@@ -5,6 +5,7 @@ ENV PGHOST=postgis
 ENV PGUSER=postgis
 ENV PGPASSWORD=postgis
 ENV PGDATABASE=gis
+ENV DATA_DIR=/tmp/postgis-integration
 
 RUN apk add --no-cache --virtual .fetch-deps \
 	postgresql-client \
@@ -14,7 +15,7 @@ RUN apk add --no-cache --virtual .fetch-deps \
 	--repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
 	gdal \
 	proj4 \
- && ln -s /usr/lib/libproj.so.13 /usr/lib/libproj.so
+ && ln -s /usr/lib/libproj.so.15 /usr/lib/libproj.so
 
 
 COPY --chown=node:node . /opt/postgis-integration
