@@ -83,7 +83,7 @@ async function main(){
 
     for ( var i in inputDepartements ){
         let departement = inputDepartements[i];
-        await importDep(departement);
+        await importDep(database,departement);
     }
 
     /* create indexes */
