@@ -1,18 +1,20 @@
-const Context = require('../../helper/Context');
+const Database = require('../../helper/Database');
 const DatasetDir = require('../../helper/DatasetDir');
+const SourceManager = require('../../helper/SourceManager');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
 const path = require('path');
+const fs = require('fs');
 
 const config = require('./config.json');
 const SCHEMA_NAME = 'cog';
 
 async function main(){
-	var ctx = await Context.createContext();
+	var database = await Database.createDatabase();
 
 	/* Init schema */
-	await ctx.database.batch(__dirname+'/sql/schema.sql');
+	await database.batch(__dirname+'/sql/schema.sql');
 
 	/* Create data directory */
 	var datasetDir = await DatasetDir.createDirectory(SCHEMA_NAME);
@@ -29,13 +31,20 @@ async function main(){
 		archivePath: archivePath
 	});
 
+	/* retreive expected tables */
+	let tableNames = await database.listTables(SCHEMA_NAME);
+
 	/* Find dbf file */
-	var dbfFiles = datasetDir.getFiles().filter(function(file){
-		return file.endsWith('.dbf');
+	var dbfFiles = tableNames.map(function(tableName){
+		return path.resolve( datasetDir.path, tableName+config.version+'.dbf' );
 	});
 
 	for ( var i in dbfFiles ){
 		let dbfFile = dbfFiles[i];
+		if ( ! fs.existsSync(dbfFile) ){
+			throw new Error(`File not found : ${dbfFile}`);
+		}
+
 		/* Import file */
 		await ogr2pg({
 			inputPath: dbfFile,
@@ -47,12 +56,12 @@ async function main(){
 	}
 
 	/* Save source */
-	let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+	let sourceManager = await SourceManager.createSourceManager(database,SCHEMA_NAME);
 	await sourceManager.add(config);
 
 	/* Cleanup and save metadata */
 	datasetDir.remove();
-	await ctx.close();
+	await database.close();
 }
 
 main().catch(function(err){

@@ -1,5 +1,6 @@
-const Context = require('../../helper/Context');
+const Database = require('../../helper/Database');
 const DatasetDir = require('../../helper/DatasetDir');
+const SourceManager = require('../../helper/SourceManager');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
@@ -8,10 +9,10 @@ const originalConfig = require('./config.json');
 const SCHEMA_NAME = 'sirene';
 
 async function main(){
-    var ctx = await Context.createContext();
+    var database = await Database.createDatabase();
 
     /* import schema.sql */
-    await ctx.database.batch(__dirname+'/sql/schema.sql');
+    await database.batch(__dirname+'/sql/schema.sql');
 
     /* clone configuration */
     let config = Object.assign({}, originalConfig);
@@ -20,7 +21,7 @@ async function main(){
     var datasetDir = await DatasetDir.createDirectory('geosirene');
 
     /* Adapt config */
-    config.version = ctx.today();
+    config.version = SourceManager.today();
 
     /* Download archive */
     var archivePath = await download({
@@ -43,12 +44,12 @@ async function main(){
     });
 
     /* Save source */
-	let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+	let sourceManager = await SourceManager.createSourceManager(database,SCHEMA_NAME);
 	await sourceManager.add(config);
 
     /* Cleanup */
-    //datasetDir.remove();
-    await ctx.close();
+    datasetDir.remove();
+    await database.close();
 }
 
 main().catch(function(err){

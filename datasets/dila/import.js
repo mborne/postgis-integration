@@ -1,5 +1,6 @@
-const Context = require('../../helper/Context');
+const Database = require('../../helper/Database');
 const DatasetDir = require('../../helper/DatasetDir');
+const SourceManager = require('../../helper/SourceManager');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
@@ -11,17 +12,17 @@ const fs = require('fs');
 const parseOrganisme = require('./helper/parseOrganisme');
 
 async function main() {
-    var ctx = await Context.createContext();
+    var database = await Database.createDatabase();
 
     /* import schema.sql */
-    await ctx.database.batch(__dirname+'/sql/schema.sql');
+    await database.batch(__dirname+'/sql/schema.sql');
 
     /* Create data directory */
     var datasetDir = await DatasetDir.createDirectory('dila');
 
     /* Adapt config */
     // TODO retrieve from folder name (ex : all_20181016)
-    config.version = ctx.today();
+    config.version = SourceManager.today();
 
     /* Download archive */
     var archivePath = await download({
@@ -66,12 +67,12 @@ async function main() {
     });
 
     /* Save source */
-	let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+	let sourceManager = await SourceManager.createSourceManager(database,SCHEMA_NAME);
 	await sourceManager.add(config);
 
     /* Cleanup */
     datasetDir.remove();
-    await ctx.close();
+    await database.close();
 }
 
 main().catch(function(err){

@@ -83,6 +83,13 @@ CREATE TABLE IF NOT EXISTS ${this.schemaName}.source
         await this.database.query(sql, [sourceName]);
     }
 
+    /**
+     * Helper returning today date
+     */
+    static today(){
+        return new Date().toISOString().slice(0,10);
+    }
+
 }
 
 module.exports = SourceManager;
