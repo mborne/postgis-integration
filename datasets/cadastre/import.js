@@ -1,5 +1,6 @@
-const Context = require('../../helper/Context');
+const Database = require('../../helper/Database');
 const DatasetDir = require('../../helper/DatasetDir');
+const SourceManager = require('../../helper/SourceManager');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
@@ -10,10 +11,10 @@ const departements = require('./departements.json');
 
 /**
  * Import a given departement
- * @param {Context} ctx
- * @param {String} CODE_DEP
+ * @param {Database} database
+ * @param {string} CODE_DEP
  */
-async function importDep(ctx,CODE_DEP){
+async function importDep(database,CODE_DEP){
     /* check param */
     if ( departements.indexOf(CODE_DEP) < 0 ){
         throw new Error(`Departement "${CODE_DEP}" not found`);
@@ -28,7 +29,7 @@ async function importDep(ctx,CODE_DEP){
     /* Adapt config for partition */
     config.name        = 'cadastre-etalab/'+CODE_DEP;
     config.url         = originalConfig.url.replace(/{CODE_DEP}/g,CODE_DEP);
-    config.version     = ctx.today();
+    config.version     = SourceManager.today();
 
     /* Download and extract files */
     const layerNames = ["commune","section","feuille","parcelle","batiment"];
@@ -59,7 +60,7 @@ async function importDep(ctx,CODE_DEP){
     });
 
     /* Save source */
-    let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+    let sourceManager = await SourceManager.createSourceManager(database,SCHEMA_NAME);
     await sourceManager.add(config);
 
     /* Cleanup */
@@ -75,20 +76,20 @@ async function main(){
         inputDepartements = departements;
     }
 
-    var ctx = await Context.createContext();
+    var database = await Database.createDatabase();
 
     /* import schema.sql */
-    await ctx.database.batch(__dirname+'/sql/schema.sql');
+    await database.batch(__dirname+'/sql/schema.sql');
 
     for ( var i in inputDepartements ){
         let departement = inputDepartements[i];
-        await importDep(ctx,departement);
+        await importDep(database,departement);
     }
 
     /* create indexes */
-    await ctx.database.batch(__dirname+'/sql/index.sql');
+    await database.batch(__dirname+'/sql/index.sql');
 
-    await ctx.close();
+    await database.close();
 }
 
 main().catch(function(err){

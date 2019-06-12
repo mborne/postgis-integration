@@ -1,5 +1,6 @@
-const Context = require('../../helper/Context');
+const Database = require('../../helper/Database');
 const DatasetDir = require('../../helper/DatasetDir');
+const SourceManager = require('../../helper/SourceManager');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
@@ -8,9 +9,9 @@ const config = require('./config.json');
 const SCHEMA_NAME = 'adminexpress';
 
 async function main(){
-    var ctx = await Context.createContext();
+    var database = await Database.createDatabase();
     /* Import schema */
-    await ctx.database.batch(__dirname+'/sql/schema.sql');
+    await database.batch(__dirname+'/sql/schema.sql');
 
     /* Prepare local directory */
     var datasetDir = await DatasetDir.createDirectory(SCHEMA_NAME);
@@ -60,12 +61,12 @@ async function main(){
     await Promise.all(tasks);
 
     /* Save source */
-    let sourceManager = await ctx.getSourceManager(SCHEMA_NAME);
+    let sourceManager = await SourceManager.createSourceManager(database,SCHEMA_NAME);
 	await sourceManager.add(config);
 
     /* cleanup directory */
     datasetDir.remove();
-    await ctx.close();
+    await database.close();
 }
 
 main().catch(function(err){
