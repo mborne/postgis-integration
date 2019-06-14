@@ -1,3 +1,5 @@
+const debug = require('debug')('data-dir');
+
 const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
@@ -8,7 +10,7 @@ const DATA_DIR = getEnv('DATA_DIR',path.resolve(__dirname+'/../data/'));
 /**
  * Helper to manipulate subdirectories in a local DATA_DIR
  */
-class DatasetDir {
+class DataDir {
 
     /**
      * @private
@@ -16,17 +18,18 @@ class DatasetDir {
      */
     constructor(datasetName){
         this.path = path.resolve(DATA_DIR,datasetName);
+        debug(`Create DataDir at ${this.path}...`);
         if ( ! fs.existsSync(this.path) ){
             shell.mkdir('-p',this.path);
         }
     }
 
     /**
-     * @param {DatasetDir} datasetName
-     * @returns {DatasetDir}
+     * @param {DataDir} datasetName
+     * @returns {DataDir}
      */
-    static async createDirectory(datasetName){
-        return new DatasetDir(datasetName);
+    static async createDataDir(datasetName){
+        return new DataDir(datasetName);
     }
 
     /**
@@ -61,4 +64,4 @@ class DatasetDir {
 
 }
 
-module.exports = DatasetDir;
+module.exports = DataDir;

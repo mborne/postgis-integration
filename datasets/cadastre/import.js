@@ -1,5 +1,5 @@
 const Database = require('../../helper/Database');
-const DatasetDir = require('../../helper/DatasetDir');
+const DataDir = require('../../helper/DataDir');
 const SourceManager = require('../../helper/SourceManager');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
@@ -24,7 +24,7 @@ async function importDep(database,CODE_DEP){
     let config = Object.assign({}, originalConfig);
 
     /* Create data directory */
-    var datasetDir = await DatasetDir.createDirectory('cadastre-etalab-'+CODE_DEP);
+    var datasetDir = await DataDir.createDataDir('cadastre-etalab-'+CODE_DEP);
 
     /* Adapt config for partition */
     config.name        = 'cadastre-etalab/'+CODE_DEP;

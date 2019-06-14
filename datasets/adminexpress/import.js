@@ -1,5 +1,5 @@
 const Database = require('../../helper/Database');
-const DatasetDir = require('../../helper/DatasetDir');
+const DataDir = require('../../helper/DataDir');
 const SourceManager = require('../../helper/SourceManager');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
@@ -14,7 +14,7 @@ async function main(){
     await database.batch(__dirname+'/sql/schema.sql');
 
     /* Prepare local directory */
-    var datasetDir = await DatasetDir.createDirectory(SCHEMA_NAME);
+    var datasetDir = await DataDir.createDataDir(SCHEMA_NAME);
 
     /* Download archive */
     let archivePath = await download({
