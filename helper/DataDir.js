@@ -4,8 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const shell = require('shelljs');
 
-const getEnv = require('./internal/getEnv');
-const DATA_DIR = getEnv('DATA_DIR',path.resolve(__dirname+'/../data/'));
+const config = require('./internal/config');
+
 
 /**
  * Helper to manipulate subdirectories in a local DATA_DIR
@@ -17,7 +17,7 @@ class DataDir {
      * @param {string} datasetName
      */
     constructor(datasetName){
-        this.path = path.resolve(DATA_DIR,datasetName);
+        this.path = path.resolve(config.DATA_DIR,datasetName);
         debug(`Create DataDir at ${this.path}...`);
         if ( ! fs.existsSync(this.path) ){
             shell.mkdir('-p',this.path);

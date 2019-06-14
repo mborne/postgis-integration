@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
-const Database = require('../helper/Database');
+const {Database,backup} = require('@mborne/postgis-helper');
 const path = require('path');
 const fs = require('fs');
 const shell = require('shelljs');
-const backup = require('../helper/backup');
 
 /**
  * Generate per schema backups

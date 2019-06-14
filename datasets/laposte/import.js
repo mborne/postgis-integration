@@ -1,8 +1,8 @@
-const Database = require('../../helper/Database');
-const DataDir = require('../../helper/DataDir');
-const SourceManager = require('../../helper/SourceManager');
+const {Database,SourceManager} = require('@mborne/postgis-helper');
 const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
+const extract = require('@mborne/extract');
+const DataDir = require('../../helper/DataDir');
 
 const config = require('./config.json');
 const SCHEMA_NAME = 'laposte';
