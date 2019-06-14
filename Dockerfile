@@ -5,7 +5,7 @@ ENV PGHOST=postgis
 ENV PGUSER=postgis
 ENV PGPASSWORD=postgis
 ENV PGDATABASE=gis
-ENV DATA_DIR=/tmp/postgis-integration
+ENV DATA_DIR=/data
 
 RUN apk add --no-cache --virtual .fetch-deps \
 	postgresql-client \
@@ -17,6 +17,7 @@ RUN apk add --no-cache --virtual .fetch-deps \
 	proj4 \
  && ln -s /usr/lib/libproj.so.15 /usr/lib/libproj.so
 
+VOLUME /data
 
 COPY --chown=node:node . /opt/postgis-integration
 WORKDIR /opt/postgis-integration

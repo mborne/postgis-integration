@@ -46,17 +46,17 @@ cd postgis-integration
 npm install
 ```
 
-### Configuration de la connexion à la base de données
+### Paramètres
 
-Les scripts s'appuient sur les variables d'environnements standards PostgreSQL :
+Les scripts s'appuient sur des variables d'environnements :
 
-| Variable   | Description               |
-| ---------- | ------------------------- |
-| PGHOST     | Nom du serveur            |
-| PGDATABASE | Nom de la base de données |
-| PGUSER     | Utilisateur               |
-| PGPASSWORD | Mot de passe utilisateur  |
-
+| Variable   | Description               | Valeur par défaut | Obligatoire |
+| ---------- | ------------------------- | ----------------- | :---------: |
+| PGHOST     | Nom du serveur            | localhost         |     NON     |
+| PGDATABASE | Nom de la base de données | `$USER`           |     NON     |
+| PGUSER     | Utilisateur               | `$USER`           |     NON     |
+| PGPASSWORD | Mot de passe utilisateur  | Aucune            |     NON     |
+| DATA_DIR   | Dossier de travail        | Aucune            |     OUI     |
 
 ### Création de la base de données
 

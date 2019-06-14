@@ -3,7 +3,9 @@ const debug = require('debug')('postgis-helper');
 const { Pool, Client } = require('pg');
 
 const pool = new Pool();
+
 const psql = require('./internal/psql');
+
 
 /**
  * Helper to query database
@@ -57,16 +59,6 @@ class Database {
     }
 
     /**
-     * Execute SQL file with psql
-     * @param {String} sqlPath
-     */
-    async batch(sqlPath){
-        return psql({
-            inputPath: sqlPath
-        });
-    }
-
-    /**
      * Test if schema exists
      * @param {string} schemaName
      * @returns {boolean}
@@ -93,6 +85,16 @@ class Database {
         const sql = `SELECT * FROM pg_catalog.pg_tables WHERE schemaname = $1`;
         const rows = await this.query(sql, [schemaName]);
         return rows.map(function (row) { return row.tablename });
+    }
+
+    /**
+     * Execute SQL file with psql
+     * @param {String} sqlPath
+     */
+    async batch(sqlPath){
+        return psql({
+            inputPath: sqlPath
+        });
     }
 
 }

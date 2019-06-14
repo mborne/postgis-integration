@@ -6,7 +6,7 @@ const getEnv = require('./internal/getEnv');
 const DATA_DIR = getEnv('DATA_DIR',path.resolve(__dirname+'/../data/'));
 
 /**
- * Helper to manipulate local dataset directory
+ * Helper to manipulate subdirectories in a local DATA_DIR
  */
 class DatasetDir {
 
