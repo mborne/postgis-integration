@@ -3,9 +3,6 @@ const download = require('@mborne/dl');
 const ogr2pg = require('@mborne/ogr2pg');
 const extract = require('@mborne/extract');
 const DataDir = require('../../helper/DataDir');
-const download = require('@mborne/dl');
-const ogr2pg = require('@mborne/ogr2pg');
-const extract = require('@mborne/extract');
 
 const originalConfig = require('./config.json');
 const SCHEMA_NAME = 'sirene';
