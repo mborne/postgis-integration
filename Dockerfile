@@ -17,10 +17,14 @@ RUN apk add --no-cache --virtual .fetch-deps \
 	proj4 \
  && ln -s /usr/lib/libproj.so.15 /usr/lib/libproj.so
 
+RUN mkdir /var/lib/postgis-integration && chmod 777 /var/lib/postgis-integration
+VOLUME /var/lib/postgis-integration
+
 COPY --chown=node:node . /opt/postgis-integration
 WORKDIR /opt/postgis-integration
 USER node
 RUN npm install
 
-USER root
+
+
 
