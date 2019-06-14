@@ -32,7 +32,7 @@ async function main(){
 	});
 
 	/* retreive expected tables */
-	let tableNames = await database.listTables(SCHEMA_NAME);
+	let tableNames = await database.getTableNames(SCHEMA_NAME);
 
 	/* Find dbf file */
 	var dbfFiles = tableNames.map(function(tableName){

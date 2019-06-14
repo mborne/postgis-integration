@@ -24,7 +24,7 @@ async function main(){
 
     /* handle schemaName */
     let database = await Database.createDatabase();
-    let schemaNames = await database.listSchemas();
+    let schemaNames = await database.getSchemaNames();
     /* filter according to parameters */
     schemaNames = schemaNames.filter(function(schemaName){
         return schemaNameFilter == null || schemaName == schemaNameFilter;

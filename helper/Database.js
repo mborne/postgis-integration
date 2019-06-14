@@ -1,11 +1,9 @@
 const debug = require('debug')('postgis-helper');
 
-const { Pool, Client } = require('pg');
-
-const pool = new Pool();
+const { Client } = require('pg');
+const pool = require('./pool');
 
 const psql = require('./internal/psql');
-
 
 /**
  * Helper to query database
@@ -18,6 +16,9 @@ class Database {
      * @param {Client} client
      */
     constructor(client) {
+        /**
+         * @property {Client}
+         */
         this.client = client;
     }
 
@@ -64,14 +65,14 @@ class Database {
      * @returns {boolean}
      */
     async hasSchema(schemaName){
-        let schemas = await this.listSchemas();
+        let schemas = await this.getSchemaNames();
         return schemas.indexOf(schemaName) >= 0;
     }
 
     /**
      * List schemas
      */
-    async listSchemas() {
+    async getSchemaNames() {
         const sql = `select schema_name from information_schema.schemata WHERE schema_name NOT LIKE 'pg_%' AND schema_name != 'information_schema'`;
         const rows = await this.query(sql);
         return rows.map(function (row) { return row.schema_name });
@@ -81,7 +82,7 @@ class Database {
      * List table in a given schema
      * @param {String} schemaName
      */
-    async listTables(schemaName) {
+    async getTableNames(schemaName) {
         const sql = `SELECT * FROM pg_catalog.pg_tables WHERE schemaname = $1`;
         const rows = await this.query(sql, [schemaName]);
         return rows.map(function (row) { return row.tablename });
