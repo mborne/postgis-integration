@@ -13,7 +13,8 @@
     "coverage": "nyc --all --reporter=html npm test"
   },
   "bin": {
-    "postgis-import": "./bin/import.js"
+    "postgis-import": "./bin/import.js",
+    "postgis-backup": "./bin/backup.js"
   },
   "contributors": [
     "Mickael Borne <mick25390@gmail.com>"
