@@ -22,4 +22,5 @@ WORKDIR /opt/postgis-integration
 USER node
 RUN npm install
 
-VOLUME /var/lib/postgis-integration
+USER root
+
