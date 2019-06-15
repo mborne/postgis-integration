@@ -1,4 +1,7 @@
 pipeline {
+    parameters {
+        string(name: 'CODE_DEP', defaultValue: '25', description: 'Département à importer')
+    }
     agent {
         docker {
             label 'docker'
@@ -9,7 +12,7 @@ pipeline {
     stages {
         stage('Import cadastre') {
             steps {
-                sh 'DEBUG=* /opt/postgis-integration/bin/import.js cadastre'
+                sh "DEBUG=* /opt/postgis-integration/bin/import.js cadastre ${params.CODE_DEP}"
             }
         }
     }
