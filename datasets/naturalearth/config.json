@@ -2,6 +2,6 @@
     "name": "naturalearth",
     "description": "Jeux de données de couverture mondiale (Pays, ports, lacs, batymétrie, etc.)",
     "homepage": "http://www.naturalearthdata.com/downloads/",
-    "url": "http://naciscdn.org/naturalearth/packages/natural_earth_vector.zip",
-    "version": "latest"
+    "url": "https://www.quadtreeworld.net/data/natural_earth/natural_earth_vector-20191020.zip",
+    "version": "2019-10-20"
 }

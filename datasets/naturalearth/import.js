@@ -16,9 +16,6 @@ async function main(){
 	/* Create data directory */
 	var datasetDir = await DataDir.createDataDir(SCHEMA_NAME);
 
-	/* Adapt config */
-	config.version = SourceManager.today();
-
 	/* Download archive */
 	var archivePath = await download({
 		sourceUrl: config.url,

@@ -5,5 +5,6 @@ module.exports = {
     'cog': require('./cog/config.json'),
     'geosirene': require('./geosirene/config.json'),
     'naturalearth': require('./naturalearth/config.json'),
-    'dila': require('./dila/config.json')
+    'dila': require('./dila/config.json'),
+    'dvf': require('./dvf/config.json'),
 };
