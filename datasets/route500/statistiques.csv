@@ -1,0 +1,28 @@
+name,value,count
+sens,Double sens,745246
+sens,Sens inverse,2770
+sens,Sens unique,10409
+class_adm,Autoroute,7867
+class_adm,Départementale,581917
+class_adm,Nationale,14309
+class_adm,Sans objet,154332
+acces,A péage,3505
+acces,Inconnu,110
+acces,Libre,754250
+acces,Saisonnier,560
+nb_chausse,1 chaussée,730600
+nb_chausse,2 chaussées,27825
+nb_voies,1 voie ou 2 voies étroites,631893
+nb_voies,2 voies larges,89578
+nb_voies,3 voies,7425
+nb_voies,4 voies,1648
+nb_voies,Plus de 4 voies,87
+nb_voies,Sans objet,27794
+etat,Non revêtu,2879
+etat,Revêtu,755546
+vocation,Liaison locale,430414
+vocation,Liaison principale,99355
+vocation,Liaison régionale,214286
+vocation,Type autoroutier,14370
+res_vert,Appartient,82793
+res_vert,N'appartient pas,675632
