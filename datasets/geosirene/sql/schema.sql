@@ -65,8 +65,8 @@ CREATE TABLE sirene.etablissement
     geo_l5 character varying,
     geom geometry(Point,4326)
 );
-CREATE INDEX ON sirene.etablissement USING gist (geom);
-CREATE INDEX ON sirene.etablissement (siren);
+-- CREATE INDEX ON sirene.etablissement USING gist (geom);
+-- CREATE INDEX ON sirene.etablissement (siren);
 
 CREATE OR REPLACE FUNCTION sirene.etablissement_trigger() RETURNS trigger AS $$
 BEGIN

@@ -1,0 +1,7 @@
+{
+    "name": "route500",
+    "description": "Description du réseau routier classé (500 000 km de voies)",
+    "homepage": "http://professionnels.ign.fr/route500",
+    "url": "https://files.opendatarchives.fr/professionnels.ign.fr/route500/ROUTE500_2-1__SHP_LAMB93_FXX_2018-04-09.7z",
+    "version": "2018-04-09"
+}

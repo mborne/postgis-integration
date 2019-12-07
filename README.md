@@ -24,6 +24,7 @@ Ce dépôt contient :
 | [geosirene](./datasets/geosirene/config.json)       | Base SIRENE géocodée de l'INSEE géocodée par cquest                                |
 | [laposte](./datasets/laposte/config.json)           | Correspondance entre codes INSEE et codes postaux avec noms des communes (laposte) |
 | [naturalearth](./datasets/naturalearth/config.json) | Jeux de données de couverture mondiale (Pays, ports, lacs, batymétrie, etc.)       |
+| [route500](./datasets/route500/config.json)         | Réseau routier à petite échelle                                                    |
 
 ## Usage
 
@@ -50,13 +51,13 @@ npm install
 
 Les scripts s'appuient sur des variables d'environnements :
 
-| Variable   | Description               | Valeur par défaut | Obligatoire |
-| ---------- | ------------------------- | ----------------- | :---------: |
-| PGHOST     | Nom du serveur            | localhost         |     NON     |
-| PGDATABASE | Nom de la base de données | `$USER`           |     NON     |
-| PGUSER     | Utilisateur               | `$USER`           |     NON     |
-| PGPASSWORD | Mot de passe utilisateur  | Aucune            |     NON     |
-| DATA_DIR   | Dossier de travail        | Aucune            |     OUI     |
+| Variable   | Description               | Valeur par défaut          | Obligatoire |
+| ---------- | ------------------------- | -------------------------- | :---------: |
+| PGHOST     | Nom du serveur            | localhost                  |     NON     |
+| PGDATABASE | Nom de la base de données | `$USER`                    |     NON     |
+| PGUSER     | Utilisateur               | `$USER`                    |     NON     |
+| PGPASSWORD | Mot de passe utilisateur  | Aucune                     |     NON     |
+| DATA_DIR   | Dossier de travail        | `postgis-integration/data` |     NON     |
 
 ### Création de la base de données
 
