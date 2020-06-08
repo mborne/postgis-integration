@@ -37,7 +37,11 @@ async function main(){
 	});
 
 	for ( const dbfFile of dbfFiles ){
-		let tableName = path.basename(dbfFile,'.dbf');
+		let tableName = path.basename(dbfFile,'.dbf').replace('2020','');
+		// for consistency
+		if ( tableName == 'communes' ){
+			tableName = 'commune';
+		}
 		/* Import file */
 		await ogr2pg({
 			inputPath: dbfFile,

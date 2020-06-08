@@ -30,15 +30,15 @@
     "@mborne/dl": "^0.2.0",
     "@mborne/extract": "^0.1.0",
     "@mborne/ogr2pg": "^0.2.1",
-    "@mborne/postgis-helper": "^0.1.0",
+    "@mborne/postgis-helper": "^0.2.0",
     "lodash": "^4.17.15",
-    "pg": "^7.12.1",
-    "shelljs": "^0.8.3",
-    "xml2js": "^0.4.22"
+    "pg": "^8.2.1",
+    "shelljs": "^0.8.4",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.2.2",
-    "nyc": "^14.1.1"
+    "mocha": "^7.2.0",
+    "nyc": "^15.1.0"
   }
 }

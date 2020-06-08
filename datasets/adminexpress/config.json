@@ -2,6 +2,6 @@
     "name": "adminexpress",
     "description": "Régions, départements, EPCI, communes,...",
     "homepage": "http://professionnels.ign.fr/adminexpress",
-    "url": "https://files.opendatarchives.fr/professionnels.ign.fr/adminexpress/ADMIN-EXPRESS-COG_2-0__SHP__FRA_L93_2019-09-24.7z",
-    "version": "COG-2019"
+    "url": "https://files.opendatarchives.fr/professionnels.ign.fr/adminexpress/ADMIN-EXPRESS-COG_2-1__SHP__FRA_WGS84_2020-03-25.7z",
+    "version": "2020-03-25"
 }

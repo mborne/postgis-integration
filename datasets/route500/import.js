@@ -51,7 +51,7 @@ async function main(){
                 schemaName: SCHEMA_NAME,
                 tableName: tableName,
                 promoteToMulti: false,
-                encoding: 'LATIN1'
+                encoding: 'UTF8'
             }));
         });
     }

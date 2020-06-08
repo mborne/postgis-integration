@@ -37,12 +37,12 @@ CREATE TABLE adminexpress.arrondissement_departemental
 (
     gid serial primary key,
     id text,
-    nom_arr text,
-    nom_arr_m text,
     insee_arr text,
     insee_dep text,
     insee_reg text,
     chf_arr text,
+    nom_arr_m text,
+    nom_arr text,
     geom geometry(MultiPolygon,4326)
 );
 CREATE INDEX ON adminexpress.arrondissement_departemental USING gist (geom);
@@ -66,18 +66,17 @@ CREATE TABLE adminexpress.commune
 (
     gid serial primary key,
     id text,
-    type text,
     nom_com text,
     nom_com_m text,
     insee_com text,
     statut text,
-    population numeric(8,0),
+    insee_can text,
     insee_arr text,
-    nom_dep text,
     insee_dep text,
-    nom_reg text,
     insee_reg text,
     code_epci text,
+    population bigint,
+    type text,
     geom geometry(MultiPolygon,4326)
 );
 CREATE INDEX ON adminexpress.commune USING gist (geom);

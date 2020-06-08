@@ -4,26 +4,31 @@ DROP SCHEMA IF EXISTS route500 CASCADE;
 CREATE SCHEMA route500 ;
 
 CREATE TABLE route500.communication_restreinte (
-    id_rte500 integer primary key,
-    id_nd_rte integer,
-    id_tro_ini integer,
-    id_tro_fin integer,
+    id serial primary key,
+    id_rte500 text,
+    id_nd_rte text,
+    id_tro_ini text,
+    id_tro_fin text,
     interdit character varying,
     rest_poids double precision,
     rest_haut double precision,
-    geom geometry(PointZ,4326)
+    geom geometry(Point,4326)
 );
 CREATE INDEX ON route500.communication_restreinte USING gist (geom);
 
 CREATE TABLE route500.noeud_routier (
-    id_rte500 integer primary key,
+    id serial primary key,
+    id_rte500 text,
     nature character varying,
-    geom geometry(PointZ,4326)
+    insee_comm character varying,
+    geom geometry(Point,4326)
 );
 CREATE INDEX ON route500.noeud_routier USING gist (geom);
 
 CREATE TABLE route500.troncon_route (
-    id_rte500 integer primary key,
+    id serial primary key,
+    -- Key (id_rte500)=(BDCTRORO0000000291480797) already exists...
+    id_rte500 text,
     -- 'Liaison locale', 'Liaison principale', 'Liaison régionale' ou 'Type autoroutier'
     vocation character varying,
     -- '1 chaussée' ou '2 chaussées'
@@ -39,14 +44,17 @@ CREATE TABLE route500.troncon_route (
     res_vert character varying,
     -- 'Double sens', 'Sens unique' ou 'Sens inverse'
     sens character varying,
-    -- numéro de route européenne (ex : 'E20')
-    res_europe character varying,
+    -- TODO
+    count character varying,
     -- numéro de route (ex : 'D20')
     num_route character varying,
+    -- numéro de route européenne (ex : 'E20')
+    res_europe character varying,
+    -- longueur de la route (en mètre?)
+    longueur double precision,
     -- 'Autoroute', 'Départementale', 'Nationale' ou 'Sans objet'
     class_adm character varying,
-    longueur double precision,
-    geom geometry(LineStringZ,4326)
+    geom geometry(LineString,4326)
 );
 CREATE INDEX ON route500.troncon_route USING gist (geom);
 

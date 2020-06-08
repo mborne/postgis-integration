@@ -2,6 +2,6 @@
     "name": "dvf",
     "description": "Demandes de valeurs foncières géolocalisées",
     "homepage": "https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres-geolocalisees/",
-    "url": "https://cadastre.data.gouv.fr/data/etalab-dvf/latest/csv/2018/full.csv.gz",
-    "version": "2018"
+    "url": "https://cadastre.data.gouv.fr/data/etalab-dvf/latest/csv/2019/full.csv.gz",
+    "version": "2019"
 }

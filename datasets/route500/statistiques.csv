@@ -1,28 +1,27 @@
 name,value,count
-sens,Double sens,745246
-sens,Sens inverse,2770
-sens,Sens unique,10409
-class_adm,Autoroute,7867
-class_adm,Départementale,581917
-class_adm,Nationale,14309
-class_adm,Sans objet,154332
-acces,A péage,3505
-acces,Inconnu,110
-acces,Libre,754250
-acces,Saisonnier,560
-nb_chausse,1 chaussée,730600
-nb_chausse,2 chaussées,27825
-nb_voies,1 voie ou 2 voies étroites,631893
-nb_voies,2 voies larges,89578
-nb_voies,3 voies,7425
-nb_voies,4 voies,1648
-nb_voies,Plus de 4 voies,87
-nb_voies,Sans objet,27794
-etat,Non revêtu,2879
-etat,Revêtu,755546
-vocation,Liaison locale,430414
-vocation,Liaison principale,99355
-vocation,Liaison régionale,214286
-vocation,Type autoroutier,14370
-res_vert,Appartient,82793
-res_vert,N'appartient pas,675632
+etat,RevÃªtu,1302485
+nb_voies,2 voies larges,91244
+nb_voies,3 voies,7443
+nb_voies,1 voie,852303
+nb_voies,2 voies Ã©troites,320800
+nb_voies,Plus de 4 voies,90
+nb_voies,Sans objet,28982
+nb_voies,4 voies,1623
+vocation,Liaison principale,98836
+vocation,Bretelle,123
+vocation,Liaison locale,975406
+vocation,Liaison rÃ©gionale,213496
+vocation,Type autoroutier,14624
+res_vert,Appartient,82553
+class_adm,Sans objet,708309
+class_adm,Nationale,13739
+class_adm,DÃ©partementale,572705
+class_adm,Autoroute,7732
+sens,Double sens,1292529
+sens,Sens direct,8133
+sens,Sens inverse,1823
+res_vert,N'appartient pas,1219932
+acces,Libre,1298996
+acces,A pÃ©age,3489
+nb_chausse,1 chaussÃ©e,1273595
+nb_chausse,2 chaussÃ©es,28890
