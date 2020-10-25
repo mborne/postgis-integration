@@ -1,5 +1,5 @@
 
-FROM node:8-alpine
+FROM node:10-alpine
 
 ENV PGHOST=postgis
 ENV PGUSER=postgis
@@ -14,7 +14,7 @@ RUN apk add --no-cache --virtual .fetch-deps \
  && apk add --no-cache --virtual .build-deps-testing \
 	--repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
 	gdal \
-	proj4 \
+	proj \
  && ln -s /usr/lib/libproj.so.15 /usr/lib/libproj.so
 
 RUN mkdir /var/lib/postgis-integration && chmod 777 /var/lib/postgis-integration

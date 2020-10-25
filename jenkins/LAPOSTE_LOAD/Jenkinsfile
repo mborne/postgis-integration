@@ -3,7 +3,7 @@ pipeline {
         docker {
             label 'docker'
             image 'mborne/postgis-integration:latest'
-            args ' --network webgateway '
+            args ' --network devbox '
         }
     }
     stages {
