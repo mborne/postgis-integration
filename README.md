@@ -32,6 +32,7 @@ Ce dépôt contient :
 
 | Nom     | Description                                                                    |
 | ------- | ------------------------------------------------------------------------------ |
+| nodejs  | Script JS côté serveur                                                         |
 | unzip   | Extraction archive .zip                                                        |
 | 7z      | Extraction archive .7z (p7zip-full sur debian/ubuntu)                          |
 | tar     | Extraction archive .tar.gz, .tar.bz2                                           |
