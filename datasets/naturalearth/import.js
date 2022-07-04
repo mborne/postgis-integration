@@ -11,7 +11,8 @@ const SCHEMA_NAME = 'naturalearth';
 async function main(){
 	var database = await Database.createDatabase();
 
-	await database.query('CREATE EXTENSION IF NOT EXISTS postgis');
+    /* import schema.sql */
+    await database.batch(__dirname+'/sql/schema.sql');
 
 	/* Create data directory */
 	var datasetDir = await DataDir.createDataDir(SCHEMA_NAME);
@@ -44,7 +45,7 @@ async function main(){
 			inputPath: dbfFile,
 			schemaName: SCHEMA_NAME,
 			tableName: path.basename(dbfFile,'.dbf'),
-			createSchema: true,
+			createSchema: false,
 			createTable: true,
 			promoteToMulti: true,
 			skipFailures: true
