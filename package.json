@@ -28,11 +28,11 @@
   "license": "MIT",
   "dependencies": {
     "@mborne/dl": "^0.2.1",
-    "@mborne/extract": "^0.1.0",
+    "@mborne/extract": "^0.2.0",
     "@mborne/ogr2pg": "^0.2.1",
     "@mborne/postgis-helper": "^0.2.0",
     "lodash": "^4.17.21",
-    "pg": "^8.7.3",
+    "pg": "^8.8.0",
     "shelljs": "^0.8.5",
     "xml2js": "^0.4.23"
   },
