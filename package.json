@@ -9,6 +9,8 @@
   },
   "main": "index.js",
   "scripts": {
+    "postgis-import": "./bin/import.js",
+    "postgis-backup": "./bin/backup.js",
     "test": "mocha --recursive",
     "coverage": "nyc --all --reporter=html npm test"
   },
@@ -37,8 +39,8 @@
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
-    "chai": "^4.3.6",
-    "mocha": "^10.0.0",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
     "nyc": "^15.1.0"
   }
 }
