@@ -1,0 +1,7 @@
+{
+    "name": "roadgraph",
+    "description": "Dérivation de ROUTE500 en base exploitable par pgrouting (expérimentation)",
+    "homepage": "https://github.com/mborne/postgis-integration/tree/master/datasets/roadgraph",
+    "url": "https://github.com/mborne/postgis-integration/tree/master/datasets/roadgraph",
+    "version": "latest"
+}

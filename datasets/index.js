@@ -7,5 +7,6 @@ module.exports = {
     'naturalearth': require('./naturalearth/config.json'),
     'dila': require('./dila/config.json'),
     'dvf': require('./dvf/config.json'),
-    'route500': require('./route500/config.json')
+    'route500': require('./route500/config.json'),
+    'roadgraph': require('./roadgraph/config.json')
 };
