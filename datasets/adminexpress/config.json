@@ -2,6 +2,6 @@
     "name": "adminexpress",
     "description": "Régions, départements, EPCI, communes,...",
     "homepage": "http://professionnels.ign.fr/adminexpress",
-    "url": "https://files.opendatarchives.fr/professionnels.ign.fr/adminexpress/ADMIN-EXPRESS-COG_2-1__SHP__FRA_WGS84_2020-03-25.7z",
-    "version": "2020-03-25"
+    "url": "https://data.geopf.fr/telechargement/download/ADMIN-EXPRESS-COG/ADMIN-EXPRESS-COG_3-1__SHP_WGS84G_FRA_2023-05-03/ADMIN-EXPRESS-COG_3-1__SHP_WGS84G_FRA_2023-05-03.7z",
+    "version": "2023-05-03"
 }
