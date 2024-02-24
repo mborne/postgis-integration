@@ -1,7 +1,0 @@
-{
-    "name": "geosirene",
-    "description": "Base SIRENE de l'INSEE géocodée par cquest",
-    "homepage": "http://data.cquest.org/geo_sirene/LISEZMOI.txt",
-    "url": "http://data.cquest.org/geo_sirene/last/etablissements_actifs.csv.gz",
-    "version": "latest"
-}

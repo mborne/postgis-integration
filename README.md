@@ -19,10 +19,6 @@ Ce dépôt contient :
 | --------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | [adminexpress](./datasets/adminexpress/config.json) | Région, département, commune, etc. (IGN)                                           |
 | [cadastre](./datasets/cadastre/config.json)         | Commune, section, feuille, parcelle, bâtiment (DGFIP retravaillé par ETALAB)       |
-| [cog](./datasets/cog/config.json)                   | Communes existantes et ayant existés (INSEE)                                       |
-| [dila](./datasets/dila/config.json)                 | Annuaire de l'administration (DILA)                                                |
-| [geosirene](./datasets/geosirene/config.json)       | Base SIRENE géocodée de l'INSEE géocodée par cquest                                |
-| [laposte](./datasets/laposte/config.json)           | Correspondance entre codes INSEE et codes postaux avec noms des communes (laposte) |
 | [naturalearth](./datasets/naturalearth/config.json) | Jeux de données de couverture mondiale (Pays, ports, lacs, batymétrie, etc.)       |
 | [route500](./datasets/route500/config.json)         | Réseau routier à petite échelle                                                    |
 
@@ -71,7 +67,6 @@ psql -d gis -c "CREATE EXTENSION postgis"
 
 ```bash
 PGDATABASE=gis bin/import.js adminexpress
-PGDATABASE=gis bin/import.js ban
 #...
 ```
 

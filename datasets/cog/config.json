@@ -1,7 +1,0 @@
-{
-    "name": "cog",
-    "description": "Liste des communes de la métropole et Dom (toutes les communes ayant existé depuis 1943)",
-    "homepage": "https://www.insee.fr/fr/information/4316069",
-    "url": "https://www.insee.fr/fr/statistiques/fichier/4316069/cog_ensemble_2020_dbf.zip",
-    "version": "2020-05-14"
-}
