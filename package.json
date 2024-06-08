@@ -1,6 +1,6 @@
 {
   "name": "@mborne/postgis-integration",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Dataset integration scripts and helpers to integrate data in postgis",
   "homepage": "https://github.com/mborne/postgis-integration#readme",
   "repository": {
