@@ -1,6 +1,6 @@
 {
   "name": "@mborne/postgis-integration",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Dataset integration scripts and helpers to integrate data in postgis",
   "homepage": "https://github.com/mborne/postgis-integration#readme",
   "repository": {
@@ -32,15 +32,15 @@
     "@mborne/dl": "^0.3.1",
     "@mborne/extract": "^0.2.0",
     "@mborne/ogr2pg": "^0.2.1",
-    "@mborne/postgis-helper": "^0.2.0",
+    "@mborne/postgis-helper": "^0.3.2",
     "lodash": "^4.17.21",
-    "pg": "^8.11.3",
+    "pg": "^8.12.0",
     "shelljs": "^0.8.5",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "chai": "^4.4.1",
-    "mocha": "^10.3.0",
+    "mocha": "^10.4.0",
     "nyc": "^15.1.0"
   }
 }

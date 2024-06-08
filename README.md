@@ -74,8 +74,11 @@ PGDATABASE=gis bin/import.js adminexpress
 
 ```bash
 docker build -t postgis-integration .
-docker run -ti -e PGHOST=dbhost -e PGDATABASE=gis postgis-integration pgi-import adminexpress
-...
+# avec docker-devbox/postgis et la configuration par défaut
+docker run --rm -ti \
+    --net=devbox -e DEBUG=* -e PGHOST=postgis -e PGDATABASE=gis \
+    -e PGUSER=postgres -e PGPASSWORD=ChangeIt \
+    postgis-integration node bin/import.js adminexpress
 ```
 
 ## Conventions
