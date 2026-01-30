@@ -1,8 +1,13 @@
+/.git/
 /.github/
-/data/
-/node_modules/
 
+/.venv/
+/__pycache__/
+
+/data/
+
+/node_modules/
 /coverage/
 /.nyc_output/
-/test/
-/.git/
+
+

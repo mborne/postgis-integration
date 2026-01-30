@@ -1,6 +1,10 @@
-/node_modules/
 /data/
 
+# python
+/.venv/
+__pycache__
+
+# legacy JS
+/node_modules/
 /coverage/
 /.nyc_output/
-
