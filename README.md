@@ -1,6 +1,6 @@
 # postgis-integration
 
-**!!! Warning : Personal and experimental project to explore opendata resources, not ready for production !!!**
+**!!! Warning : This branch is an archived version of the repository before replacement of NodeJS by Python !!!**
 
 ## Description
 
