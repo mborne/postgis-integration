@@ -79,8 +79,13 @@ uv run datasets/adminexpress/import.py
 With the [mborne/docker-devbox - postgis](https://github.com/mborne/docker-devbox/tree/master/postgis#usage-with-docker) container running on network devbox :
 
 ```bash
+# build image
+docker build -t postgis-integration .
+
+# import adminexpress data
 docker run --rm -ti \
-    --net=devbox -e PGHOST=postgis -e PGDATABASE=gis \
+    --net=devbox \
+    -e PGHOST=postgis -e PGDATABASE=gis \
     -e PGUSER=postgres -e PGPASSWORD=ChangeIt \
     postgis-integration uv run datasets/naturalearth/import.py
 ```
