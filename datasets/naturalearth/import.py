@@ -1,7 +1,6 @@
 import os
 import patoolib
 import shutil
-import subprocess
 
 from helpers.gdal import ogr2ogr_import_shp
 from helpers.http import download

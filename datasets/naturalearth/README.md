@@ -1,8 +1,8 @@
 # naturalearth
 
-Jeux de données de couverture mondiale (pays, ports, lacs, batymétrie, etc.)
+Natural Earth is a public domain map dataset available at 1:10m, 1:50m, and 1:110 million scales.
 
-## Utilisation
+## Usage
 
 ```bash
 uv run datasets/naturalearth/import.py
@@ -10,5 +10,5 @@ uv run datasets/naturalearth/import.py
 
 ## Ressources
 
-- Site officiel : https://www.naturalearthdata.com/
-- Page de téléchargement : https://www.naturalearthdata.com/downloads/
+- Official website : https://www.naturalearthdata.com/
+- Download page : https://www.naturalearthdata.com/downloads/
