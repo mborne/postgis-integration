@@ -20,6 +20,7 @@ The following tools must be available in PATH :
 
 * [uv](https://docs.astral.sh/uv/getting-started/installation/) (see [pyproject.toml](pyproject.toml))
 * [ogr2ogr](https://gdal.org/en/stable/programs/ogr2ogr.html) (gdal-bin on debian/ubuntu)
+* [osm2pgsql](https://osm2pgsql.org/)
 
 ```powershell
 # Windows user may use ogr2ogr from QGIS :
