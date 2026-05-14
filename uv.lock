@@ -202,6 +202,7 @@ dependencies = [
     { name = "patool" },
     { name = "psycopg2-binary" },
     { name = "pyunpack" },
+    { name = "pyyaml" },
     { name = "wget" },
 ]
 
@@ -212,6 +213,7 @@ requires-dist = [
     { name = "patool", specifier = ">=4.0.1" },
     { name = "psycopg2-binary", specifier = ">=2.9.10" },
     { name = "pyunpack", specifier = ">=0.3" },
+    { name = "pyyaml", specifier = ">=6.0.2" },
     { name = "wget", specifier = ">=3.2" },
 ]
 

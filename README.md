@@ -73,6 +73,8 @@ export PGDATABASE=gis
 uv run datasets/naturalearth/import.py
 # import adminexpress
 uv run datasets/adminexpress/import.py
+# import OSM by zone (zones in datasets/osm/zones.yaml)
+uv run datasets/osm/import.py france
 ```
 
 ## Usage with docker
