@@ -1,6 +1,6 @@
 [project]
 name = "postgis-integration"
-version = "0.1.0"
+version = "1.1.0"
 description = "Helpers to load sample datasets in postgis"
 readme = "README.md"
 requires-python = ">=3.13"
