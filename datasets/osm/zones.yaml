@@ -1,0 +1,29 @@
+france:
+  url: https://download.geofabrik.de/europe/france-latest.osm.pbf
+  cache_size: 8000
+  schema: osm_france
+  prefix: osm_france
+
+idf:
+  url: https://download.geofabrik.de/europe/france/ile-de-france-latest.osm.pbf
+  cache_size: 2000
+  schema: osm_idf
+  prefix: osm_idf
+
+monaco:
+  url: https://download.geofabrik.de/europe/monaco-latest.osm.pbf
+  cache_size: 2000
+  schema: osm_monaco
+  prefix: osm_monaco
+
+spain:
+  url: https://download.geofabrik.de/europe/spain-latest.osm.pbf
+  cache_size: 2000
+  schema: osm_spain
+  prefix: osm_spain
+
+ivory_coast:
+  url: https://download.geofabrik.de/africa/ivory-coast-latest.osm.pbf
+  cache_size: 2000
+  schema: osm_ivory_coast
+  prefix: osm_ivory_coast

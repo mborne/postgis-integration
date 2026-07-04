@@ -12,5 +12,4 @@ uv run datasets/adminexpress/import.py
 
 ## Ressources
 
-- Site officiel : https://geoservices.ign.fr/adminexpress
-
+- https://cartes.gouv.fr/rechercher-une-donnee/dataset/IGNF_ADMIN-EXPRESS

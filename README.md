@@ -1,5 +1,7 @@
 # postgis-integration
 
+[![Experimental](https://img.shields.io/badge/status-experimental-orange)](#)
+
 Helpers scripts to load sample datasets in PostgreSQL/PostGIS mainly focused on french OpenData.
 
 ## Motivation
@@ -11,8 +13,11 @@ Helpers scripts to load sample datasets in PostgreSQL/PostGIS mainly focused on 
 
 * [naturalearth](./datasets/naturalearth/README.md) (World)
 * [adminexpress](./datasets/adminexpress/README.md) (France)
+* [bdtopo](./datasets/bdtopo/README.md) (France)
+* [osm](./datasets/osm/README.md) (World, some zones here)
 * [route500](./datasets/route500/README.md) (France, **deprecated**)
 * [roadgraph](./datasets/roadgraph/README.md) (France, route500 -> [pgRouting](https://pgrouting.org/) graph experimentation)
+
 
 ## Requirements
 
@@ -20,6 +25,7 @@ The following tools must be available in PATH :
 
 * [uv](https://docs.astral.sh/uv/getting-started/installation/) (see [pyproject.toml](pyproject.toml))
 * [ogr2ogr](https://gdal.org/en/stable/programs/ogr2ogr.html) (gdal-bin on debian/ubuntu)
+* [osm2pgsql](https://osm2pgsql.org/)
 
 ```powershell
 # Windows user may use ogr2ogr from QGIS :
@@ -40,7 +46,7 @@ psql -d gis -c "CREATE EXTENSION postgis"
 
 ## Parameters
 
-> Access to the database relies on [PostgreSQL environment variables](https://www.postgresql.org/docs/17/libpq-envars.html) default to values from [mborne/docker-devbox - postgis](https://github.com/mborne/docker-devbox/tree/master/postgis).
+> Access to the database relies on [PostgreSQL environment variables](https://www.postgresql.org/docs/17/libpq-envars.html) with default values for [mborne/docker-devbox - postgis](https://github.com/mborne/docker-devbox/tree/master/postgis).
 
 | Variable     | Description                           | Valeur par défaut | Required |
 | ------------ | ------------------------------------- | ----------------- | :------: |
@@ -72,6 +78,8 @@ export PGDATABASE=gis
 uv run datasets/naturalearth/import.py
 # import adminexpress
 uv run datasets/adminexpress/import.py
+# import OSM by zone (zones in datasets/osm/zones.yaml)
+uv run datasets/osm/import.py france
 ```
 
 ## Usage with docker

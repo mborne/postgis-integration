@@ -17,7 +17,7 @@ RUN apt-get update \
 RUN mkdir -p /opt/postgis-integration
 WORKDIR /opt/postgis-integration
 
-COPY pyproject.toml uv.lock README.md .
+COPY pyproject.toml uv.lock README.md ./
 COPY datasets/ datasets
 COPY helpers/ helpers
 

@@ -1,6 +1,5 @@
 import shutil
 import subprocess
-from typing import TypedDict
 
 import helpers.config as config
 
@@ -48,7 +47,7 @@ def ogr2ogr_import_wfs(
     subprocess.run([ogr2ogr_path(), 
         '-f', 'PostgreSQL',
         "-lco", "GEOMETRY_NAME=geom",
-        "-lco", f"SCHEMA=adminexpress",
+        "-lco", f"SCHEMA={schema_name}",
         "-nln", table_name, "-doo", f"ACTIVE_SCHEMA={schema_name}",
         "PG:",
         f'WFS:{wfs_url}',
@@ -56,6 +55,25 @@ def ogr2ogr_import_wfs(
         "-overwrite"
     ], env=config.os_env(), capture_output=True)
 
+
+def ogr2ogr_import_parquet(
+    url: str,
+    schema_name: str,
+    table_name: str,
+):
+    process_env = config.os_env()
+    process_env["PG_USE_COPY"] = "YES"
+    subprocess.run([ogr2ogr_path(), 
+        '-f', 'PostgreSQL',
+        "-lco", "GEOMETRY_NAME=geom",
+        "-lco", f"SCHEMA={schema_name}",
+        "-nln", table_name, "-doo", f"ACTIVE_SCHEMA={schema_name}",
+        "PG:",
+        f'/vsicurl/{url}',
+        table_name,
+        "-overwrite",
+        "-progress"
+    ], env=process_env, capture_output=True)
 
 if __name__ == "__main__":
     try:
