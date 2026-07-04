@@ -4,6 +4,18 @@ france:
   schema: osm_france
   prefix: osm_france
 
+idf:
+  url: https://download.geofabrik.de/europe/france/ile-de-france-latest.osm.pbf
+  cache_size: 2000
+  schema: osm_idf
+  prefix: osm_idf
+
+monaco:
+  url: https://download.geofabrik.de/europe/monaco-latest.osm.pbf
+  cache_size: 2000
+  schema: osm_monaco
+  prefix: osm_monaco
+
 spain:
   url: https://download.geofabrik.de/europe/spain-latest.osm.pbf
   cache_size: 2000

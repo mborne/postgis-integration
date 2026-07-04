@@ -1,0 +1,96 @@
+# Administratif
+- name: administratif
+  tables:
+    - region
+    - departement
+    - epci
+    - collectivite_territoriale
+    - canton
+    - commune
+    - commune_associee_ou_deleguee
+    - arrondissement_municipal
+    - condominium
+  
+# ▼ Bâti
+# Bâtiment RNB lien BDTopo
+# Cimetière
+# Pylône
+- name: bati
+  tables:
+    - batiment
+    - construction_ponctuelle
+    - construction_lineaire
+    - construction_surfacique
+    - terrain_de_sport
+    - ligne_orographique
+    - reservoir
+
+# ▼ Adresses
+# Adresse BAN
+- name: adresses
+  tables:
+    - voie_nommee
+    - lien_adresse_vers_bdtopo
+
+
+# ▼ Hydrographie
+# Bassin versant topographique
+# Cours d'eau
+# Détail hydrographique
+# Entité de transition
+- name: hydrographie
+  tables:
+    - noeud_hydrographique
+    - troncon_hydrographique
+    - surface_hydrographique
+    - detail_hydrographique
+    - plan_d_eau
+    - limite_terre_mer
+
+# ▼ Lieux nommés
+- name: lieux_nommes
+  tables:
+    - toponymie
+    - detail_orographique
+    - zone_d_habitation
+    - lieu_dit_non_habite
+
+# ▼ Occupation du sol
+- name: occupation_du_sol
+  tables:
+    - haie
+    - zone_de_vegetation
+    - zone_d_estran
+
+# ▼ Services et activités
+- name: services_et_activites
+  tables:
+    - zone_d_activite_ou_d_interet
+    - canalisation
+    - poste_de_transformation
+    - ligne_electrique
+    - erp
+
+# ▼ Transport
+# Route numérotée ou nommée
+- name: transport
+  tables:
+    - troncon_de_route
+    - non_communication
+    - equipement_de_transport
+    - point_de_repere
+    - section_de_points_de_repere
+    - aerodrome
+    - piste_d_aerodrome
+    - voie_ferree_nommee
+    - troncon_de_voie_ferree
+    - point_d_acces
+    - transport_par_cable
+    - itineraire_autre
+    - point_du_reseau
+
+# ▼ Zones réglementées
+# Parc ou réserve
+- name: zones_reglementees
+  tables:
+    - foret_publique

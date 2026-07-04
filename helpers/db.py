@@ -14,12 +14,16 @@ def db_connect():
         password = config.PGPASSWORD,
     )
 
-def db_create_schema(schema_name: str):
+def db_create_schema(schema_name: str, drop_if_exists: bool = True):
     """Create schema in the database"""
     with db_connect() as conn:
         with conn.cursor() as cur:
-            cur.execute(f'DROP SCHEMA IF EXISTS "{schema_name}" CASCADE')
-            cur.execute(f'CREATE SCHEMA "{schema_name}"')
+            if drop_if_exists:
+                cur.execute(f'DROP SCHEMA IF EXISTS "{schema_name}" CASCADE')
+                cur.execute(f'CREATE SCHEMA "{schema_name}"')
+            else:
+                cur.execute(f'CREATE SCHEMA IF NOT EXISTS "{schema_name}"')
+
 
 
 def db_stats():

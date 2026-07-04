@@ -75,7 +75,10 @@ def _resolve_settings(zone_name: str, zone_config: dict) -> dict:
 
     osm_planet_url = os.getenv("OSM_PLANET_URL", str(zone_config["url"]))
     osm_planet_filename = os.getenv("OSM_PLANET_FILENAME", os.path.basename(osm_planet_url))
-    osm_path = os.path.join(data_dir(), osm_planet_filename)
+    osm_planet_dir = os.path.join(data_dir(), "osm")
+    if not os.path.exists(osm_planet_dir):
+        os.mkdir(osm_planet_dir)    
+    osm_path = os.path.join(osm_planet_dir, osm_planet_filename)
 
     default_prefix = str(zone_config.get("prefix") or _derive_prefix_from_url(osm_planet_url))
     default_schema = str(zone_config.get("schema") or f"{DEFAULT_SCHEMA_PREFIX}_{_slugify(zone_name)}")
