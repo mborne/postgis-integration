@@ -4,6 +4,8 @@ Script de chargement des données BDTopo au format parquet en base de données P
 
 ## Utilisation
 
+Pour charger les données définies dans [datasets/bdtopo/themes.yaml](themes.yaml) :
+
 ```bash
 # affiche l'aide et les thèmes disponibles
 uv run python -m datasets.bdtopo.import --help
