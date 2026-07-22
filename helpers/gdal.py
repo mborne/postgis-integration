@@ -75,6 +75,44 @@ def ogr2ogr_import_parquet(
         "-progress"
     ], env=process_env, capture_output=True)
 
+
+def ogr2ogr_import_csv(
+    input_path: str,
+    schema_name: str,
+    table_name: str,
+    geom_possible_names: str | None = None,
+    source_srs: str | None = None,
+    target_srs: str | None = None,
+):
+    process_env = config.os_env()
+    process_env["PG_USE_COPY"] = "YES"
+    command = [ogr2ogr_path(), '-f', 'PostgreSQL']
+
+    if geom_possible_names:
+        command.extend([
+            "-oo", f"GEOM_POSSIBLE_NAMES={geom_possible_names}",
+            "-oo", "KEEP_GEOM_COLUMNS=NO",
+        ])
+
+    if source_srs:
+        command.extend(["-s_srs", source_srs])
+
+    if target_srs:
+        command.extend(["-t_srs", target_srs])
+
+    command.extend([
+        "-lco", "GEOMETRY_NAME=geom",
+        "-lco", "LAUNDER=NO",
+        "-lco", f"SCHEMA={schema_name}",
+        "-nln", table_name,
+        "-doo", f"ACTIVE_SCHEMA={schema_name}",
+        "PG:",
+        input_path,
+        "-overwrite"
+    ])
+
+    subprocess.run(command, env=process_env, check=True, capture_output=False)
+
 if __name__ == "__main__":
     try:
         print(ogr2ogr_version())
