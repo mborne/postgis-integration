@@ -15,6 +15,7 @@ Helpers scripts to load sample datasets in PostgreSQL/PostGIS mainly focused on 
 * [adminexpress](./datasets/adminexpress/README.md) (France)
 * [bdtopo](./datasets/bdtopo/README.md) (France)
 * [osm](./datasets/osm/README.md) (World, some zones here)
+* [codes_postaux](./datasets/codes_postaux/README.md) (France)
 * [route500](./datasets/route500/README.md) (France, **deprecated**)
 * [roadgraph](./datasets/roadgraph/README.md) (France, route500 -> [pgRouting](https://pgrouting.org/) graph experimentation)
 
